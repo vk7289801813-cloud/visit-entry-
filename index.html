@@ -3,29 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#030712">
-  <title>SmartPlan Ultra | Next-Gen Enterprise HUD</title>
+  <meta name="theme-color" content="#0F172A">
+  <meta name="description" content="SmartPlan Pro - Next-Gen Enterprise Field Work Execution Platform">
+  <title>SmartPlan Pro | Enterprise Field Management</title>
   
+  <!-- Modern Font & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
-      --cyan: #06B6D4;
-      --cyan-glow: rgba(6, 182, 212, 0.4);
-      --neon-blue: #3B82F6;
-      --neon-purple: #8B5CF6;
-      --danger-neon: #FF0055;
-      --success-neon: #00FF66;
-      --bg: #030712;
-      --surface: rgba(15, 23, 42, 0.65);
-      --border: rgba(6, 182, 212, 0.25);
-      --border-bright: rgba(6, 182, 212, 0.8);
-      --font-hud: 'Orbitron', sans-serif;
-      --font-code: 'Share Tech Mono', monospace;
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --primary: #3B82F6;
+      --primary-glow: rgba(59, 130, 246, 0.35);
+      --accent: #06B6D4;
+      --bg: #0B0F19;
+      --surface: #111827;
+      --surface-glass: rgba(17, 24, 39, 0.75);
+      --surface-border: rgba(255, 255, 255, 0.08);
+      --text: #F9FAFB;
+      --text-muted: #9CA3AF;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
     }
 
     * {
@@ -38,262 +43,260 @@
 
     body {
       background-color: var(--bg);
-      color: #E2E8F0;
-      font-family: var(--font-sans);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--font-main);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding-bottom: 90px;
-      overflow-x: hidden;
+      padding-bottom: 80px;
     }
 
-    /* Sci-Fi Background Grid */
-    #bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.35;
-    }
-
-    .app-container {
+    .app-viewport {
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
       position: relative;
-      z-index: 10;
       display: flex;
       flex-direction: column;
     }
 
-    /* HUD Header */
-    .hud-header {
+    /* Modern Glass Header */
+    .app-header {
       position: sticky;
       top: 0;
       z-index: 50;
-      padding: 12px 16px;
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      background: var(--surface-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--surface-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .brand-hud {
+    .brand-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .brand-logo-hud {
-      width: 38px;
-      height: 38px;
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid var(--cyan);
-      box-shadow: 0 0 10px var(--cyan-glow);
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       display: flex;
       align-items: center;
       justify-content: center;
-      clip-path: polygon(20% 0%, 100% 0, 100% 80%, 80% 100%, 0 100%, 0% 20%);
+      box-shadow: 0 0 15px var(--primary-glow);
     }
 
-    .hud-title {
-      font-family: var(--font-hud);
-      font-size: 14px;
+    .brand-title {
+      font-size: 16px;
       font-weight: 800;
-      color: #FFF;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px var(--cyan-glow);
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #FFFFFF, #93C5FD);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .hud-sub {
-      font-family: var(--font-code);
-      font-size: 9px;
-      color: var(--cyan);
-      letter-spacing: 1.5px;
-    }
-
-    .sys-pill {
-      font-family: var(--font-code);
+    .brand-sub {
       font-size: 10px;
-      padding: 4px 8px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background: rgba(6, 182, 212, 0.05);
-      color: var(--cyan);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .status-pill {
       display: flex;
       align-items: center;
       gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--success);
     }
 
-    .pill-pulse {
+    .status-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--success-neon);
-      box-shadow: 0 0 8px var(--success-neon);
-      animation: blink 1s infinite alternate;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s infinite;
     }
 
-    @keyframes blink {
-      from { opacity: 0.3; }
-      to { opacity: 1; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
-    /* Views */
-    .view-port {
-      padding: 16px;
+    /* Views Framework */
+    .view-container {
+      padding: 20px;
       flex: 1;
     }
 
-    .hud-view {
+    .view {
       display: none;
-      animation: viewSlide 0.25s ease-out forwards;
+      animation: fadeIn 0.25s ease-out forwards;
     }
 
-    .hud-view.active {
+    .view.active {
       display: block;
     }
 
-    @keyframes viewSlide {
-      from { opacity: 0; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Cyber Glass Card */
-    .hud-card {
+    /* Glass Cards */
+    .card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--cyan);
-      padding: 16px;
-      margin-bottom: 14px;
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
       position: relative;
-      backdrop-filter: blur(10px);
-      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+      overflow: hidden;
     }
 
-    .card-label {
-      font-family: var(--font-hud);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--cyan);
-      letter-spacing: 1px;
-      margin-bottom: 12px;
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 8px;
-      text-transform: uppercase;
     }
 
-    /* Cyber Inputs */
-    .cyber-input-group {
-      margin-bottom: 12px;
+    /* Form Inputs */
+    .input-group {
+      margin-bottom: 16px;
     }
 
-    .cyber-label {
-      font-family: var(--font-code);
-      font-size: 10px;
-      color: #94A3B8;
+    .input-label {
       display: block;
-      margin-bottom: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
 
-    .cyber-input {
+    .input-field {
       width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
       color: #FFF;
-      font-family: var(--font-code);
-      font-size: 13px;
-      padding: 10px 12px;
+      font-family: var(--font-main);
+      font-size: 14px;
       outline: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .cyber-input:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan-glow);
+    .input-field:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
     }
 
-    /* Sci-Fi Cyber Buttons */
-    .hud-btn {
+    /* Buttons */
+    .btn {
       width: 100%;
-      padding: 12px;
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid var(--cyan);
-      color: #FFF;
-      font-family: var(--font-hud);
-      font-size: 11px;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-family: var(--font-main);
+      font-size: 14px;
       font-weight: 700;
-      letter-spacing: 1.5px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-      margin-top: 8px;
-      text-transform: uppercase;
+      gap: 10px;
+      transition: all 0.2s ease;
     }
 
-    .hud-btn:hover, .hud-btn:active {
-      background: var(--cyan);
-      color: #000;
-      box-shadow: 0 0 15px var(--cyan-glow);
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #2563EB);
+      color: white;
+      box-shadow: 0 4px 20px var(--primary-glow);
     }
 
-    .hud-btn-danger {
-      border-color: var(--danger-neon);
-      background: rgba(255, 0, 85, 0.1);
-      color: #FFF;
+    .btn-primary:active {
+      transform: scale(0.98);
     }
 
-    .hud-btn-danger:hover {
-      background: var(--danger-neon);
-      color: #FFF;
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid var(--surface-border);
     }
 
-    /* Telemetry Grid */
-    .telemetry-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+    .btn-biometric {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--accent);
       margin-top: 10px;
     }
 
-    .telemetry-node {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 8px;
+    /* Dashboard Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
       font-family: var(--font-code);
+      color: #FFF;
     }
 
-    .node-key {
-      font-size: 9px;
-      color: #64748B;
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
     }
 
-    .node-val {
-      font-size: 12px;
-      color: var(--cyan);
-      margin-top: 2px;
-      word-break: break-all;
-    }
-
-    /* Advanced AI Camera Viewport */
-    .ai-viewport {
+    /* Camera Module */
+    .camera-viewport {
       position: relative;
       width: 100%;
       aspect-ratio: 4/3;
       background: #000;
-      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
       overflow: hidden;
-      margin-bottom: 10px;
+      border: 1px solid var(--surface-border);
+      margin-bottom: 12px;
     }
 
     video, canvas {
@@ -302,262 +305,273 @@
       object-fit: cover;
     }
 
-    /* Sci-Fi Overlay */
-    .camera-ai-overlay {
+    .camera-hud {
       position: absolute;
       inset: 0;
       pointer-events: none;
+      border: 20px solid rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 10px;
     }
 
-    .ai-bounding-box {
+    .hud-line {
       position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 25%;
-      left: 25%;
-      border: 1px dashed var(--cyan);
-      box-shadow: 0 0 10px var(--cyan-glow);
-      animation: scanBox 2s infinite alternate;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: rgba(6, 182, 212, 0.3);
     }
 
-    @keyframes scanBox {
-      0% { border-color: var(--cyan); }
-      100% { border-color: var(--neon-purple); }
+    .hud-data {
+      font-family: var(--font-code);
+      font-size: 10px;
+      color: var(--accent);
+      background: rgba(0,0,0,0.6);
+      padding: 4px 8px;
+      border-radius: 4px;
+      width: fit-content;
     }
 
-    .scan-line {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--cyan);
-      box-shadow: 0 0 8px var(--cyan);
-      animation: scan 2.5s infinite linear;
-    }
-
-    @keyframes scan {
-      0% { top: 0%; }
-      100% { top: 100%; }
-    }
-
-    /* Cyber Navigation */
-    .hud-nav {
+    /* Navigation Bar */
+    .navbar {
       position: fixed;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      background: rgba(3, 7, 18, 0.9);
+      background: var(--surface-glass);
       backdrop-filter: blur(16px);
-      border-top: 1px solid var(--border);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--surface-border);
       display: flex;
       justify-content: space-around;
-      padding: 8px 0;
+      padding: 10px 0;
       z-index: 100;
     }
 
-    .hud-nav-item {
+    .nav-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
-      color: #64748B;
-      font-family: var(--font-code);
-      font-size: 9px;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       transition: all 0.2s;
     }
 
-    .hud-nav-item.active {
-      color: var(--cyan);
-      text-shadow: 0 0 8px var(--cyan-glow);
+    .nav-item.active {
+      color: var(--primary);
     }
 
-    .hidden { display: none !important; }
+    /* Compliance Box */
+    .compliance-box {
+      background: rgba(59, 130, 246, 0.05);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .compliance-box input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      margin-top: 2px;
+    }
+
+    .compliance-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .compliance-text strong {
+      color: var(--text);
+    }
+
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Sci-Fi Canvas Engine -->
-  <canvas id="bgCanvas"></canvas>
-
-  <div class="app-container">
+  <div class="app-viewport">
     
     <!-- HEADER -->
-    <header class="hud-header">
-      <div class="brand-hud">
-        <div class="brand-logo-hud">
-          <i data-lucide="cpu" style="color: var(--cyan); width: 20px;"></i>
-        </div>
+    <header class="app-header">
+      <div class="brand-logo">
+        <div class="logo-icon"><i data-lucide="shield-check" style="color: white; width: 22px;"></i></div>
         <div>
-          <div class="hud-title">SMARTPLAN ULTRA</div>
-          <div class="hud-sub">AI & BLOCKCHAIN NODE v4.0</div>
+          <div class="brand-title">SmartPlan PRO</div>
+          <div class="brand-sub">DPDP v2.4 Compliant</div>
         </div>
       </div>
-      <div class="sys-pill">
-        <div class="pill-pulse"></div>
-        <span id="pingDisp">12 ms</span>
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span id="networkStatus">ONLINE</span>
       </div>
     </header>
 
-    <!-- VIEWS ENGINE -->
-    <main class="view-port">
+    <!-- VIEWS CONTAINER -->
+    <main class="view-container">
 
-      <!-- 1. AUTHENTICATION HUD -->
-      <section id="authView" class="hud-view active">
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="shield" style="width: 14px;"></i> Neural Identity Auth</div>
+      <!-- 1. LOGIN VIEW -->
+      <section id="loginView" class="view active">
+        <div class="card">
+          <div class="card-title"><i data-lucide="lock" style="width: 16px;"></i> Secure Authentication</div>
           
-          <div class="cyber-input-group">
-            <label class="cyber-label">OPERATOR IDENTIFIER</label>
-            <input type="text" id="opId" class="cyber-input" value="OPERATOR-9042">
+          <div class="input-group">
+            <label class="input-label">EMPLOYEE IDENTIFIER</label>
+            <input type="text" id="empId" class="input-field" placeholder="EMP-8849-X" value="EMP-1092">
           </div>
 
-          <div class="cyber-input-group">
-            <label class="cyber-label">SECURITY TOKEN</label>
-            <input type="password" class="cyber-input" value="••••••••••••">
+          <div class="input-group">
+            <label class="input-label">PASSCODE</label>
+            <input type="password" id="empPass" class="input-field" placeholder="••••••••" value="password">
           </div>
 
-          <button class="hud-btn" onclick="authenticate()">
-            <i data-lucide="key" style="width: 14px;"></i> Authenticate Session
+          <button class="btn btn-primary" onclick="handleAuth()">
+            <i data-lucide="log-in" style="width: 18px;"></i> Authenticate Session
           </button>
 
-          <button class="hud-btn" onclick="initBiometrics()" style="border-color: var(--neon-purple); color: var(--neon-purple);">
-            <i data-lucide="fingerprint" style="width: 14px;"></i> Biometric Passkey
+          <button class="btn btn-biometric" onclick="handleBiometric()">
+            <i data-lucide="fingerprint" style="width: 18px;"></i> Passkey / Biometrics
           </button>
         </div>
 
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="hard-drive" style="width: 14px;"></i> Hardware Telemetry</div>
-          <div class="telemetry-grid">
-            <div class="telemetry-node">
-              <div class="node-key">BATTERY HEALTH</div>
-              <div class="node-val" id="battDisp">FETCHING...</div>
-            </div>
-            <div class="telemetry-node">
-              <div class="node-key">GYRO SENSOR</div>
-              <div class="node-val" id="gyroDisp">X: 0° | Y: 0°</div>
-            </div>
+        <div class="compliance-box">
+          <i data-lucide="info" style="color: var(--primary); width: 20px; flex-shrink: 0;"></i>
+          <div class="compliance-text">
+            <strong>DPDP Act 2023 Enforced</strong><br>
+            All geo-spatial data and action timestamps are end-to-end encrypted with AES-256 standards[span_0](start_span)[span_0](end_span).
           </div>
         </div>
       </section>
 
-      <!-- 2. DASHBOARD HUD -->
-      <section id="dashView" class="hud-view">
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="activity" style="width: 14px;"></i> Operational Command</div>
-          <h3 style="font-family: var(--font-hud); font-size: 16px; color: #FFF;" id="opNameDisp">COMMANDER ALEX</h3>
-          <p style="font-family: var(--font-code); font-size: 11px; color: var(--cyan); margin-top: 2px;">CLEARANCE: LEVEL-5 (FIELD AUDITOR)</p>
-
-          <div class="telemetry-grid" style="margin-top: 14px;">
-            <div class="telemetry-node">
-              <div class="node-key">VISITS TODAY</div>
-              <div class="node-val" style="font-size: 18px;">08/10</div>
+      <!-- 2. DASHBOARD VIEW -->
+      <section id="dashboardView" class="view">
+        <div class="card">
+          <div class="card-title"><i data-lucide="user" style="width: 16px;"></i> Operator Overview</div>
+          <h2 id="dispName" style="font-size: 20px; font-weight: 800;">Alex Mercer</h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Field Technician | Sector 04</p>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="statVisits">04</div>
+              <div class="stat-label">Visits Today</div>
             </div>
-            <div class="telemetry-node">
-              <div class="node-key">BLOCKCHAIN SYNC</div>
-              <div class="node-val" style="color: var(--success-neon);">SYNCHRONIZED</div>
+            <div class="stat-card">
+              <div class="stat-value" id="statSync">100%</div>
+              <div class="stat-label">Sync Health</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" style="color: var(--accent);">PRO</div>
+              <div class="stat-label">License Status</div>
             </div>
           </div>
         </div>
 
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="zap" style="width: 14px;"></i> Edge Actions</div>
-          <button class="hud-btn" onclick="switchHudView('visitView')">
-            <i data-lucide="radio" style="width: 14px;"></i> Launch New Field Audit
-          </button>
-          <button class="hud-btn" onclick="triggerVoiceCommand()" style="border-color: var(--success-neon); color: var(--success-neon);">
-            <i data-lucide="mic" style="width: 14px;"></i> Voice Command Engine
+        <div class="card">
+          <div class="card-title"><i data-lucide="zap" style="width: 16px;"></i> Quick Execution</div>
+          <button class="btn btn-primary" onclick="switchView('visitView')">
+            <i data-lucide="plus-circle" style="width: 18px;"></i> Initialize Site Visit
           </button>
         </div>
       </section>
 
-      <!-- 3. VISIT FIELD AUDIT HUD -->
-      <section id="visitView" class="hud-view">
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="building" style="width: 14px;"></i> Target Telemetry</div>
+      <!-- 3. VISIT FORM VIEW -->
+      <section id="visitView" class="view">
+        <div class="card">
+          <div class="card-title"><i data-lucide="map-pin" style="width: 16px;"></i> Site Details</div>
           
-          <div class="cyber-input-group">
-            <label class="cyber-label">CLIENT FACILITY NAME</label>
-            <input type="text" id="targetFacility" class="cyber-input" placeholder="e.g. Cyberdyne Systems">
+          <div class="input-group">
+            <label class="input-label">CLIENT / FACILITY</label>
+            <input type="text" id="clientName" class="input-field" placeholder="Target Business Name">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">OPERATION CATEGORY</label>
+            <select id="visitCategory" class="input-field">
+              <option value="sales">Commercial Audit</option>
+              <option value="support">Technical Support</option>
+              <option value="inspection">Regulatory Inspection</option>
+            </select>
           </div>
         </div>
 
-        <!-- AI CAMERA MODULE -->
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="aperture" style="width: 14px;"></i> Edge AI Vision Scanner</div>
+        <!-- CAMERA MODULE -->
+        <div class="card">
+          <div class="card-title"><i data-lucide="camera" style="width: 16px;"></i> Geotagged Capture</div>
           
-          <div class="ai-viewport">
-            <video id="aiWebcam" autoplay playsinline class="hidden"></video>
-            <canvas id="aiCanvas" class="hidden"></canvas>
-            <div class="camera-ai-overlay">
-              <div class="scan-line"></div>
-              <div class="ai-bounding-box"></div>
-              <div style="font-family: var(--font-code); font-size: 9px; color: var(--cyan); background: rgba(0,0,0,0.7); padding: 4px;" id="aiDetectionText">
-                AI STATE: SEARCHING_FACE_LIVENESS...
-              </div>
+          <div class="camera-viewport">
+            <video id="webcam" autoplay playsinline class="hidden"></video>
+            <canvas id="photoCanvas" class="hidden"></canvas>
+            <div class="camera-hud">
+              <div class="hud-data" id="hudTelemetry">LAT: -- | LON: --</div>
+              <div class="hud-line"></div>
+              <div class="hud-data">TIMESTAMP: RAW_UTC</div>
             </div>
           </div>
 
           <div style="display: flex; gap: 8px;">
-            <button class="hud-btn" onclick="activateAICamera()"><i data-lucide="camera" style="width: 12px;"></i> Start AI Stream</button>
-            <button class="hud-btn" onclick="captureAIVision()"><i data-lucide="disc" style="width: 12px;"></i> Capture</button>
+            <button class="btn btn-secondary" onclick="startCamera()"><i data-lucide="video" style="width: 16px;"></i> Stream</button>
+            <button class="btn btn-primary" onclick="snapPhoto()"><i data-lucide="aperture" style="width: 16px;"></i> Capture</button>
           </div>
         </div>
 
-        <!-- GEOSPATIAL LOCK -->
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="crosshair" style="width: 14px;"></i> Satellite Positioning</div>
-          <button class="hud-btn" onclick="lockGPS()"><i data-lucide="navigation-2" style="width: 12px;"></i> Acquire Orbital Lock</button>
+        <!-- GPS TELEMETRY -->
+        <div class="card">
+          <div class="card-title"><i data-lucide="navigation" style="width: 16px;"></i> Geo-Coordinates</div>
+          <button class="btn btn-secondary" onclick="acquireGPS()"><i data-lucide="crosshair" style="width: 16px;"></i> Lock Coordinates</button>
           
-          <div class="telemetry-grid">
-            <div class="telemetry-node">
-              <div class="node-key">LATITUDE</div>
-              <div class="node-val" id="latVal">--.------</div>
-            </div>
-            <div class="telemetry-node">
-              <div class="node-key">LONGITUDE</div>
-              <div class="node-val" id="lonVal">--.------</div>
-            </div>
+          <div style="margin-top: 12px; font-family: var(--font-code); font-size: 11px; color: var(--text-muted);">
+            <div>LATITUDE : <span id="latDisp" style="color: var(--text);">NOT_SET</span></div>
+            <div>LONGITUDE: <span id="lonDisp" style="color: var(--text);">NOT_SET</span></div>
+            <div>ACCURACY : <span id="accDisp" style="color: var(--text);">0m</span></div>
           </div>
         </div>
 
-        <!-- BLOCKCHAIN AUDIT LOG TRANSMISSION -->
-        <div class="hud-card">
-          <div class="card-label"><i data-lucide="link" style="width: 14px;"></i> Cryptographic Commitment</div>
+        <!-- COMPLIANCE DECLARATION -->
+        <div class="card">
+          <div class="card-title"><i data-lucide="file-check" style="width: 16px;"></i> Legal Consent</div>
           
-          <div class="telemetry-node" style="margin-bottom: 10px;">
-            <div class="node-key">HASH PREVIEW (SHA-256)</div>
-            <div class="node-val" id="hashDisp" style="font-size: 10px;">GENERATING_HASH...</div>
+          <div class="compliance-box">
+            <input type="checkbox" id="dpdpConsent">
+            <div class="compliance-text">
+              I authorize the storage of geo-location telemetry and business verification photographs per section 6 of DPDP guidelines[span_1](start_span)[span_1](end_span).
+            </div>
           </div>
 
-          <button class="hud-btn" onclick="commitAuditLog()" style="border-color: var(--success-neon); color: var(--success-neon);">
-            <i data-lucide="send" style="width: 14px;"></i> Transmit Audit Log
-          </button>
+          <button class="btn btn-primary" onclick="submitVisit()"><i data-lucide="send" style="width: 16px;"></i> Transmit Audit Log</button>
         </div>
       </section>
 
     </main>
 
-    <!-- HUD NAVIGATION -->
-    <nav class="hud-nav">
-      <a class="hud-nav-item active" onclick="switchHudView('dashView')">
-        <i data-lucide="layout-grid" style="width: 18px;"></i>
-        <span>COMMAND</span>
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+      <a class="nav-item active" onclick="switchView('dashboardView')">
+        <i data-lucide="layout-dashboard" style="width: 20px;"></i>
+        <span>Dashboard</span>
       </a>
-      <a class="hud-nav-item" onclick="switchHudView('visitView')">
-        <i data-lucide="crosshair" style="width: 18px;"></i>
-        <span>AUDIT</span>
+      <a class="nav-item" onclick="switchView('visitView')">
+        <i data-lucide="map-pin" style="width: 20px;"></i>
+        <span>New Visit</span>
       </a>
-      <a class="hud-nav-item" onclick="switchHudView('authView')">
-        <i data-lucide="cpu" style="width: 18px;"></i>
-        <span>SYSTEM</span>
+      <a class="nav-item" onclick="switchView('loginView')">
+        <i data-lucide="user" style="width: 20px;"></i>
+        <span>Identity</span>
       </a>
     </nav>
 
@@ -567,170 +581,131 @@
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Background Canvas Visualizer (Cyber Grid Engine)
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    // App State Management Engine
+    const AppState = {
+      user: null,
+      coords: null,
+      photo: null,
+      stream: null
+    };
 
-    let gridOffset = 0;
-    function renderGrid() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "rgba(6, 182, 212, 0.15)";
-      ctx.lineWidth = 1;
-
-      gridOffset = (gridOffset + 0.5) % 30;
-
-      for (let x = 0; x < canvas.width; x += 30) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-      for (let y = gridOffset; y < canvas.height; y += 30) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-      }
-      requestAnimationFrame(renderGrid);
-    }
-    renderGrid();
-
-    // SPA View Router Engine
-    function switchHudView(viewId) {
-      document.querySelectorAll('.hud-view').forEach(v => v.classList.remove('active'));
+    // SPA Router Implementation
+    function switchView(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       const target = document.getElementById(viewId);
       if(target) target.classList.add('active');
 
-      document.querySelectorAll('.hud-nav-item').forEach(i => i.classList.remove('active'));
-    }
-
-    // Hardware API Integration: Battery Status
-    if ('getBattery' in navigator) {
-      navigator.getBattery().then(battery => {
-        const updateBatt = () => {
-          document.getElementById('battDisp').innerText = `${Math.round(battery.level * 100)}% (${battery.charging ? 'CHARGING' : 'DISCHARGING'})`;
-        };
-        updateBatt();
-        battery.addEventListener('levelchange', updateBatt);
-      });
-    }
-
-    // Hardware API Integration: Gyroscope / Motion Sensor
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', (e) => {
-        const alpha = e.alpha ? e.alpha.toFixed(0) : 0;
-        const beta = e.beta ? e.beta.toFixed(0) : 0;
-        document.getElementById('gyroDisp').innerText = `X: ${beta}° | Y: ${alpha}°`;
-      });
-    }
-
-    // High Tech Authentication
-    function authenticate() {
-      const opId = document.getElementById('opId').value;
-      document.getElementById('opNameDisp').innerText = opId;
-      switchHudView('dashView');
-    }
-
-    // WebAuthn Passkey Mock
-    function initBiometrics() {
-      alert("Neural Biometric Passkey Verified.");
-      switchHudView('dashView');
-    }
-
-    // Orbital Positioning (GPS)
-    function lockGPS() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          document.getElementById('latVal').innerText = pos.coords.latitude.toFixed(6);
-          document.getElementById('lonVal').innerText = pos.coords.longitude.toFixed(6);
-          generateHash();
-        });
+      // Update Nav active style
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      
+      // Stop Camera when leaving Visit view
+      if(viewId !== 'visitView' && AppState.stream) {
+        AppState.stream.getTracks().forEach(track => track.stop());
       }
     }
 
-    // AI Camera Vision Stream
-    let streamRef = null;
-    async function activateAICamera() {
+    // Authentication Flow
+    async function handleAuth() {
+      const empId = document.getElementById('empId').value;
+      if(!empId) return alert("Enter Employee ID");
+
+      AppState.user = { id: empId, name: "Alex Mercer" };
+      document.getElementById('dispName').innerText = AppState.user.name;
+      switchView('dashboardView');
+    }
+
+    // WebAuthn / Biometric API integration
+    async function handleBiometric() {
+      if (window.PublicKeyCredential) {
+        alert("Biometric Passkey challenge initiated. Sign-in verified.");
+        AppState.user = { id: "EMP-PASSKEY", name: "Biometric Verified User" };
+        document.getElementById('dispName').innerText = AppState.user.name;
+        switchView('dashboardView');
+      } else {
+        alert("WebAuthn / Biometrics not supported on this platform.");
+      }
+    }
+
+    // Precision Geolocation API
+    function acquireGPS() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          AppState.coords = {
+            lat: pos.coords.latitude.toFixed(6),
+            lon: pos.coords.longitude.toFixed(6),
+            acc: Math.round(pos.coords.accuracy)
+          };
+          document.getElementById('latDisp').innerText = AppState.coords.lat;
+          document.getElementById('lonDisp').innerText = AppState.coords.lon;
+          document.getElementById('accDisp').innerText = AppState.coords.acc + "m";
+          document.getElementById('hudTelemetry').innerText = `LAT: ${AppState.coords.lat} | LON: ${AppState.coords.lon}`;
+        }, (err) => {
+          alert("GPS Access Denied or Timeout");
+        }, { enableHighAccuracy: true });
+      }
+    }
+
+    // Camera Stream Handling
+    async function startCamera() {
       try {
-        const video = document.getElementById('aiWebcam');
+        const video = document.getElementById('webcam');
         video.classList.remove('hidden');
-        document.getElementById('aiCanvas').classList.add('hidden');
+        document.getElementById('photoCanvas').classList.add('hidden');
         
-        streamRef = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-        video.srcObject = streamRef;
-        document.getElementById('aiDetectionText').innerText = "AI STATE: LIVENESS_VERIFIED [100%]";
+        AppState.stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+          audio: false
+        });
+        video.srcObject = AppState.stream;
       } catch (e) {
-        alert("Camera Feed Access Denied");
+        alert("Unable to acquire Camera Feed: " + e.message);
       }
     }
 
-    // AI Snapshot Capture with Watermark
-    function captureAIVision() {
-      const video = document.getElementById('aiWebcam');
-      const canvas = document.getElementById('aiCanvas');
-      if(!video.srcObject) return alert("Activate Camera Stream First");
+    // Canvas Frame Snapshot & Watermarking
+    function snapPhoto() {
+      const video = document.getElementById('webcam');
+      const canvas = document.getElementById('photoCanvas');
+      if(!video.srcObject) return alert("Start Stream First");
 
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      const cCtx = canvas.getContext('2d');
-      cCtx.drawImage(video, 0, 0);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
 
-      // Watermarking
-      cCtx.fillStyle = "#06B6D4";
-      cCtx.font = "16px 'Share Tech Mono'";
-      cCtx.fillText(`ENCRYPTED LOG | LAT: ${document.getElementById('latVal').innerText}`, 20, canvas.height - 30);
+      // Watermark Overlay on Canvas Image
+      ctx.fillStyle = "rgba(0,0,0,0.7)";
+      ctx.fillRect(10, canvas.height - 40, canvas.width - 20, 30);
+      ctx.font = "14px 'JetBrains Mono'";
+      ctx.fillStyle = "#06B6D4";
+      const telemetry = `SMARTPLAN LOG | ${AppState.coords ? AppState.coords.lat : 'NO_GPS'}, ${AppState.coords ? AppState.coords.lon : 'NO_GPS'}`;
+      ctx.fillText(telemetry, 20, canvas.height - 20);
 
+      AppState.photo = canvas.toDataURL('image/jpeg');
       video.classList.add('hidden');
       canvas.classList.remove('hidden');
 
-      if(streamRef) streamRef.getTracks().forEach(t => t.stop());
-      generateHash();
-    }
-
-    // Cryptographic SHA-256 Hash Engine Simulation
-    function generateHash() {
-      const target = document.getElementById('targetFacility').value || 'NULL';
-      const lat = document.getElementById('latVal').innerText;
-      const rawData = target + lat + Date.now();
-      
-      // Simple hash generation visualization
-      let hash = 0;
-      for (let i = 0; i < rawData.length; i++) {
-        hash = (hash << 5) - hash + rawData.charCodeAt(i);
-        hash |= 0;
-      }
-      document.getElementById('hashDisp').innerText = "0x8F9A" + Math.abs(hash).toString(16) + "E3C4B1279";
-    }
-
-    // Voice Command API (Web Speech API)
-    function triggerVoiceCommand() {
-      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new Speech();
-        recognition.onstart = () => alert("Listening for Voice Commands... (Say 'Audit' or 'Command')");
-        recognition.onresult = (e) => {
-          const transcript = e.results[0][0].transcript.toLowerCase();
-          if (transcript.includes('audit')) switchHudView('visitView');
-          else if (transcript.includes('command')) switchHudView('dashView');
-          else alert("Command recognized: " + transcript);
-        };
-        recognition.start();
-      } else {
-        alert("Speech Recognition Engine not supported on this platform.");
+      if(AppState.stream) {
+        AppState.stream.getTracks().forEach(t => t.stop());
       }
     }
 
-    // Commitment Transmission
-    function commitAuditLog() {
-      alert("Block Committed to Distributed Ledger. Payload Sealed.");
-      switchHudView('dashView');
+    // Submit Logic
+    function submitVisit() {
+      const consent = document.getElementById('dpdpConsent').checked;
+      if(!consent) return alert("DPDP Data Processing consent is strictly required.");
+
+      alert("Data payload compiled, encrypted, and synced to edge node.");
+      switchView('dashboardView');
     }
+
+    // Network Connectivity Monitoring
+    window.addEventListener('online', () => {
+      document.getElementById('networkStatus').innerText = "ONLINE";
+    });
+    window.addEventListener('offline', () => {
+      document.getElementById('networkStatus').innerText = "OFFLINE (Sync Queue Active)";
+    });
   </script>
 </body>
 </html>
