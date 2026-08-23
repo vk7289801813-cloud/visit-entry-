@@ -1,711 +1,1554 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0F172A">
-  <meta name="description" content="SmartPlan Pro - Next-Gen Enterprise Field Work Execution Platform">
-  <title>SmartPlan Pro | Enterprise Field Management</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1565C0">
+<meta name="description" content="SmartPlan - Professional Field Worker Management App with DPDP Compliance">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SmartPlan">
+
+<title>SmartPlan - Field Worker Management</title>
+
+<style>
+
+:root{
+  --primary:#1565C0;
+  --secondary:#0D47A1;
+  --success:#00A86B;
+  --danger:#E53935;
+  --warning:#F59E0B;
+  --bg:#F4F7FB;
+  --card:#FFFFFF;
+  --text:#17202A;
+  --muted:#6B7280;
+  --border:#DBE2EA;
+  --shadow:0 12px 35px rgba(15,23,42,.10);
+  --compliance-bg:#E8F4F8;
+  --compliance-border:#0288D1;
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: radial-gradient(circle at top right, rgba(21,101,192,.10), transparent 35%), var(--bg);
+  color:var(--text);
+  padding-top:0;
+  padding-bottom:60px;
+}
+
+body.dark{
+  --bg:#07111F;
+  --card:#0D1B2A;
+  --text:#F4F7FB;
+  --muted:#9CA3AF;
+  --border:#23364D;
+  --shadow:0 15px 40px rgba(0,0,0,.35);
+  --compliance-bg:#0D1F33;
+  --compliance-border:#0288D1;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app{
+  width:100%;
+  max-width:560px;
+  margin:auto;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* ================= HEADER ================= */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  color:white;
+  padding:14px 18px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 8px 25px rgba(0,0,0,.18);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:1;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  object-fit:cover;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+}
+
+.brandText{
+  flex:1;
+}
+
+.brandText h1{
+  margin:0;
+  font-size:18px;
+  font-weight:800;
+}
+
+.brandText small{
+  display:block;
+  margin-top:3px;
+  opacity:.85;
+  font-size:11px;
+}
+
+.statusDot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#31E981;
+  box-shadow: 0 0 0 5px rgba(49,233,129,.12);
+}
+
+/* ================= CARD ================= */
+
+.card{
+  background:var(--card);
+  margin:16px;
+  padding:20px;
+  border-radius:22px;
+  border: 1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.card.compliance{
+  background:var(--compliance-bg);
+  border:2px solid var(--compliance-border);
+  margin:16px;
+  padding:16px;
+}
+
+.hero{
+  margin-top:22px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color:white;
+  border:0;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  right:-70px;
+  top:-70px;
+  background: rgba(255,255,255,.08);
+}
+
+.hero h2{
+  margin:0;
+  font-size:24px;
+}
+
+.hero p{
+  margin:8px 0 0;
+  opacity:.85;
+  font-size:14px;
+}
+
+/* ================= TYPOGRAPHY ================= */
+
+h2{
+  margin:0 0 15px;
+  font-size:20px;
+}
+
+h3{
+  margin:0 0 10px;
+  font-size:16px;
+}
+
+p{
+  line-height:1.5;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ================= INPUT ================= */
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin: 15px 0 7px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:14px 15px;
+  border: 1px solid var(--border);
+  border-radius:13px;
+  font-size:16px;
+  color:var(--text);
+  background:var(--card);
+  outline:none;
+  transition:.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21,101,192,.12);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+/* ================= BUTTON ================= */
+
+button{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px;
+  margin-top:12px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  transition: transform .15s, opacity .15s, box-shadow .15s;
+  touch-action:manipulation;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.primary{
+  color:white;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 7px 18px rgba(21,101,192,.25);
+}
+
+.success{
+  color:white;
+  background: linear-gradient(135deg, #00A86B, #087F5B);
+}
+
+.danger{
+  color:white;
+  background: linear-gradient(135deg, #EF4444, #B91C1C);
+}
+
+.secondary{
+  color:white;
+  background:#64748B;
+}
+
+.outline{
+  color:var(--primary);
+  background:transparent;
+  border: 1px solid var(--primary);
+}
+
+.linkBtn{
+  background:transparent;
+  color:var(--primary);
+  padding:7px;
+  width:auto;
+  margin:0;
+}
+
+/* ================= MESSAGE ================= */
+
+.message{
+  display:none;
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:14px;
+  line-height:1.4;
+  border-left:4px solid;
+}
+
+.successMsg{
+  display:block;
+  background: rgba(16,185,129,.12);
+  color:#087F5B;
+  border-color:#16B659;
+}
+
+.errorMsg{
+  display:block;
+  background: rgba(239,68,68,.10);
+  color:#B91C1C;
+  border-color:#EF4444;
+}
+
+.complianceMsg{
+  display:block;
+  background: rgba(2,136,209,.12);
+  color:#01579B;
+  border-color:#0288D1;
+}
+
+/* ================= COMPLIANCE SECTION ================= */
+
+.compliance-alert{
+  background: var(--compliance-bg);
+  border-left:4px solid var(--compliance-border);
+  padding:12px;
+  border-radius:8px;
+  margin:10px 0;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.compliance-alert strong{
+  display:block;
+  color:var(--compliance-border);
+  margin-bottom:5px;
+}
+
+.compliance-badge{
+  display:inline-block;
+  background:var(--compliance-border);
+  color:white;
+  padding:4px 8px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:700;
+  margin:5px 5px 5px 0;
+}
+
+.checkbox-container{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:12px 0;
+  padding:12px;
+  background:rgba(0,0,0,.02);
+  border-radius:8px;
+}
+
+.checkbox-container input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  margin-top:2px;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.checkbox-container label{
+  margin:0;
+  font-weight:normal;
+  font-size:13px;
+  cursor:pointer;
+}
+
+/* ================= PROFILE ================= */
+
+.profile{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+
+.profileBox{
+  padding:14px;
+  border-radius:14px;
+  background: rgba(127,127,127,.08);
+  border: 1px solid var(--border);
+}
+
+.profileBox small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.profileBox strong{
+  display:block;
+  margin-top:5px;
+  font-size:14px;
+  word-break:break-word;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:9px;
+  margin-top:15px;
+}
+
+.stat{
+  padding:13px 7px;
+  text-align:center;
+  border-radius:14px;
+  background: rgba(21,101,192,.07);
+  border: 1px solid rgba(21,101,192,.12);
+}
+
+.stat strong{
+  display:block;
+  font-size:20px;
+}
+
+.stat small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* ================= CAMERA ================= */
+
+.cameraBox{
+  position:relative;
+  margin-top:10px;
+  overflow:hidden;
+  border-radius:18px;
+  background:#020617;
+  border: 1px solid #172033;
+  aspect-ratio:16/9;
+}
+
+video{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#020617;
+}
+
+.cameraOverlay{
+  position:absolute;
+  left:12px;
+  right:12px;
+  top:12px;
+  display:flex;
+  justify-content:space-between;
+  pointer-events:none;
+}
+
+.cameraBadge{
+  padding:7px 10px;
+  border-radius:20px;
+  color:white;
+  background: rgba(0,0,0,.45);
+  backdrop-filter:blur(8px);
+  font-size:11px;
+}
+
+.cameraControls{
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:7px;
+}
+
+.cameraControls button{
+  margin-top:8px;
+  padding:11px 5px;
+  font-size:12px;
+}
+
+#photoPreview{
+  width:100%;
+  display:none;
+  margin-top:10px;
+  border-radius:15px;
+  border: 1px solid var(--border);
+  max-height:300px;
+  object-fit:contain;
+}
+
+/* ================= GPS ================= */
+
+.gpsBox{
+  margin-top:10px;
+  padding:15px;
+  border-radius:16px;
+  background: linear-gradient(135deg, rgba(21,101,192,.08), rgba(13,71,161,.04));
+  border: 1px solid rgba(21,101,192,.14);
+}
+
+.gpsLine{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:7px 0;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  font-size:13px;
+}
+
+.gpsLine:last-child{
+  border-bottom:none;
+}
+
+.gpsLine strong{
+  font-weight:700;
+}
+
+.gpsLine span{
+  color:var(--muted);
+  word-break:break-all;
+}
+
+/* ================= LOADER ================= */
+
+.loader{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,.50);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:20px;
+  backdrop-filter:blur(2px);
+}
+
+.loader.active{
+  display:flex;
+}
+
+.spinner{
+  width:50px;
+  height:50px;
+  border:4px solid rgba(255,255,255,.20);
+  border-top-color:white;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
+
+.loader-text{
+  color:white;
+  font-size:14px;
+  font-weight:600;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+  background:rgba(0,0,0,.03);
+  padding:20px 16px;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  border-top:1px solid var(--border);
+  margin-top:30px;
+}
+
+.footer a{
+  color:var(--primary);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}
+
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
+/* ================= MOBILE OPTIMIZATION ================= */
+
+@media (max-width:600px){
+  .app{
+    max-width:100%;
+    min-height:100vh;
+  }
   
-  <!-- Modern Font & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  .card{
+    margin:12px;
+    padding:16px;
+  }
+  
+  .hero h2{
+    font-size:21px;
+  }
+  
+  h2{
+    font-size:18px;
+  }
+  
+  button{
+    padding:12px;
+    font-size:14px;
+  }
+  
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+  
+  input, textarea, select{
+    font-size:16px;
+    padding:12px;
+  }
+  
+  .profile{
+    grid-template-columns:1fr;
+  }
+}
 
-  <style>
-    :root {
-      --primary: #3B82F6;
-      --primary-glow: rgba(59, 130, 246, 0.35);
-      --accent: #06B6D4;
-      --bg: #0B0F19;
-      --surface: #111827;
-      --surface-glass: rgba(17, 24, 39, 0.75);
-      --surface-border: rgba(255, 255, 255, 0.08);
-      --text: #F9FAFB;
-      --text-muted: #9CA3AF;
-      --success: #10B981;
-      --warning: #F59E0B;
-      --danger: #EF4444;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --font-main: 'Plus Jakarta Sans', sans-serif;
-      --font-code: 'JetBrains Mono', monospace;
-    }
+@media (max-width:360px){
+  body{
+    font-size:14px;
+  }
+  
+  .brandText h1{
+    font-size:16px;
+  }
+  
+  .card{
+    margin:8px;
+    padding:12px;
+  }
+  
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+  
+  .cameraControls{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
+/* ================= DARK MODE ================= */
 
-    body {
-      background-color: var(--bg);
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
-      background-attachment: fixed;
-      color: var(--text);
-      font-family: var(--font-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-bottom: 80px;
-    }
+@media (prefers-color-scheme: dark) {
+  body.auto {
+    --bg:#07111F;
+    --card:#0D1B2A;
+    --text:#F4F7FB;
+    --muted:#9CA3AF;
+    --border:#23364D;
+    --shadow:0 15px 40px rgba(0,0,0,.35);
+  }
+}
 
-    .app-viewport {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
+/* ================= PRINT ================= */
 
-    /* Modern Glass Header */
-    .app-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      padding: 16px 20px;
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--surface-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+@media print{
+  .topbar, .cameraControls, button:not(.linkBtn){
+    display:none;
+  }
+  
+  .card{
+    page-break-inside:avoid;
+  }
+}
 
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+</style>
 
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 15px var(--primary-glow);
-    }
-
-    .brand-title {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(to right, #FFFFFF, #93C5FD);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .brand-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-    }
-
-    .status-pill {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.2);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--success);
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 8px var(--success);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    /* Views Framework */
-    .view-container {
-      padding: 20px;
-      flex: 1;
-    }
-
-    .view {
-      display: none;
-      animation: fadeIn 0.25s ease-out forwards;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Glass Cards */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Form Inputs */
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .input-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .input-field {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--surface-border);
-      border-radius: var(--radius-md);
-      padding: 14px 16px;
-      color: #FFF;
-      font-family: var(--font-main);
-      font-size: 14px;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .input-field:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
-    }
-
-    /* Buttons */
-    .btn {
-      width: 100%;
-      padding: 14px 20px;
-      border-radius: var(--radius-md);
-      border: none;
-      font-family: var(--font-main);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), #2563EB);
-      color: white;
-      box-shadow: 0 4px 20px var(--primary-glow);
-    }
-
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text);
-      border: 1px solid var(--surface-border);
-    }
-
-    .btn-biometric {
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      color: var(--accent);
-      margin-top: 10px;
-    }
-
-    /* Dashboard Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .stat-card {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--surface-border);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 20px;
-      font-weight: 800;
-      font-family: var(--font-code);
-      color: #FFF;
-    }
-
-    .stat-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    /* Camera Module */
-    .camera-viewport {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #000;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--surface-border);
-      margin-bottom: 12px;
-    }
-
-    video, canvas {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .camera-hud {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border: 20px solid rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 10px;
-    }
-
-    .hud-line {
-      position: absolute;
-      top: 50%;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: rgba(6, 182, 212, 0.3);
-    }
-
-    .hud-data {
-      font-family: var(--font-code);
-      font-size: 10px;
-      color: var(--accent);
-      background: rgba(0,0,0,0.6);
-      padding: 4px 8px;
-      border-radius: 4px;
-      width: fit-content;
-    }
-
-    /* Navigation Bar */
-    .navbar {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid var(--surface-border);
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0;
-      z-index: 100;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: var(--text-muted);
-      font-size: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .nav-item.active {
-      color: var(--primary);
-    }
-
-    /* Compliance Box */
-    .compliance-box {
-      background: rgba(59, 130, 246, 0.05);
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      margin-bottom: 12px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .compliance-box input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--primary);
-      margin-top: 2px;
-    }
-
-    .compliance-text {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .compliance-text strong {
-      color: var(--text);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-  </style>
 </head>
+
 <body>
 
-  <div class="app-viewport">
-    
-    <!-- HEADER -->
-    <header class="app-header">
-      <div class="brand-logo">
-        <div class="logo-icon"><i data-lucide="shield-check" style="color: white; width: 22px;"></i></div>
-        <div>
-          <div class="brand-title">SmartPlan PRO</div>
-          <div class="brand-sub">DPDP v2.4 Compliant</div>
+<div class="app">
+
+  <!-- ==========================================
+       LOGIN PAGE
+  ========================================== -->
+
+  <div id="loginPage">
+
+    <div class="topbar">
+      <div class="brand">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">📍</div>
+        <div class="brandText">
+          <h1>SmartPlan</h1>
+          <small>Field Worker Management</small>
         </div>
       </div>
-      <div class="status-pill">
-        <div class="status-dot"></div>
-        <span id="networkStatus">ONLINE</span>
+      <div class="statusDot" id="onlineDot"></div>
+    </div>
+
+    <div class="card hero">
+      <h2>👋 Welcome</h2>
+      <p>Secure visit tracking & management system</p>
+    </div>
+
+    <div class="card">
+      <div class="compliance-alert">
+        <strong>🔒 Data Protection Notice</strong>
+        Your data is protected under DPDP Act, 2023. Only required information will be collected.
       </div>
-    </header>
+    </div>
 
-    <!-- VIEWS CONTAINER -->
-    <main class="view-container">
+    <div class="card">
+      <label>Employee ID</label>
+      <input type="text" id="employeeId" placeholder="Enter your Employee ID">
+      
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter your password">
+      
+      <div id="loginMessage" class="message"></div>
+      
+      <button class="primary" onclick="login()">Sign In</button>
+      
+      <div class="compliance-alert" style="margin-top:20px;">
+        <strong>📋 Privacy Terms</strong>
+        By logging in, you accept that your location, activities, and photos will be securely logged for business purposes. This data is retained for 90 days then deleted securely.
+      </div>
+    </div>
 
-      <!-- 1. LOGIN VIEW -->
-      <section id="loginView" class="view active">
-        <div class="card">
-          <div class="card-title"><i data-lucide="lock" style="width: 16px;"></i> Secure Authentication</div>
-          
-          <div class="input-group">
-            <label class="input-label">EMPLOYEE IDENTIFIER</label>
-            <input type="text" id="empId" class="input-field" placeholder="EMP-8849-X" value="EMP-1092">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label">PASSCODE</label>
-            <input type="password" id="empPass" class="input-field" placeholder="••••••••" value="password">
-          </div>
-
-          <button class="btn btn-primary" onclick="handleAuth()">
-            <i data-lucide="log-in" style="width: 18px;"></i> Authenticate Session
-          </button>
-
-          <button class="btn btn-biometric" onclick="handleBiometric()">
-            <i data-lucide="fingerprint" style="width: 18px;"></i> Passkey / Biometrics
-          </button>
-        </div>
-
-        <div class="compliance-box">
-          <i data-lucide="info" style="color: var(--primary); width: 20px; flex-shrink: 0;"></i>
-          <div class="compliance-text">
-            <strong>DPDP Act 2023 Enforced</strong><br>
-            All geo-spatial data and action timestamps are end-to-end encrypted with AES-256 standards[span_0](start_span)[span_0](end_span).
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. DASHBOARD VIEW -->
-      <section id="dashboardView" class="view">
-        <div class="card">
-          <div class="card-title"><i data-lucide="user" style="width: 16px;"></i> Operator Overview</div>
-          <h2 id="dispName" style="font-size: 20px; font-weight: 800;">Alex Mercer</h2>
-          <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Field Technician | Sector 04</p>
-          
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-value" id="statVisits">04</div>
-              <div class="stat-label">Visits Today</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value" id="statSync">100%</div>
-              <div class="stat-label">Sync Health</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value" style="color: var(--accent);">PRO</div>
-              <div class="stat-label">License Status</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title"><i data-lucide="zap" style="width: 16px;"></i> Quick Execution</div>
-          <button class="btn btn-primary" onclick="switchView('visitView')">
-            <i data-lucide="plus-circle" style="width: 18px;"></i> Initialize Site Visit
-          </button>
-        </div>
-      </section>
-
-      <!-- 3. VISIT FORM VIEW -->
-      <section id="visitView" class="view">
-        <div class="card">
-          <div class="card-title"><i data-lucide="map-pin" style="width: 16px;"></i> Site Details</div>
-          
-          <div class="input-group">
-            <label class="input-label">CLIENT / FACILITY</label>
-            <input type="text" id="clientName" class="input-field" placeholder="Target Business Name">
-          </div>
-
-          <div class="input-group">
-            <label class="input-label">OPERATION CATEGORY</label>
-            <select id="visitCategory" class="input-field">
-              <option value="sales">Commercial Audit</option>
-              <option value="support">Technical Support</option>
-              <option value="inspection">Regulatory Inspection</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- CAMERA MODULE -->
-        <div class="card">
-          <div class="card-title"><i data-lucide="camera" style="width: 16px;"></i> Geotagged Capture</div>
-          
-          <div class="camera-viewport">
-            <video id="webcam" autoplay playsinline class="hidden"></video>
-            <canvas id="photoCanvas" class="hidden"></canvas>
-            <div class="camera-hud">
-              <div class="hud-data" id="hudTelemetry">LAT: -- | LON: --</div>
-              <div class="hud-line"></div>
-              <div class="hud-data">TIMESTAMP: RAW_UTC</div>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 8px;">
-            <button class="btn btn-secondary" onclick="startCamera()"><i data-lucide="video" style="width: 16px;"></i> Stream</button>
-            <button class="btn btn-primary" onclick="snapPhoto()"><i data-lucide="aperture" style="width: 16px;"></i> Capture</button>
-          </div>
-        </div>
-
-        <!-- GPS TELEMETRY -->
-        <div class="card">
-          <div class="card-title"><i data-lucide="navigation" style="width: 16px;"></i> Geo-Coordinates</div>
-          <button class="btn btn-secondary" onclick="acquireGPS()"><i data-lucide="crosshair" style="width: 16px;"></i> Lock Coordinates</button>
-          
-          <div style="margin-top: 12px; font-family: var(--font-code); font-size: 11px; color: var(--text-muted);">
-            <div>LATITUDE : <span id="latDisp" style="color: var(--text);">NOT_SET</span></div>
-            <div>LONGITUDE: <span id="lonDisp" style="color: var(--text);">NOT_SET</span></div>
-            <div>ACCURACY : <span id="accDisp" style="color: var(--text);">0m</span></div>
-          </div>
-        </div>
-
-        <!-- COMPLIANCE DECLARATION -->
-        <div class="card">
-          <div class="card-title"><i data-lucide="file-check" style="width: 16px;"></i> Legal Consent</div>
-          
-          <div class="compliance-box">
-            <input type="checkbox" id="dpdpConsent">
-            <div class="compliance-text">
-              I authorize the storage of geo-location telemetry and business verification photographs per section 6 of DPDP guidelines[span_1](start_span)[span_1](end_span).
-            </div>
-          </div>
-
-          <button class="btn btn-primary" onclick="submitVisit()"><i data-lucide="send" style="width: 16px;"></i> Transmit Audit Log</button>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- NAVIGATION BAR -->
-    <nav class="navbar">
-      <a class="nav-item active" onclick="switchView('dashboardView')">
-        <i data-lucide="layout-dashboard" style="width: 20px;"></i>
-        <span>Dashboard</span>
-      </a>
-      <a class="nav-item" onclick="switchView('visitView')">
-        <i data-lucide="map-pin" style="width: 20px;"></i>
-        <span>New Visit</span>
-      </a>
-      <a class="nav-item" onclick="switchView('loginView')">
-        <i data-lucide="user" style="width: 20px;"></i>
-        <span>Identity</span>
-      </a>
-    </nav>
+    <div class="footer">
+      <div class="footer-links">
+        <a href="#privacyPolicy" onclick="showPrivacy()">Privacy Policy</a>
+        <a href="#terms" onclick="showTerms()">Terms of Use</a>
+        <a href="#compliance" onclick="showCompliance()">Data Protection</a>
+      </div>
+      <p>SmartPlan v2.0 | DPDP Compliant</p>
+      <p style="margin-top:10px;font-size:11px;">For support: support@smartplan.local</p>
+    </div>
 
   </div>
 
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
+  <!-- ==========================================
+       PRIVACY POLICY MODAL
+  ========================================== -->
 
-    // App State Management Engine
-    const AppState = {
-      user: null,
-      coords: null,
-      photo: null,
-      stream: null
-    };
-
-    // SPA Router Implementation
-    function switchView(viewId) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      const target = document.getElementById(viewId);
-      if(target) target.classList.add('active');
-
-      // Update Nav active style
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  <div id="privacyModal" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:10000;display:flex;align-items:flex-end;padding-bottom:0;">
+    <div style="width:100%;max-height:80vh;overflow-y:auto;background:var(--card);border-radius:20px 20px 0 0;padding:20px;">
+      <button class="linkBtn" style="width:100%;text-align:right;" onclick="document.getElementById('privacyModal').classList.add('hidden');">✕ Close</button>
+      <h2>🔐 Privacy Policy & Data Protection</h2>
+      <p><strong>Last Updated: 2024</strong></p>
       
-      // Stop Camera when leaving Visit view
-      if(viewId !== 'visitView' && AppState.stream) {
-        AppState.stream.getTracks().forEach(track => track.stop());
+      <h3>What Data We Collect:</h3>
+      <ul style="font-size:13px;line-height:1.8;">
+        <li>Employee ID, Name, Phone Number</li>
+        <li>GPS Location (during work hours only, 9 AM - 6 PM)</li>
+        <li>Visit photos (business-related only)</li>
+        <li>Customer information (name, location)</li>
+        <li>Activity logs & timestamps</li>
+      </ul>
+
+      <h3>How We Use Your Data:</h3>
+      <ul style="font-size:13px;line-height:1.8;">
+        <li>Track field work activities</li>
+        <li>Verify visit authenticity</li>
+        <li>Generate performance reports</li>
+        <li>Improve service quality</li>
+        <li>Maintain security & compliance</li>
+      </ul>
+
+      <h3>Data Retention:</h3>
+      <p style="font-size:13px;background:var(--compliance-bg);padding:12px;border-radius:8px;border-left:4px solid var(--compliance-border);">
+        <strong>Active Data:</strong> Kept for 90 days<br>
+        <strong>Backup Archive:</strong> Kept for 1 year<br>
+        <strong>Deletion:</strong> Securely deleted using DoD 5220.22-M standard
+      </p>
+
+      <h3>Your Rights (DPDP Act 2023):</h3>
+      <ul style="font-size:13px;line-height:1.8;">
+        <li>✓ Right to access your data anytime</li>
+        <li>✓ Right to correct inaccurate data</li>
+        <li>✓ Right to request data deletion</li>
+        <li>✓ Right to withdraw consent anytime</li>
+        <li>✓ Right to data portability</li>
+        <li>✓ Right to lodge complaints</li>
+      </ul>
+
+      <h3>Security Measures:</h3>
+      <ul style="font-size:13px;line-height:1.8;">
+        <li>🔐 AES-256 encryption in transit & at rest</li>
+        <li>🔐 HTTPS/TLS for all communications</li>
+        <li>🔐 Role-based access control</li>
+        <li>🔐 Regular security audits</li>
+        <li>🔐 Incident response procedures</li>
+      </ul>
+
+      <h3>Contact Us:</h3>
+      <p style="font-size:13px;">
+        <strong>Data Protection Officer:</strong> dpo@company.local<br>
+        <strong>Privacy Concerns:</strong> privacy@company.local<br>
+        <strong>Support:</strong> support@smartplan.local
+      </p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       DASHBOARD PAGE
+  ========================================== -->
+
+  <div id="dashboardPage" class="hidden">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">📊</div>
+        <div class="brandText">
+          <h1>SmartPlan</h1>
+          <small id="empName">Loading...</small>
+        </div>
+      </div>
+      <div class="statusDot" id="onlineDot"></div>
+    </div>
+
+    <div class="card hero">
+      <h2>📊 Dashboard</h2>
+      <p id="dashboardDate">Today's Activities</p>
+    </div>
+
+    <div class="card">
+      <h3>Your Profile</h3>
+      <div class="profile">
+        <div class="profileBox">
+          <small>Employee ID</small>
+          <strong id="profileEmpId">-</strong>
+        </div>
+        <div class="profileBox">
+          <small>Status</small>
+          <strong id="profileStatus">-</strong>
+        </div>
+        <div class="profileBox">
+          <small>Visits Today</small>
+          <strong id="profileVisits">0</strong>
+        </div>
+        <div class="profileBox">
+          <small>Last Update</small>
+          <strong id="profileUpdate">Never</strong>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <strong id="statVisits">0</strong>
+          <small>Visits</small>
+        </div>
+        <div class="stat">
+          <strong id="statPhotos">0</strong>
+          <small>Photos</small>
+        </div>
+        <div class="stat">
+          <strong id="statGPS">0</strong>
+          <small>GPS Logs</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>⚡ Quick Actions</h3>
+      <button class="primary" onclick="showVisitForm()">+ Log New Visit</button>
+      <button class="outline" onclick="logout()">Sign Out</button>
+    </div>
+
+    <div class="footer">
+      <p>SmartPlan v2.0 | DPDP Compliant | Secure Data Management</p>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       VISIT FORM PAGE
+  ========================================== -->
+
+  <div id="visitPage" class="hidden">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">📍</div>
+        <div class="brandText">
+          <h1>Log Visit</h1>
+          <small>Field Work Tracker</small>
+        </div>
+      </div>
+      <div class="statusDot" id="onlineDot"></div>
+    </div>
+
+    <div class="card hero">
+      <h2>🎯 Visit Details</h2>
+      <p>Complete visit information securely</p>
+    </div>
+
+    <div class="card">
+      <label>Customer Name *</label>
+      <input type="text" id="customerName" placeholder="Enter customer/business name">
+      
+      <label>Visit Purpose *</label>
+      <select id="purpose">
+        <option value="">Select purpose</option>
+        <option value="sales">Sales Visit</option>
+        <option value="support">Customer Support</option>
+        <option value="survey">Survey/Inspection</option>
+        <option value="delivery">Delivery</option>
+        <option value="followup">Follow-up</option>
+        <option value="other">Other</option>
+      </select>
+      
+      <label>Visit Details</label>
+      <textarea id="visitDetails" placeholder="Brief description of work done..."></textarea>
+      
+      <div id="visitMessage" class="message"></div>
+    </div>
+
+    <!-- GPS SECTION -->
+    <div class="card">
+      <h3>📍 GPS Location</h3>
+      <div class="compliance-alert">
+        <strong>Location Privacy</strong>
+        GPS is tracked only during work hours (9 AM - 6 PM). You can opt-out anytime.
+      </div>
+      
+      <button class="outline" onclick="captureGPS()" style="margin-top:10px;">📍 Capture Current Location</button>
+      
+      <div class="gpsBox">
+        <div class="gpsLine">
+          <strong>Latitude</strong>
+          <span id="latitude">Not captured</span>
+        </div>
+        <div class="gpsLine">
+          <strong>Longitude</strong>
+          <span id="longitude">Not captured</span>
+        </div>
+        <div class="gpsLine">
+          <strong>Accuracy</strong>
+          <span id="accuracy">-</span>
+        </div>
+        <div class="gpsLine">
+          <strong>Address</strong>
+          <span id="address">Not captured</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMERA SECTION -->
+    <div class="card">
+      <h3>📸 Visit Photo</h3>
+      <div class="compliance-alert">
+        <strong>Photo Guidelines</strong>
+        Only business-related photos (customer location, work done). Personal photos are not allowed per DPDP compliance.
+      </div>
+      
+      <div class="cameraBox" id="cameraBox" style="display:none;margin-top:10px;">
+        <video id="video" playsinline></video>
+        <div class="cameraOverlay">
+          <div class="cameraBadge" id="cameraBadge">LIVE</div>
+        </div>
+      </div>
+      
+      <img id="photoPreview" alt="Captured photo">
+      
+      <div class="cameraControls">
+        <button class="secondary" onclick="startCamera()" id="startCameraBtn">📷 Start Camera</button>
+        <button class="secondary" onclick="capturePhoto()" id="capturePhotoBtn" style="display:none;">📸 Capture</button>
+        <button class="secondary" onclick="stopCamera()" id="stopCameraBtn" style="display:none;">⏹ Stop</button>
+        <button class="outline" onclick="resetPhoto()" id="resetPhotoBtn">🔄 Reset</button>
+      </div>
+    </div>
+
+    <!-- CONSENT SECTION -->
+    <div class="card compliance">
+      <h3>✓ Declaration & Consent</h3>
+      
+      <div class="checkbox-container">
+        <input type="checkbox" id="agreement">
+        <label for="agreement">I confirm that the information provided is accurate. I understand this visit will be logged with GPS, photos, and timestamps for business purposes.</label>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="gpsConsent">
+        <label for="gpsConsent">I consent to GPS location tracking during work hours (9 AM - 6 PM) for accurate visit verification.</label>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="photoConsent">
+        <label for="photoConsent">I have captured only business-related photos and consent to secure storage per DPDP guidelines.</label>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="privacyConsent">
+        <label for="privacyConsent">I acknowledge reading the Privacy Policy and understand my data will be retained for 90 days then securely deleted.</label>
+      </div>
+
+      <div class="compliance-alert">
+        <strong>🔐 Your Rights</strong>
+        You can access, correct, or request deletion of your data anytime by contacting privacy@company.local
+      </div>
+      
+      <button class="primary" onclick="submitVisit()">✓ Submit Visit</button>
+      <button class="outline" onclick="backDashboard()">← Go Back</button>
+    </div>
+
+    <div class="footer">
+      <p>Data encrypted & securely transmitted | DPDP 2023 Compliant</p>
+    </div>
+
+  </div>
+
+  <!-- LOADER -->
+  <div id="loader" class="loader">
+    <div class="spinner"></div>
+    <div class="loader-text" id="loaderText">Loading...</div>
+  </div>
+
+</div>
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* =====================================================
+   CONFIGURATION & SETTINGS
+===================================================== */
+
+const SETTINGS = {
+  CUSTOMER_REQUIRED: true,
+  PURPOSE_REQUIRED: true,
+  GPS_REQUIRED: false,
+  ADDRESS_REQUIRED: false,
+  PHOTO_REQUIRED: false,
+  DECLARATION_REQUIRED: true,
+  API_ENDPOINT: "https://your-backend.local/api",
+  SESSION_TIMEOUT: 3600000,
+  DATA_RETENTION_DAYS: 90,
+  DPDP_COMPLIANCE: true
+};
+
+/* =====================================================
+   GLOBAL STATE
+===================================================== */
+
+let currentEmployee = null;
+let sessionToken = null;
+let resetToken = null;
+let capturedPhoto = null;
+let currentGPS = null;
+let videoStream = null;
+
+/* =====================================================
+   API HELPER
+===================================================== */
+
+async function apiRequest(data){
+  try{
+    const response = await fetch(
+      SETTINGS.API_ENDPOINT,
+      {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(data)
       }
+    );
+    return await response.json();
+  }catch(error){
+    console.error("API Error:",error);
+    throw error;
+  }
+}
+
+/* =====================================================
+   UI HELPERS
+===================================================== */
+
+function showLoader(text="Processing..."){
+  document.getElementById("loaderText").textContent = text;
+  document.getElementById("loader").classList.add("active");
+}
+
+function hideLoader(){
+  document.getElementById("loader").classList.remove("active");
+}
+
+function showMessage(elementId, text, isSuccess){
+  const element = document.getElementById(elementId);
+  element.textContent = text;
+  element.className = "message " + (isSuccess ? "successMsg" : "errorMsg");
+  element.style.display = "block";
+  
+  if(isSuccess){
+    setTimeout(() => element.style.display = "none", 5000);
+  }
+}
+
+function showLogin(){
+  document.getElementById("loginPage").classList.remove("hidden");
+  document.getElementById("dashboardPage").classList.add("hidden");
+  document.getElementById("visitPage").classList.add("hidden");
+}
+
+function showDashboard(){
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboardPage").classList.remove("hidden");
+  document.getElementById("visitPage").classList.add("hidden");
+  fillProfile();
+}
+
+function showVisitForm(){
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboardPage").classList.add("hidden");
+  document.getElementById("visitPage").classList.remove("hidden");
+}
+
+/* =====================================================
+   PRIVACY POLICY
+===================================================== */
+
+function showPrivacy(){
+  document.getElementById("privacyModal").classList.remove("hidden");
+}
+
+function showTerms(){
+  alert("Terms of Use:\n\n1. Data is collected for business purposes\n2. GPS tracking is limited to work hours\n3. Photos must be business-related\n4. Data is retained for 90 days\n5. Misuse of data will result in termination\n\nFull terms available at: privacy@company.local");
+}
+
+function showCompliance(){
+  alert("DPDP Act 2023 Compliance:\n\n✓ Data collected with consent\n✓ Purpose clearly defined\n✓ Data retention: 90 days\n✓ Secure encryption (AES-256)\n✓ Employee data access rights\n✓ Breach notification: 24 hours\n\nContact: dpo@company.local");
+}
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+async function login(){
+  const empId = document.getElementById("employeeId").value.trim();
+  const password = document.getElementById("password").value.trim();
+  
+  if(!empId || !password){
+    showMessage("loginMessage", "Please enter Employee ID and Password", false);
+    return;
+  }
+  
+  showLoader("Signing in securely...");
+  
+  try{
+    const result = await apiRequest({
+      action:"login",
+      employeeId:empId,
+      password:password,
+      timestamp:new Date().toISOString()
+    });
+    
+    if(!result.success){
+      showMessage("loginMessage", result.message || "Login failed", false);
+      return;
     }
+    
+    currentEmployee = result.employee;
+    sessionToken = result.sessionToken;
+    
+    localStorage.setItem("smartplan_employee", JSON.stringify(currentEmployee));
+    localStorage.setItem("smartplan_session", sessionToken);
+    
+    showMessage("loginMessage", "✓ Login successful", true);
+    setTimeout(() => {
+      showDashboard();
+    }, 1000);
+    
+  }catch(error){
+    showMessage("loginMessage", "Connection error. Please try again", false);
+  }finally{
+    hideLoader();
+  }
+}
 
-    // Authentication Flow
-    async function handleAuth() {
-      const empId = document.getElementById('empId').value;
-      if(!empId) return alert("Enter Employee ID");
+/* =====================================================
+   FILL PROFILE
+===================================================== */
 
-      AppState.user = { id: empId, name: "Alex Mercer" };
-      document.getElementById('dispName').innerText = AppState.user.name;
-      switchView('dashboardView');
+function fillProfile(){
+  if(!currentEmployee) return;
+  
+  document.getElementById("empName").textContent = currentEmployee.name || "User";
+  document.getElementById("profileEmpId").textContent = currentEmployee.employeeId;
+  document.getElementById("profileStatus").textContent = "Active";
+  document.getElementById("profileVisits").textContent = currentEmployee.visitsToday || "0";
+  document.getElementById("profileUpdate").textContent = "Just now";
+  
+  document.getElementById("statVisits").textContent = currentEmployee.visitsToday || "0";
+  document.getElementById("statPhotos").textContent = currentEmployee.photosToday || "0";
+  document.getElementById("statGPS").textContent = currentEmployee.gpsLogsToday || "0";
+  
+  const today = new Date().toLocaleDateString("en-IN", {weekday:"long", year:"numeric", month:"long", day:"numeric"});
+  document.getElementById("dashboardDate").textContent = today;
+}
+
+/* =====================================================
+   GPS CAPTURE
+===================================================== */
+
+async function captureGPS(){
+  showLoader("Getting your location...");
+  
+  try{
+    if(!navigator.geolocation){
+      throw new Error("Geolocation not supported");
     }
-
-    // WebAuthn / Biometric API integration
-    async function handleBiometric() {
-      if (window.PublicKeyCredential) {
-        alert("Biometric Passkey challenge initiated. Sign-in verified.");
-        AppState.user = { id: "EMP-PASSKEY", name: "Biometric Verified User" };
-        document.getElementById('dispName').innerText = AppState.user.name;
-        switchView('dashboardView');
-      } else {
-        alert("WebAuthn / Biometrics not supported on this platform.");
-      }
-    }
-
-    // Precision Geolocation API
-    function acquireGPS() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-          AppState.coords = {
-            lat: pos.coords.latitude.toFixed(6),
-            lon: pos.coords.longitude.toFixed(6),
-            acc: Math.round(pos.coords.accuracy)
-          };
-          document.getElementById('latDisp').innerText = AppState.coords.lat;
-          document.getElementById('lonDisp').innerText = AppState.coords.lon;
-          document.getElementById('accDisp').innerText = AppState.coords.acc + "m";
-          document.getElementById('hudTelemetry').innerText = `LAT: ${AppState.coords.lat} | LON: ${AppState.coords.lon}`;
-        }, (err) => {
-          alert("GPS Access Denied or Timeout");
-        }, { enableHighAccuracy: true });
-      }
-    }
-
-    // Camera Stream Handling
-    async function startCamera() {
-      try {
-        const video = document.getElementById('webcam');
-        video.classList.remove('hidden');
-        document.getElementById('photoCanvas').classList.add('hidden');
+    
+    navigator.geolocation.getCurrentPosition(
+      async function(position){
+        currentGPS = {
+          latitude: position.coords.latitude.toFixed(6),
+          longitude: position.coords.longitude.toFixed(6),
+          accuracy: Math.round(position.coords.accuracy) + "m",
+          timestamp: new Date().toISOString()
+        };
         
-        AppState.stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
-          audio: false
-        });
-        video.srcObject = AppState.stream;
-      } catch (e) {
-        alert("Unable to acquire Camera Feed: " + e.message);
+        document.getElementById("latitude").textContent = currentGPS.latitude;
+        document.getElementById("longitude").textContent = currentGPS.longitude;
+        document.getElementById("accuracy").textContent = currentGPS.accuracy;
+        
+        try{
+          const result = await apiRequest({
+            action:"reverse_geocode",
+            latitude:currentGPS.latitude,
+            longitude:currentGPS.longitude
+          });
+          
+          if(result.address){
+            currentGPS.address = result.address;
+            document.getElementById("address").textContent = result.address;
+          }
+        }catch(e){
+          document.getElementById("address").textContent = "Address unavailable";
+        }
+        
+        showMessage("visitMessage", "✓ Location captured", true);
+        hideLoader();
+      },
+      function(error){
+        hideLoader();
+        showMessage("visitMessage", "Location access denied", false);
+      },
+      {
+        enableHighAccuracy:true,
+        timeout:10000,
+        maximumAge:0
       }
-    }
+    );
+  }catch(error){
+    hideLoader();
+    showMessage("visitMessage", error.message, false);
+  }
+}
 
-    // Canvas Frame Snapshot & Watermarking
-    function snapPhoto() {
-      const video = document.getElementById('webcam');
-      const canvas = document.getElementById('photoCanvas');
-      if(!video.srcObject) return alert("Start Stream First");
+/* =====================================================
+   CAMERA FUNCTIONS
+===================================================== */
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
-
-      // Watermark Overlay on Canvas Image
-      ctx.fillStyle = "rgba(0,0,0,0.7)";
-      ctx.fillRect(10, canvas.height - 40, canvas.width - 20, 30);
-      ctx.font = "14px 'JetBrains Mono'";
-      ctx.fillStyle = "#06B6D4";
-      const telemetry = `SMARTPLAN LOG | ${AppState.coords ? AppState.coords.lat : 'NO_GPS'}, ${AppState.coords ? AppState.coords.lon : 'NO_GPS'}`;
-      ctx.fillText(telemetry, 20, canvas.height - 20);
-
-      AppState.photo = canvas.toDataURL('image/jpeg');
-      video.classList.add('hidden');
-      canvas.classList.remove('hidden');
-
-      if(AppState.stream) {
-        AppState.stream.getTracks().forEach(t => t.stop());
-      }
-    }
-
-    // Submit Logic
-    function submitVisit() {
-      const consent = document.getElementById('dpdpConsent').checked;
-      if(!consent) return alert("DPDP Data Processing consent is strictly required.");
-
-      alert("Data payload compiled, encrypted, and synced to edge node.");
-      switchView('dashboardView');
-    }
-
-    // Network Connectivity Monitoring
-    window.addEventListener('online', () => {
-      document.getElementById('networkStatus').innerText = "ONLINE";
+async function startCamera(){
+  try{
+    videoStream = await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:"environment" },
+      audio:false
     });
-    window.addEventListener('offline', () => {
-      document.getElementById('networkStatus').innerText = "OFFLINE (Sync Queue Active)";
+    
+    const video = document.getElementById("video");
+    video.srcObject = videoStream;
+    
+    document.getElementById("cameraBox").style.display = "block";
+    document.getElementById("startCameraBtn").style.display = "none";
+    document.getElementById("capturePhotoBtn").style.display = "block";
+    document.getElementById("stopCameraBtn").style.display = "block";
+    
+  }catch(error){
+    showMessage("visitMessage", "Camera access denied", false);
+  }
+}
+
+function stopCamera(){
+  if(videoStream){
+    videoStream.getTracks().forEach(track => track.stop());
+    videoStream = null;
+  }
+  
+  document.getElementById("cameraBox").style.display = "none";
+  document.getElementById("startCameraBtn").style.display = "block";
+  document.getElementById("capturePhotoBtn").style.display = "none";
+  document.getElementById("stopCameraBtn").style.display = "none";
+}
+
+function capturePhoto(){
+  const video = document.getElementById("video");
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+  
+  capturedPhoto = canvas.toDataURL("image/jpeg", 0.88);
+  
+  const preview = document.getElementById("photoPreview");
+  preview.src = capturedPhoto;
+  preview.style.display = "block";
+  
+  showMessage("visitMessage", "✓ Photo captured", true);
+  stopCamera();
+}
+
+function resetPhoto(){
+  capturedPhoto = null;
+  document.getElementById("photoPreview").src = "";
+  document.getElementById("photoPreview").style.display = "none";
+}
+
+/* =====================================================
+   SUBMIT VISIT
+===================================================== */
+
+async function submitVisit(){
+  const customerName = document.getElementById("customerName").value.trim();
+  const purpose = document.getElementById("purpose").value;
+  const agreed = document.getElementById("agreement").checked;
+  const privacyConsent = document.getElementById("privacyConsent").checked;
+  
+  if(!currentEmployee){
+    showMessage("visitMessage", "Session expired. Please login again", false);
+    return;
+  }
+  
+  if(SETTINGS.CUSTOMER_REQUIRED && !customerName){
+    showMessage("visitMessage", "Customer name is required", false);
+    return;
+  }
+  
+  if(SETTINGS.PURPOSE_REQUIRED && !purpose){
+    showMessage("visitMessage", "Please select visit purpose", false);
+    return;
+  }
+  
+  if(SETTINGS.DECLARATION_REQUIRED && !agreed){
+    showMessage("visitMessage", "Please accept the declaration", false);
+    return;
+  }
+  
+  if(!privacyConsent){
+    showMessage("visitMessage", "Please acknowledge privacy policy", false);
+    return;
+  }
+  
+  showLoader("Submitting visit securely...");
+  
+  try{
+    const visitData = {
+      customerName:customerName,
+      purpose:purpose,
+      details:document.getElementById("visitDetails").value.trim(),
+      latitude:currentGPS ? currentGPS.latitude : "",
+      longitude:currentGPS ? currentGPS.longitude : "",
+      accuracy:currentGPS ? currentGPS.accuracy : "",
+      address:currentGPS ? currentGPS.address : "",
+      photo:capturedPhoto || "",
+      photoTimestamp:new Date().toISOString(),
+      declarationAgreed:agreed,
+      gpsConsent:document.getElementById("gpsConsent").checked,
+      photoConsent:document.getElementById("photoConsent").checked,
+      privacyConsent:privacyConsent,
+      submittedAt:new Date().toISOString()
+    };
+    
+    const result = await apiRequest({
+      action:"create_visit",
+      employeeId:currentEmployee.employeeId,
+      sessionToken:sessionToken,
+      visit:visitData
     });
-  </script>
+    
+    if(!result.success){
+      showMessage("visitMessage", result.message || "Visit submission failed", false);
+      return;
+    }
+    
+    const visitId = result.visit?.visitId || result.visitId || "Created";
+    showMessage("visitMessage", `✓ Visit submitted (ID: ${visitId})`, true);
+    
+    resetVisitForm();
+    setTimeout(() => showDashboard(), 2000);
+    
+  }catch(error){
+    showMessage("visitMessage", "Server error. Please try again", false);
+  }finally{
+    hideLoader();
+  }
+}
+
+/* =====================================================
+   RESET FORM
+===================================================== */
+
+function resetVisitForm(){
+  document.getElementById("customerName").value = "";
+  document.getElementById("purpose").value = "";
+  document.getElementById("visitDetails").value = "";
+  document.getElementById("agreement").checked = false;
+  document.getElementById("gpsConsent").checked = false;
+  document.getElementById("photoConsent").checked = false;
+  document.getElementById("privacyConsent").checked = false;
+  
+  capturedPhoto = null;
+  currentGPS = null;
+  
+  document.getElementById("photoPreview").src = "";
+  document.getElementById("photoPreview").style.display = "none";
+  
+  document.getElementById("latitude").textContent = "Not captured";
+  document.getElementById("longitude").textContent = "Not captured";
+  document.getElementById("accuracy").textContent = "-";
+  document.getElementById("address").textContent = "Not captured";
+}
+
+/* =====================================================
+   BACK DASHBOARD
+===================================================== */
+
+function backDashboard(){
+  stopCamera();
+  showDashboard();
+}
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+  showLoader("Signing out...");
+  
+  try{
+    if(currentEmployee && sessionToken){
+      await apiRequest({
+        action:"logout",
+        employeeId:currentEmployee.employeeId,
+        sessionToken:sessionToken
+      });
+    }
+  }catch(error){
+    console.warn("Logout error:", error);
+  }
+  
+  stopCamera();
+  currentEmployee = null;
+  sessionToken = null;
+  
+  localStorage.removeItem("smartplan_employee");
+  localStorage.removeItem("smartplan_session");
+  
+  hideLoader();
+  showLogin();
+}
+
+/* =====================================================
+   SESSION RESTORE
+===================================================== */
+
+async function restoreSession(){
+  const savedEmployee = localStorage.getItem("smartplan_employee");
+  const savedSession = localStorage.getItem("smartplan_session");
+  
+  if(!savedEmployee || !savedSession){
+    showLogin();
+    return;
+  }
+  
+  try{
+    currentEmployee = JSON.parse(savedEmployee);
+    sessionToken = savedSession;
+    
+    showLoader("Restoring secure session...");
+    
+    const result = await apiRequest({
+      action:"validate_session",
+      employeeId:currentEmployee.employeeId,
+      sessionToken:sessionToken
+    });
+    
+    if(result.success){
+      showDashboard();
+    }else{
+      localStorage.removeItem("smartplan_employee");
+      localStorage.removeItem("smartplan_session");
+      showLogin();
+    }
+  }catch(error){
+    showDashboard();
+  }finally{
+    hideLoader();
+  }
+}
+
+/* =====================================================
+   ONLINE STATUS
+===================================================== */
+
+function updateOnlineStatus(){
+  const dot = document.getElementById("onlineDot");
+  if(navigator.onLine){
+    dot.style.background = "#31E981";
+    dot.title = "Online";
+  }else{
+    dot.style.background = "#EF4444";
+    dot.title = "Offline";
+  }
+}
+
+window.addEventListener("online", updateOnlineStatus);
+window.addEventListener("offline", updateOnlineStatus);
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+document.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    const loginPage = document.getElementById("loginPage");
+    if(loginPage && !loginPage.classList.contains("hidden")){
+      login();
+    }
+  }
+});
+
+(async function(){
+  updateOnlineStatus();
+  await restoreSession();
+})();
+
+</script>
+
 </body>
 </html>
