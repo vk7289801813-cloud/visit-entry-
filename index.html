@@ -7,61 +7,24 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color"
-      content="#2563eb">
-
 <title>SmartPlan</title>
 
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
 
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,sans-serif;
 }
 
 body{
   min-height:100vh;
-  background:
-    linear-gradient(
-      135deg,
-      #0f172a,
-      #1e293b
-    );
-  color:#111827;
-}
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
-button,
-input{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none !important;
-}
-
-/* =====================================================
-   LOGIN AREA
-===================================================== */
-
-.page{
-  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   padding:20px;
 }
 
@@ -72,11 +35,10 @@ button{
 
 .card{
   background:#fff;
-  border-radius:24px;
+  color:#111827;
+  border-radius:22px;
   padding:28px;
-  box-shadow:
-    0 20px 60px
-    rgba(0,0,0,.35);
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
 }
 
 .logo{
@@ -84,38 +46,15 @@ button{
   margin-bottom:25px;
 }
 
-.logo-icon{
-  width:64px;
-  height:64px;
-  margin:auto;
-  border-radius:18px;
-  background:#2563eb;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  font-weight:bold;
-  box-shadow:
-    0 10px 25px
-    rgba(37,99,235,.35);
-}
-
 .logo h1{
-  margin-top:14px;
   font-size:30px;
   color:#2563eb;
 }
 
 .logo p{
-  margin-top:5px;
   color:#64748b;
-  font-size:14px;
+  margin-top:5px;
 }
-
-/* =====================================================
-   FORM
-===================================================== */
 
 .form-group{
   margin-bottom:17px;
@@ -123,30 +62,23 @@ button{
 
 label{
   display:block;
-  margin-bottom:7px;
   font-size:14px;
   font-weight:bold;
-  color:#334155;
+  margin-bottom:7px;
 }
 
 input{
   width:100%;
   padding:14px;
-  border:
-    1px solid
-    #cbd5e1;
+  border:1px solid #cbd5e1;
   border-radius:12px;
-  outline:none;
   font-size:16px;
-  background:#fff;
-  color:#111827;
+  outline:none;
 }
 
 input:focus{
   border-color:#2563eb;
-  box-shadow:
-    0 0 0 3px
-    rgba(37,99,235,.12);
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
 }
 
 .password-box{
@@ -161,132 +93,124 @@ input:focus{
   position:absolute;
   right:14px;
   top:50%;
-  transform:
-    translateY(-50%);
-  color:#64748b;
-  font-size:13px;
+  transform:translateY(-50%);
   cursor:pointer;
-  user-select:none;
+  color:#2563eb;
+  font-size:13px;
+  font-weight:bold;
 }
 
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-.btn{
+button{
   width:100%;
   border:0;
-  border-radius:12px;
   padding:14px;
-  font-weight:bold;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
   font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
   transition:.2s;
 }
 
-.btn:active{
-  transform:scale(.98);
-}
-
-.btn-primary{
-  background:#2563eb;
-  color:white;
-}
-
-.btn-primary:hover{
+button:hover{
   background:#1d4ed8;
 }
 
-.btn-secondary{
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.secondary-btn{
   background:#e2e8f0;
-  color:#0f172a;
+  color:#1e293b;
+  margin-top:10px;
 }
 
-.btn-danger{
-  background:#dc2626;
-  color:white;
+.secondary-btn:hover{
+  background:#cbd5e1;
 }
-
-.btn-success{
-  background:#16a34a;
-  color:white;
-}
-
-.btn-small{
-  width:auto;
-  padding:10px 14px;
-  font-size:14px;
-}
-
-/* =====================================================
-   LINKS
-===================================================== */
 
 .link{
+  display:block;
+  text-align:center;
+  margin-top:15px;
   color:#2563eb;
-  cursor:pointer;
   font-size:14px;
   font-weight:bold;
+  cursor:pointer;
 }
-
-.link:hover{
-  text-decoration:underline;
-}
-
-.center{
-  text-align:center;
-}
-
-/* =====================================================
-   MESSAGE
-===================================================== */
 
 .message{
   margin-bottom:15px;
   padding:12px;
   border-radius:10px;
-  font-size:14px;
   display:none;
-}
-
-.message.show{
-  display:block;
+  font-size:14px;
+  line-height:1.4;
 }
 
 .message.success{
+  display:block;
   background:#dcfce7;
   color:#166534;
 }
 
 .message.error{
+  display:block;
   background:#fee2e2;
   color:#991b1b;
 }
 
-.message.info{
-  background:#dbeafe;
-  color:#1e40af;
+.hidden{
+  display:none!important;
 }
 
-/* =====================================================
-   LOADING
-===================================================== */
-
-.loading{
-  display:none;
+.dashboard{
   text-align:center;
-  margin:12px 0;
-  color:#2563eb;
-  font-size:14px;
+}
+
+.profile{
+  background:#eff6ff;
+  border-radius:15px;
+  padding:18px;
+  margin:20px 0;
+  text-align:left;
+}
+
+.profile div{
+  margin:8px 0;
+}
+
+.profile strong{
+  color:#1e3a8a;
+}
+
+.badge{
+  display:inline-block;
+  background:#dcfce7;
+  color:#166534;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
   font-weight:bold;
 }
 
-.loading.show{
-  display:block;
+.small-note{
+  text-align:center;
+  color:#64748b;
+  font-size:12px;
+  margin-top:15px;
+  line-height:1.5;
 }
 
-/* =====================================================
-   OTP
-===================================================== */
+.step{
+  text-align:center;
+  color:#64748b;
+  font-size:13px;
+  margin-bottom:20px;
+}
 
 .otp-input{
   text-align:center;
@@ -295,399 +219,10 @@ input:focus{
   font-weight:bold;
 }
 
-.step-title{
-  font-size:21px;
-  font-weight:bold;
-  margin-bottom:8px;
-  color:#0f172a;
-}
-
-.step-subtitle{
-  color:#64748b;
-  font-size:14px;
-  line-height:1.5;
-  margin-bottom:20px;
-}
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-.dashboard{
-  min-height:100vh;
-  background:#f1f5f9;
-  color:#0f172a;
-}
-
-.topbar{
-  background:#fff;
-  padding:
-    14px
-    max(16px,calc((100vw - 1100px)/2));
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  box-shadow:
-    0 2px 10px
-    rgba(0,0,0,.08);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.brand-icon{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  background:#2563eb;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-}
-
-.brand-text strong{
-  display:block;
-  color:#0f172a;
-}
-
-.brand-text small{
-  color:#64748b;
-}
-
-.top-actions{
-  display:flex;
-  gap:7px;
-}
-
-.content{
-  max-width:1100px;
-  margin:auto;
-  padding:20px 16px 40px;
-}
-
-/* =====================================================
-   WELCOME
-===================================================== */
-
-.welcome{
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #1d4ed8
-    );
-  color:white;
-  border-radius:20px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:
-    0 12px 30px
-    rgba(37,99,235,.22);
-}
-
-.welcome h2{
-  margin-bottom:6px;
-}
-
-.welcome p{
-  opacity:.9;
-  font-size:14px;
-}
-
-/* =====================================================
-   SUMMARY
-===================================================== */
-
-.summary-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.summary-card{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.06);
-}
-
-.summary-card .icon{
-  font-size:24px;
-}
-
-.summary-card .number{
-  font-size:28px;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.summary-card .label{
-  color:#64748b;
-  font-size:13px;
-  margin-top:3px;
-}
-
-/* =====================================================
-   MENU
-===================================================== */
-
-.section-title{
-  font-size:19px;
-  font-weight:bold;
-  margin:
-    22px 0
-    12px;
-}
-
-.menu-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:12px;
-}
-
-.menu-card{
-  background:white;
-  border:0;
-  border-radius:16px;
-  padding:20px 14px;
-  text-align:left;
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.06);
-  transition:.2s;
-}
-
-.menu-card:hover{
-  transform:translateY(-2px);
-}
-
-.menu-icon{
-  width:46px;
-  height:46px;
-  border-radius:13px;
-  background:#eff6ff;
-  color:#2563eb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  margin-bottom:10px;
-}
-
-.menu-card strong{
-  display:block;
-  margin-bottom:4px;
-}
-
-.menu-card small{
-  color:#64748b;
-}
-
-/* =====================================================
-   MODULE PAGE
-===================================================== */
-
-.module-page{
-  background:#fff;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.06);
-}
-
-.module-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.module-header h2{
-  flex:1;
-}
-
-.back-btn{
-  width:40px;
-  height:40px;
-  border:0;
-  border-radius:10px;
-  background:#e2e8f0;
-  font-size:20px;
-}
-
-/* =====================================================
-   LIST
-===================================================== */
-
-.list-item{
-  border:
-    1px solid
-    #e2e8f0;
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:10px;
-}
-
-.list-item strong{
-  display:block;
-  margin-bottom:5px;
-}
-
-.list-item small{
-  color:#64748b;
-}
-
-/* =====================================================
-   EMPTY
-===================================================== */
-
-.empty{
+.header-icon{
   text-align:center;
-  padding:35px 15px;
-  color:#64748b;
-}
-
-.empty-icon{
-  font-size:40px;
+  font-size:45px;
   margin-bottom:10px;
-}
-
-/* =====================================================
-   DARK MODE
-===================================================== */
-
-body.dark{
-  background:#020617;
-}
-
-body.dark .dashboard{
-  background:#020617;
-  color:#e2e8f0;
-}
-
-body.dark .topbar,
-body.dark .summary-card,
-body.dark .menu-card,
-body.dark .module-page{
-  background:#0f172a;
-  color:#e2e8f0;
-}
-
-body.dark .brand-text strong,
-body.dark .step-title{
-  color:#e2e8f0;
-}
-
-body.dark .brand-text small,
-body.dark .summary-card .label,
-body.dark .menu-card small,
-body.dark .list-item small{
-  color:#94a3b8;
-}
-
-body.dark .menu-icon{
-  background:#172554;
-}
-
-body.dark .list-item{
-  border-color:#334155;
-}
-
-body.dark .back-btn{
-  background:#1e293b;
-  color:#fff;
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:700px){
-
-  .summary-grid{
-    grid-template-columns:
-      repeat(3,1fr);
-  }
-
-  .menu-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:480px){
-
-  .page{
-    padding:12px;
-  }
-
-  .card{
-    padding:22px 18px;
-  }
-
-  .summary-card{
-    padding:14px 10px;
-  }
-
-  .summary-card .number{
-    font-size:23px;
-  }
-
-  .menu-card{
-    padding:16px 12px;
-  }
-
-  .content{
-    padding:
-      14px
-      10px
-      30px;
-  }
-
-  .topbar{
-    padding:10px;
-  }
-
-}
-
-/* =====================================================
-   SPINNER
-===================================================== */
-
-.spinner{
-  width:18px;
-  height:18px;
-  border:
-    2px solid
-    rgba(255,255,255,.4);
-  border-top-color:white;
-  border-radius:50%;
-  animation:
-    spin .7s linear infinite;
-  display:inline-block;
-  vertical-align:middle;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
 }
 
 </style>
@@ -696,648 +231,422 @@ body.dark .back-btn{
 
 <body>
 
-<!-- ===================================================
-     LOGIN / AUTH
-=================================================== -->
+<div class="container">
 
-<div id="authPage"
-     class="page">
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
 
-  <div class="container">
+<div id="loginPage" class="card">
 
-    <!-- LOGIN -->
+  <div class="logo">
 
-    <div id="loginPage"
-         class="card">
+    <div class="header-icon">📊</div>
 
-      <div class="logo">
+    <h1>SmartPlan</h1>
 
-        <div class="logo-icon">
-          SP
-        </div>
+    <p>Employee Login</p>
 
-        <h1>SmartPlan</h1>
+  </div>
 
-        <p>
-          Employee Management System
-        </p>
+  <div id="loginMessage"
+       class="message"></div>
 
-      </div>
+  <div class="form-group">
 
-      <div id="loginMessage"
-           class="message"></div>
+    <label>Employee ID</label>
 
-      <div class="form-group">
+    <input
+      type="text"
+      id="employeeId"
+      placeholder="Enter Employee ID"
+      autocomplete="username"
+    >
 
-        <label>
-          Employee ID
-        </label>
+  </div>
 
-        <input
-          id="loginEmployeeId"
-          type="text"
-          placeholder="Enter Employee ID"
-          autocomplete="username">
+  <div class="form-group">
 
-      </div>
+    <label>Password</label>
 
-      <div class="form-group">
+    <div class="password-box">
 
-        <label>
-          Password
-        </label>
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Enter password"
+        autocomplete="current-password"
+      >
 
-        <div class="password-box">
-
-          <input
-            id="loginPassword"
-            type="password"
-            placeholder="Enter password"
-            autocomplete="current-password">
-
-          <span
-            class="show-password"
-            onclick="togglePassword('loginPassword',this)">
-            Show
-          </span>
-
-        </div>
-
-      </div>
-
-      <div id="loginLoading"
-           class="loading">
-        <span class="spinner"></span>
-        Signing in...
-      </div>
-
-      <button
-        id="loginButton"
-        class="btn btn-primary"
-        onclick="login()">
-
-        Login
-
-      </button>
-
-      <div class="center"
-           style="margin-top:18px">
-
-        <span
-          class="link"
-          onclick="showForgot()">
-
-          Forgot Password?
-
-        </span>
-
-      </div>
-
-    </div>
-
-    <!-- FORGOT PASSWORD -->
-
-    <div id="forgotPage"
-         class="card hidden">
-
-      <div class="logo">
-
-        <div class="logo-icon">
-          🔐
-        </div>
-
-        <h1>Reset Password</h1>
-
-        <p>
-          Verify your registered email
-        </p>
-
-      </div>
-
-      <div id="forgotMessage"
-           class="message"></div>
-
-      <!-- STEP 1 -->
-
-      <div id="forgotStep1">
-
-        <div class="step-title">
-          Enter Employee ID
-        </div>
-
-        <div class="step-subtitle">
-          We will send a verification
-          code to your registered email.
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            Employee ID
-          </label>
-
-          <input
-            id="resetEmployeeId"
-            type="text"
-            placeholder="Example: S001">
-
-        </div>
-
-        <div id="otpSendLoading"
-             class="loading">
-          <span class="spinner"></span>
-          Sending OTP...
-        </div>
-
-        <button
-          class="btn btn-primary"
-          onclick="sendOTP()">
-
-          Send OTP
-
-        </button>
-
-        <div class="center"
-             style="margin-top:18px">
-
-          <span
-            class="link"
-            onclick="showLogin()">
-
-            ← Back to Login
-
-          </span>
-
-        </div>
-
-      </div>
-
-      <!-- STEP 2 -->
-
-      <div id="forgotStep2"
-           class="hidden">
-
-        <div class="step-title">
-          Enter OTP
-        </div>
-
-        <div class="step-subtitle">
-          Enter the 6-digit code sent
-          to your registered email.
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            Verification Code
-          </label>
-
-          <input
-            id="otpInput"
-            class="otp-input"
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            placeholder="000000">
-
-        </div>
-
-        <div id="otpVerifyLoading"
-             class="loading">
-          <span class="spinner"></span>
-          Verifying OTP...
-        </div>
-
-        <button
-          class="btn btn-primary"
-          onclick="verifyOTP()">
-
-          Verify OTP
-
-        </button>
-
-        <div class="center"
-             style="margin-top:18px">
-
-          <span
-            class="link"
-            onclick="backToEmployeeId()">
-
-            ← Change Employee ID
-
-          </span>
-
-        </div>
-
-      </div>
-
-      <!-- STEP 3 -->
-
-      <div id="forgotStep3"
-           class="hidden">
-
-        <div class="step-title">
-          Create New Password
-        </div>
-
-        <div class="step-subtitle">
-          Your OTP has been verified.
-          Create a new password.
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            New Password
-          </label>
-
-          <div class="password-box">
-
-            <input
-              id="newPassword"
-              type="password"
-              placeholder="Minimum 8 characters">
-
-            <span
-              class="show-password"
-              onclick="togglePassword('newPassword',this)">
-              Show
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            Confirm Password
-          </label>
-
-          <div class="password-box">
-
-            <input
-              id="confirmPassword"
-              type="password"
-              placeholder="Re-enter password">
-
-            <span
-              class="show-password"
-              onclick="togglePassword('confirmPassword',this)">
-              Show
-            </span>
-
-          </div>
-
-        </div>
-
-        <div id="resetLoading"
-             class="loading">
-          <span class="spinner"></span>
-          Resetting password...
-        </div>
-
-        <button
-          class="btn btn-success"
-          onclick="resetPassword()">
-
-          Reset Password
-
-        </button>
-
-      </div>
+      <span
+        class="show-password"
+        onclick="togglePassword('loginPassword',this)"
+      >
+        Show
+      </span>
 
     </div>
 
   </div>
+
+  <button
+    id="loginBtn"
+    onclick="login()"
+  >
+    Login
+  </button>
+
+  <span
+    class="link"
+    onclick="showForgotPassword()"
+  >
+    Forgot Password?
+  </span>
 
 </div>
 
-<!-- ===================================================
+<!-- =====================================================
+     FORGOT PASSWORD - EMPLOYEE ID
+===================================================== -->
+
+<div id="forgotPage"
+     class="card hidden">
+
+  <div class="logo">
+
+    <div class="header-icon">🔐</div>
+
+    <h1>Reset Password</h1>
+
+    <p>Request verification code</p>
+
+  </div>
+
+  <div id="forgotMessage"
+       class="message"></div>
+
+  <div class="step">
+    Step 1 of 3
+  </div>
+
+  <div class="form-group">
+
+    <label>Employee ID</label>
+
+    <input
+      type="text"
+      id="resetEmployeeId"
+      placeholder="Enter Employee ID"
+      autocomplete="username"
+    >
+
+  </div>
+
+  <button
+    id="sendOtpBtn"
+    onclick="sendOTP()"
+  >
+    Send OTP
+  </button>
+
+  <button
+    class="secondary-btn"
+    onclick="showLogin()"
+  >
+    Back to Login
+  </button>
+
+</div>
+
+<!-- =====================================================
+     OTP PAGE
+===================================================== -->
+
+<div id="otpPage"
+     class="card hidden">
+
+  <div class="logo">
+
+    <div class="header-icon">📩</div>
+
+    <h1>Verify OTP</h1>
+
+    <p>Enter the code sent to your email</p>
+
+  </div>
+
+  <div id="otpMessage"
+       class="message"></div>
+
+  <div class="step">
+    Step 2 of 3
+  </div>
+
+  <div class="form-group">
+
+    <label>6 Digit OTP</label>
+
+    <input
+      type="text"
+      id="otp"
+      class="otp-input"
+      maxlength="6"
+      inputmode="numeric"
+      placeholder="000000"
+      autocomplete="one-time-code"
+    >
+
+  </div>
+
+  <button
+    id="verifyOtpBtn"
+    onclick="verifyOTP()"
+  >
+    Verify OTP
+  </button>
+
+  <button
+    class="secondary-btn"
+    onclick="showForgotPassword()"
+  >
+    Back
+  </button>
+
+</div>
+
+<!-- =====================================================
+     NEW PASSWORD PAGE
+===================================================== -->
+
+<div id="newPasswordPage"
+     class="card hidden">
+
+  <div class="logo">
+
+    <div class="header-icon">🔑</div>
+
+    <h1>New Password</h1>
+
+    <p>Create your new password</p>
+
+  </div>
+
+  <div id="passwordMessage"
+       class="message"></div>
+
+  <div class="step">
+    Step 3 of 3
+  </div>
+
+  <div class="form-group">
+
+    <label>New Password</label>
+
+    <div class="password-box">
+
+      <input
+        type="password"
+        id="newPassword"
+        placeholder="Minimum 8 characters"
+        autocomplete="new-password"
+      >
+
+      <span
+        class="show-password"
+        onclick="togglePassword('newPassword',this)"
+      >
+        Show
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="form-group">
+
+    <label>Confirm Password</label>
+
+    <div class="password-box">
+
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Repeat new password"
+        autocomplete="new-password"
+      >
+
+      <span
+        class="show-password"
+        onclick="togglePassword('confirmPassword',this)"
+      >
+        Show
+      </span>
+
+    </div>
+
+  </div>
+
+  <button
+    id="resetPasswordBtn"
+    onclick="resetPassword()"
+  >
+    Reset Password
+  </button>
+
+</div>
+
+<!-- =====================================================
      DASHBOARD
-=================================================== -->
+===================================================== -->
 
 <div id="dashboardPage"
-     class="dashboard hidden">
+     class="card hidden dashboard">
 
-  <!-- TOPBAR -->
+  <div class="logo">
 
-  <div class="topbar">
+    <div class="header-icon">👋</div>
 
-    <div class="brand">
+    <h1>SmartPlan</h1>
 
-      <div class="brand-icon">
-        SP
-      </div>
+    <p>Employee Dashboard</p>
 
-      <div class="brand-text">
+  </div>
 
-        <strong>
-          SmartPlan
-        </strong>
+  <div class="badge">
+    LOGIN SUCCESSFUL
+  </div>
 
-        <small id="topEmployeeName">
-          Employee
-        </small>
+  <div class="profile">
 
-      </div>
-
+    <div>
+      <strong>Employee ID:</strong>
+      <span id="dashEmployeeId"></span>
     </div>
 
-    <div class="top-actions">
+    <div>
+      <strong>Name:</strong>
+      <span id="dashName"></span>
+    </div>
 
-      <button
-        class="btn btn-small btn-secondary"
-        onclick="toggleDarkMode()">
+    <div>
+      <strong>Role:</strong>
+      <span id="dashRole"></span>
+    </div>
 
-        🌙
-
-      </button>
-
-      <button
-        class="btn btn-small btn-danger"
-        onclick="logout()">
-
-        Logout
-
-      </button>
-
+    <div>
+      <strong>Email:</strong>
+      <span id="dashEmail"></span>
     </div>
 
   </div>
 
-  <!-- CONTENT -->
-
-  <div class="content">
-
-    <!-- WELCOME -->
-
-    <div class="welcome">
-
-      <h2>
-        Welcome,
-        <span id="employeeName">
-          Employee
-        </span>
-      </h2>
-
-      <p>
-        <span id="employeeIdText">
-          -
-        </span>
-
-        ·
-
-        <span id="employeeRole">
-          Employee
-        </span>
-      </p>
-
-    </div>
-
-    <!-- SUMMARY -->
-
-    <div class="summary-grid">
-
-      <div class="summary-card">
-
-        <div class="icon">
-          📍
-        </div>
-
-        <div
-          id="visitCount"
-          class="number">
-          0
-        </div>
-
-        <div class="label">
-          Visits
-        </div>
-
-      </div>
-
-      <div class="summary-card">
-
-        <div class="icon">
-          🛒
-        </div>
-
-        <div
-          id="orderCount"
-          class="number">
-          0
-        </div>
-
-        <div class="label">
-          Orders
-        </div>
-
-      </div>
-
-      <div class="summary-card">
-
-        <div class="icon">
-          👥
-        </div>
-
-        <div
-          id="customerCount"
-          class="number">
-          0
-        </div>
-
-        <div class="label">
-          Customers
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- MAIN MENU -->
-
-    <div id="homeView">
-
-      <div class="section-title">
-        SmartPlan Modules
-      </div>
-
-      <div class="menu-grid">
-
-        <button
-          class="menu-card"
-          onclick="openModule('visit')">
-
-          <div class="menu-icon">
-            📍
-          </div>
-
-          <strong>
-            Market Visit
-          </strong>
-
-          <small>
-            Start and record visit
-          </small>
-
-        </button>
-
-        <button
-          class="menu-card"
-          onclick="openModule('customers')">
-
-          <div class="menu-icon">
-            👥
-          </div>
-
-          <strong>
-            Customers
-          </strong>
-
-          <small>
-            Customer list
-          </small>
-
-        </button>
-
-        <button
-          class="menu-card"
-          onclick="openModule('products')">
-
-          <div class="menu-icon">
-            📦
-          </div>
-
-          <strong>
-            Products
-          </strong>
-
-          <small>
-            Product catalogue
-          </small>
-
-        </button>
-
-        <button
-          class="menu-card"
-          onclick="openModule('visits')">
-
-          <div class="menu-icon">
-            📋
-          </div>
-
-          <strong>
-            Visit History
-          </strong>
-
-          <small>
-            Previous visits
-          </small>
-
-        </button>
-
-        <button
-          class="menu-card"
-          onclick="openModule('orders')">
-
-          <div class="menu-icon">
-            🛒
-          </div>
-
-          <strong>
-            Orders
-          </strong>
-
-          <small>
-            Order management
-          </small>
-
-        </button>
-
-        <button
-          class="menu-card"
-          onclick="openModule('profile')">
-
-          <div class="menu-icon">
-            👤
-          </div>
-
-          <strong>
-            Profile
-          </strong>
-
-          <small>
-            Employee information
-          </small>
-
-        </button>
-
-      </div>
-
-    </div>
-
-    <!-- MODULE VIEW -->
-
-    <div id="moduleView"
-         class="module-page hidden">
-
-      <div class="module-header">
-
-        <button
-          class="back-btn"
-          onclick="closeModule()">
-
-          ←
-
-        </button>
-
-        <h2 id="moduleTitle">
-          Module
-        </h2>
-
-      </div>
-
-      <div id="moduleContent">
-      </div>
-
-    </div>
-
+  <button onclick="logout()">
+    Logout
+  </button>
+
+  <div class="small-note">
+    SmartPlan Employee System
   </div>
+
+</div>
 
 </div>
 
 <script>
 
 /* =====================================================
-   CONFIG
+   SMARTPLAN API
 ===================================================== */
 
 const API_URL =
-  'https://script.google.com/macros/s/AKfycby3WRF18GNOF-JE0eaeZST0fM-Yd9VwrEN1oKU75CjFvYBxLxNk_KV2lx-MaQd-28Bx/exec';
+'https://script.google.com/macros/s/AKfycby3WRF18GNOF-JE0eaeZST0fM-Yd9VwrEN1oKU75CjFvYBxLxNk_KV2lx-MaQd-28Bx/exec';
 
 /* =====================================================
-   APP STATE
+   RESET SESSION DATA
 ===================================================== */
-
-let currentEmployee = null;
 
 let resetEmployeeId = '';
 
 let resetToken = '';
 
-let customersData = [];
-
-let productsData = [];
-
-let visitsData = [];
-
 /* =====================================================
-   DOM
+   PAGE HELPERS
 ===================================================== */
 
-function $(id){
-  return document.getElementById(id);
+function hideAllPages(){
+
+  document
+    .getElementById('loginPage')
+    .classList.add('hidden');
+
+  document
+    .getElementById('forgotPage')
+    .classList.add('hidden');
+
+  document
+    .getElementById('otpPage')
+    .classList.add('hidden');
+
+  document
+    .getElementById('newPasswordPage')
+    .classList.add('hidden');
+
+  document
+    .getElementById('dashboardPage')
+    .classList.add('hidden');
+
+}
+
+function showLogin(){
+
+  hideAllPages();
+
+  document
+    .getElementById('loginPage')
+    .classList.remove('hidden');
+
+  clearMessage('loginMessage');
+
+}
+
+function showForgotPassword(){
+
+  hideAllPages();
+
+  document
+    .getElementById('forgotPage')
+    .classList.remove('hidden');
+
+  clearMessage('forgotMessage');
+
+  document
+    .getElementById('resetEmployeeId')
+    .focus();
+
+}
+
+function showOTPPage(){
+
+  hideAllPages();
+
+  document
+    .getElementById('otpPage')
+    .classList.remove('hidden');
+
+  document
+    .getElementById('otp')
+    .focus();
+
+}
+
+function showNewPasswordPage(){
+
+  hideAllPages();
+
+  document
+    .getElementById('newPasswordPage')
+    .classList.remove('hidden');
+
 }
 
 /* =====================================================
@@ -1345,60 +654,70 @@ function $(id){
 ===================================================== */
 
 function showMessage(
-  id,
+  elementId,
   message,
-  type='info'
+  type
 ){
 
-  const el = $(id);
+  const el =
+    document.getElementById(elementId);
 
-  if(!el) return;
-
-  el.textContent =
-    message;
+  el.textContent = message;
 
   el.className =
-    'message show ' +
-    type;
+    'message ' + type;
 
 }
 
-function clearMessage(id){
+function clearMessage(elementId){
 
-  const el = $(id);
-
-  if(!el) return;
+  const el =
+    document.getElementById(elementId);
 
   el.textContent = '';
 
-  el.className =
-    'message';
+  el.className = 'message';
 
 }
 
 /* =====================================================
-   API REQUEST
+   PASSWORD SHOW/HIDE
 ===================================================== */
 
-async function apiRequest(
-  action,
-  payload={}
+function togglePassword(
+  inputId,
+  element
 ){
 
-  const body = {
+  const input =
+    document.getElementById(inputId);
 
-    action:
-      action,
+  if(input.type === 'password'){
 
-    ...payload
+    input.type = 'text';
 
-  };
+    element.textContent = 'Hide';
+
+  }else{
+
+    input.type = 'password';
+
+    element.textContent = 'Show';
+
+  }
+
+}
+
+/* =====================================================
+   API CALL
+===================================================== */
+
+async function apiRequest(data){
 
   const response =
     await fetch(
       API_URL,
       {
-
         method:'POST',
 
         headers:{
@@ -1406,31 +725,23 @@ async function apiRequest(
             'text/plain;charset=utf-8'
         },
 
-        body:
-          JSON.stringify(body)
-
+        body:JSON.stringify(data)
       }
     );
 
-  const text =
-    await response.text();
-
-  let data;
-
-  try{
-
-    data =
-      JSON.parse(text);
-
-  }catch(error){
+  if(!response.ok){
 
     throw new Error(
-      'Invalid server response'
+      'Network error: ' +
+      response.status
     );
 
   }
 
-  return data;
+  const result =
+    await response.json();
+
+  return result;
 
 }
 
@@ -1440,24 +751,24 @@ async function apiRequest(
 
 async function login(){
 
-  clearMessage(
-    'loginMessage'
-  );
+  clearMessage('loginMessage');
 
   const employeeId =
-    $('loginEmployeeId')
+    document
+      .getElementById('employeeId')
       .value
       .trim();
 
   const password =
-    $('loginPassword')
+    document
+      .getElementById('loginPassword')
       .value;
 
   if(!employeeId){
 
     showMessage(
       'loginMessage',
-      'Employee ID is required',
+      'Please enter Employee ID.',
       'error'
     );
 
@@ -1469,7 +780,7 @@ async function login(){
 
     showMessage(
       'loginMessage',
-      'Password is required',
+      'Please enter password.',
       'error'
     );
 
@@ -1477,71 +788,62 @@ async function login(){
 
   }
 
-  $('loginLoading')
-    .classList
-    .add('show');
+  const btn =
+    document.getElementById('loginBtn');
 
-  $('loginButton')
-    .disabled = true;
+  btn.disabled = true;
+
+  btn.textContent =
+    'Logging in...';
 
   try{
 
     const result =
-      await apiRequest(
-        'login',
-        {
+      await apiRequest({
 
-          employeeId:
-            employeeId,
+        action:'login',
 
-          password:
-            password
+        employeeId:
+          employeeId,
 
-        }
+        password:
+          password
+
+      });
+
+    if(result.success){
+
+      showDashboard(
+        result.employee
       );
 
-    if(!result.success){
+    }else{
 
       showMessage(
         'loginMessage',
         result.message ||
-        'Login failed',
+          'Login failed.',
         'error'
       );
 
-      return;
-
     }
-
-    currentEmployee =
-      result.employee;
-
-    sessionStorage.setItem(
-      'smartplan_employee',
-      JSON.stringify(
-        currentEmployee
-      )
-    );
-
-    showDashboard();
 
   }catch(error){
 
+    console.error(error);
+
     showMessage(
       'loginMessage',
-      error.message ||
-      'Unable to connect to server',
+      'Unable to connect to SmartPlan server.',
       'error'
     );
 
   }finally{
 
-    $('loginLoading')
-      .classList
-      .remove('show');
+    btn.disabled = false;
 
-    $('loginButton')
-      .disabled = false;
+    btn.textContent =
+      'Login';
 
   }
 
@@ -1551,152 +853,43 @@ async function login(){
    SHOW DASHBOARD
 ===================================================== */
 
-function showDashboard(){
+function showDashboard(employee){
 
-  $('authPage')
-    .classList
-    .add('hidden');
+  hideAllPages();
 
-  $('dashboardPage')
-    .classList
-    .remove('hidden');
+  document
+    .getElementById('dashboardPage')
+    .classList.remove('hidden');
 
-  if(!currentEmployee)
-    return;
-
-  $('employeeName')
+  document
+    .getElementById('dashEmployeeId')
     .textContent =
-      currentEmployee.name ||
-      'Employee';
+      employee?.employeeId || '';
 
-  $('topEmployeeName')
+  document
+    .getElementById('dashName')
     .textContent =
-      currentEmployee.name ||
-      'Employee';
+      employee?.name || '';
 
-  $('employeeIdText')
+  document
+    .getElementById('dashRole')
     .textContent =
-      currentEmployee.employeeId ||
-      '-';
+      employee?.role || 'Not assigned';
 
-  $('employeeRole')
+  document
+    .getElementById('dashEmail')
     .textContent =
-      currentEmployee.role ||
-      'Employee';
+      employee?.email || '';
 
-  loadDashboard();
+  /*
+     Store only non-sensitive
+     employee information.
+  */
 
-}
-
-/* =====================================================
-   LOAD DASHBOARD
-===================================================== */
-
-async function loadDashboard(){
-
-  if(!currentEmployee)
-    return;
-
-  try{
-
-    const result =
-      await apiRequest(
-        'dashboard',
-        {
-
-          employeeId:
-            currentEmployee.employeeId
-
-        }
-      );
-
-    if(
-      result.success &&
-      result.summary
-    ){
-
-      $('visitCount')
-        .textContent =
-          result.summary.visits || 0;
-
-      $('orderCount')
-        .textContent =
-          result.summary.orders || 0;
-
-      $('customerCount')
-        .textContent =
-          result.summary.customers || 0;
-
-    }
-
-  }catch(error){
-
-    console.log(
-      'Dashboard error:',
-      error
-    );
-
-  }
-
-}
-
-/* =====================================================
-   FORGOT PASSWORD
-===================================================== */
-
-function showForgot(){
-
-  $('loginPage')
-    .classList
-    .add('hidden');
-
-  $('forgotPage')
-    .classList
-    .remove('hidden');
-
-  resetForgotUI();
-
-}
-
-function showLogin(){
-
-  $('forgotPage')
-    .classList
-    .add('hidden');
-
-  $('loginPage')
-    .classList
-    .remove('hidden');
-
-  clearMessage(
-    'loginMessage'
+  localStorage.setItem(
+    'smartplan_employee',
+    JSON.stringify(employee)
   );
-
-}
-
-function resetForgotUI(){
-
-  $('forgotStep1')
-    .classList
-    .remove('hidden');
-
-  $('forgotStep2')
-    .classList
-    .add('hidden');
-
-  $('forgotStep3')
-    .classList
-    .add('hidden');
-
-  clearMessage(
-    'forgotMessage'
-  );
-
-  resetEmployeeId =
-    '';
-
-  resetToken =
-    '';
 
 }
 
@@ -1706,12 +899,11 @@ function resetForgotUI(){
 
 async function sendOTP(){
 
-  clearMessage(
-    'forgotMessage'
-  );
+  clearMessage('forgotMessage');
 
   const employeeId =
-    $('resetEmployeeId')
+    document
+      .getElementById('resetEmployeeId')
       .value
       .trim();
 
@@ -1719,7 +911,7 @@ async function sendOTP(){
 
     showMessage(
       'forgotMessage',
-      'Please enter Employee ID',
+      'Please enter Employee ID.',
       'error'
     );
 
@@ -1727,71 +919,80 @@ async function sendOTP(){
 
   }
 
-  $('otpSendLoading')
-    .classList
-    .add('show');
+  const btn =
+    document.getElementById('sendOtpBtn');
+
+  btn.disabled = true;
+
+  btn.textContent =
+    'Sending OTP...';
 
   try{
 
     const result =
-      await apiRequest(
-        'send_reset_otp',
-        {
+      await apiRequest({
 
-          employeeId:
-            employeeId
+        action:
+          'send_reset_otp',
 
-        }
-      );
+        employeeId:
+          employeeId
 
-    if(!result.success){
+      });
+
+    if(result.success){
+
+      resetEmployeeId =
+        employeeId;
 
       showMessage(
         'forgotMessage',
         result.message ||
-        'Unable to send OTP',
+          'OTP sent successfully.',
+        'success'
+      );
+
+      /*
+         Give user a moment
+         to read message.
+      */
+
+      setTimeout(
+        function(){
+
+          showOTPPage();
+
+        },
+        1200
+      );
+
+    }else{
+
+      showMessage(
+        'forgotMessage',
+        result.message ||
+          'Unable to send OTP.',
         'error'
       );
 
-      return;
-
     }
-
-    resetEmployeeId =
-      employeeId;
-
-    showMessage(
-      'forgotMessage',
-      result.message ||
-      'If the account exists, a verification code has been sent.',
-      'success'
-    );
-
-    $('forgotStep1')
-      .classList
-      .add('hidden');
-
-    $('forgotStep2')
-      .classList
-      .remove('hidden');
-
-    $('otpInput')
-      .focus();
 
   }catch(error){
 
+    console.error(error);
+
     showMessage(
       'forgotMessage',
-      error.message ||
-      'Unable to send OTP',
+      'Unable to connect to server.',
       'error'
     );
 
   }finally{
 
-    $('otpSendLoading')
-      .classList
-      .remove('show');
+    btn.disabled = false;
+
+    btn.textContent =
+      'Send OTP';
 
   }
 
@@ -1803,20 +1004,19 @@ async function sendOTP(){
 
 async function verifyOTP(){
 
-  clearMessage(
-    'forgotMessage'
-  );
+  clearMessage('otpMessage');
 
   const otp =
-    $('otpInput')
+    document
+      .getElementById('otp')
       .value
       .trim();
 
   if(!/^\d{6}$/.test(otp)){
 
     showMessage(
-      'forgotMessage',
-      'Enter a valid 6-digit OTP',
+      'otpMessage',
+      'Please enter a valid 6 digit OTP.',
       'error'
     );
 
@@ -1824,73 +1024,76 @@ async function verifyOTP(){
 
   }
 
-  $('otpVerifyLoading')
-    .classList
-    .add('show');
+  if(!resetEmployeeId){
+
+    showMessage(
+      'otpMessage',
+      'Reset session is missing. Please request OTP again.',
+      'error'
+    );
+
+    return;
+
+  }
+
+  const btn =
+    document.getElementById('verifyOtpBtn');
+
+  btn.disabled = true;
+
+  btn.textContent =
+    'Verifying...';
 
   try{
 
     const result =
-      await apiRequest(
-        'verify_reset_otp',
-        {
+      await apiRequest({
 
-          employeeId:
-            resetEmployeeId,
+        action:
+          'verify_reset_otp',
 
-          otp:
-            otp
+        employeeId:
+          resetEmployeeId,
 
-        }
-      );
+        otp:
+          otp
 
-    if(!result.success){
+      });
+
+    if(result.success){
+
+      resetToken =
+        result.resetToken;
+
+      showNewPasswordPage();
+
+    }else{
 
       showMessage(
-        'forgotMessage',
+        'otpMessage',
         result.message ||
-        'Invalid OTP',
+          'Invalid OTP.',
         'error'
       );
 
-      return;
-
     }
-
-    resetToken =
-      result.resetToken;
-
-    $('forgotStep2')
-      .classList
-      .add('hidden');
-
-    $('forgotStep3')
-      .classList
-      .remove('hidden');
-
-    showMessage(
-      'forgotMessage',
-      'OTP verified successfully',
-      'success'
-    );
-
-    $('newPassword')
-      .focus();
 
   }catch(error){
 
+    console.error(error);
+
     showMessage(
-      'forgotMessage',
-      error.message ||
-      'Unable to verify OTP',
+      'otpMessage',
+      'Unable to verify OTP.',
       'error'
     );
 
   }finally{
 
-    $('otpVerifyLoading')
-      .classList
-      .remove('show');
+    btn.disabled = false;
+
+    btn.textContent =
+      'Verify OTP';
 
   }
 
@@ -1902,38 +1105,23 @@ async function verifyOTP(){
 
 async function resetPassword(){
 
-  clearMessage(
-    'forgotMessage'
-  );
+  clearMessage('passwordMessage');
 
   const newPassword =
-    $('newPassword')
+    document
+      .getElementById('newPassword')
       .value;
 
   const confirmPassword =
-    $('confirmPassword')
+    document
+      .getElementById('confirmPassword')
       .value;
 
-  if(newPassword.length < 8){
+  if(!resetEmployeeId){
 
     showMessage(
-      'forgotMessage',
-      'Password must contain at least 8 characters',
-      'error'
-    );
-
-    return;
-
-  }
-
-  if(
-    newPassword !==
-    confirmPassword
-  ){
-
-    showMessage(
-      'forgotMessage',
-      'Passwords do not match',
+      'passwordMessage',
+      'Reset session expired. Please start again.',
       'error'
     );
 
@@ -1944,8 +1132,8 @@ async function resetPassword(){
   if(!resetToken){
 
     showMessage(
-      'forgotMessage',
-      'Reset session expired. Start again.',
+      'passwordMessage',
+      'Reset token is missing. Please verify OTP again.',
       'error'
     );
 
@@ -1953,905 +1141,145 @@ async function resetPassword(){
 
   }
 
-  $('resetLoading')
-    .classList
-    .add('show');
+  if(newPassword.length < 8){
+
+    showMessage(
+      'passwordMessage',
+      'Password must contain at least 8 characters.',
+      'error'
+    );
+
+    return;
+
+  }
+
+  if(newPassword !== confirmPassword){
+
+    showMessage(
+      'passwordMessage',
+      'Passwords do not match.',
+      'error'
+    );
+
+    return;
+
+  }
+
+  const btn =
+    document.getElementById(
+      'resetPasswordBtn'
+    );
+
+  btn.disabled = true;
+
+  btn.textContent =
+    'Resetting Password...';
 
   try{
 
     const result =
-      await apiRequest(
-        'reset_password',
-        {
+      await apiRequest({
 
-          employeeId:
-            resetEmployeeId,
+        action:
+          'reset_password',
 
-          resetToken:
-            resetToken,
+        employeeId:
+          resetEmployeeId,
 
-          newPassword:
-            newPassword
+        resetToken:
+          resetToken,
 
-        }
-      );
+        newPassword:
+          newPassword
 
-    if(!result.success){
+      });
+
+    if(result.success){
 
       showMessage(
-        'forgotMessage',
+        'passwordMessage',
+        'Password reset successfully. You can now login with your new password.',
+        'success'
+      );
+
+      /*
+         Clear reset session.
+      */
+
+      resetToken = '';
+
+      const oldEmployeeId =
+        resetEmployeeId;
+
+      resetEmployeeId = '';
+
+      document
+        .getElementById(
+          'newPassword'
+        )
+        .value = '';
+
+      document
+        .getElementById(
+          'confirmPassword'
+        )
+        .value = '';
+
+      /*
+         Return login after delay.
+      */
+
+      setTimeout(
+        function(){
+
+          document
+            .getElementById(
+              'employeeId'
+            )
+            .value =
+              oldEmployeeId;
+
+          showLogin();
+
+          showMessage(
+            'loginMessage',
+            'Password reset successfully. Please login with your new password.',
+            'success'
+          );
+
+        },
+        1800
+      );
+
+    }else{
+
+      showMessage(
+        'passwordMessage',
         result.message ||
-        'Password reset failed',
+          'Password reset failed.',
         'error'
       );
 
-      return;
-
     }
-
-    showMessage(
-      'forgotMessage',
-      'Password reset successfully. You can now login with your new password.',
-      'success'
-    );
-
-    setTimeout(
-      function(){
-
-        $('forgotPage')
-          .classList
-          .add('hidden');
-
-        $('loginPage')
-          .classList
-          .remove('hidden');
-
-        $('loginEmployeeId')
-          .value =
-            resetEmployeeId;
-
-        $('loginPassword')
-          .value =
-            '';
-
-        resetForgotUI();
-
-      },
-      1800
-    );
 
   }catch(error){
 
+    console.error(error);
+
     showMessage(
-      'forgotMessage',
-      error.message ||
-      'Unable to reset password',
+      'passwordMessage',
+      'Unable to reset password.',
       'error'
     );
 
   }finally{
 
-    $('resetLoading')
-      .classList
-      .remove('show');
+    btn.disabled = false;
+
+    btn.textContent =
+      'Reset Password';
 
   }
-
-}
-
-/* =====================================================
-   BACK TO EMPLOYEE ID
-===================================================== */
-
-function backToEmployeeId(){
-
-  $('forgotStep2')
-    .classList
-    .add('hidden');
-
-  $('forgotStep1')
-    .classList
-    .remove('hidden');
-
-  clearMessage(
-    'forgotMessage'
-  );
-
-}
-
-/* =====================================================
-   TOGGLE PASSWORD
-===================================================== */
-
-function togglePassword(
-  inputId,
-  element
-){
-
-  const input =
-    $(inputId);
-
-  if(
-    input.type ===
-    'password'
-  ){
-
-    input.type =
-      'text';
-
-    element.textContent =
-      'Hide';
-
-  }else{
-
-    input.type =
-      'password';
-
-    element.textContent =
-      'Show';
-
-  }
-
-}
-
-/* =====================================================
-   MODULE
-===================================================== */
-
-async function openModule(
-  module
-){
-
-  $('homeView')
-    .classList
-    .add('hidden');
-
-  $('moduleView')
-    .classList
-    .remove('hidden');
-
-  switch(module){
-
-    case 'visit':
-
-      $('moduleTitle')
-        .textContent =
-          'Market Visit';
-
-      renderVisitModule();
-
-      break;
-
-    case 'customers':
-
-      $('moduleTitle')
-        .textContent =
-          'Customers';
-
-      await renderCustomers();
-
-      break;
-
-    case 'products':
-
-      $('moduleTitle')
-        .textContent =
-          'Products';
-
-      await renderProducts();
-
-      break;
-
-    case 'visits':
-
-      $('moduleTitle')
-        .textContent =
-          'Visit History';
-
-      await renderVisitHistory();
-
-      break;
-
-    case 'orders':
-
-      $('moduleTitle')
-        .textContent =
-          'Orders';
-
-      renderOrdersModule();
-
-      break;
-
-    case 'profile':
-
-      $('moduleTitle')
-        .textContent =
-          'Employee Profile';
-
-      renderProfile();
-
-      break;
-
-  }
-
-}
-
-/* =====================================================
-   CLOSE MODULE
-===================================================== */
-
-function closeModule(){
-
-  $('moduleView')
-    .classList
-    .add('hidden');
-
-  $('homeView')
-    .classList
-    .remove('hidden');
-
-}
-
-/* =====================================================
-   MARKET VISIT
-===================================================== */
-
-function renderVisitModule(){
-
-  $('moduleContent').innerHTML = `
-
-    <div class="empty">
-
-      <div class="empty-icon">
-        📍
-      </div>
-
-      <h3>
-        Market Visit
-      </h3>
-
-      <p style="margin-top:8px">
-        GPS + Camera + Customer Visit
-        module is ready for the next
-        backend API integration.
-      </p>
-
-      <button
-        class="btn btn-primary"
-        style="margin-top:18px"
-        onclick="startVisitComingSoon()">
-
-        Start Visit
-
-      </button>
-
-    </div>
-
-  `;
-
-}
-
-function startVisitComingSoon(){
-
-  alert(
-    'Market Visit API will be connected in the next step.'
-  );
-
-}
-
-/* =====================================================
-   CUSTOMERS
-===================================================== */
-
-async function renderCustomers(){
-
-  $('moduleContent').innerHTML = `
-
-    <div class="empty">
-
-      <div class="spinner"
-           style="
-             border-color:#cbd5e1;
-             border-top-color:#2563eb;
-           ">
-      </div>
-
-      <p style="margin-top:10px">
-        Loading customers...
-      </p>
-
-    </div>
-
-  `;
-
-  try{
-
-    const result =
-      await apiRequest(
-        'customers'
-      );
-
-    if(!result.success){
-
-      $('moduleContent')
-        .innerHTML = `
-
-          <div class="empty">
-            <div class="empty-icon">
-              ⚠️
-            </div>
-
-            <p>
-              ${escapeHTML(
-                result.message ||
-                'Unable to load customers'
-              )}
-            </p>
-          </div>
-
-        `;
-
-      return;
-
-    }
-
-    customersData =
-      result.customers ||
-      [];
-
-    if(!customersData.length){
-
-      $('moduleContent')
-        .innerHTML = `
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              👥
-            </div>
-
-            <h3>
-              No Customers
-            </h3>
-
-            <p style="margin-top:8px">
-              No customer records found.
-            </p>
-
-          </div>
-
-        `;
-
-      return;
-
-    }
-
-    let html = '';
-
-    customersData.forEach(
-      function(customer){
-
-        const name =
-          customer.Name ||
-          customer.CustomerName ||
-          customer.CustomerID ||
-          'Customer';
-
-        const id =
-          customer.CustomerID ||
-          '';
-
-        html += `
-
-          <div class="list-item">
-
-            <strong>
-              ${escapeHTML(
-                String(name)
-              )}
-            </strong>
-
-            <small>
-              ID:
-              ${escapeHTML(
-                String(id)
-              )}
-            </small>
-
-          </div>
-
-        `;
-
-      }
-    );
-
-    $('moduleContent')
-      .innerHTML =
-        html;
-
-    $('customerCount')
-      .textContent =
-        customersData.length;
-
-  }catch(error){
-
-    $('moduleContent')
-      .innerHTML = `
-
-        <div class="empty">
-
-          <div class="empty-icon">
-            ⚠️
-          </div>
-
-          <p>
-            Unable to connect to server.
-          </p>
-
-        </div>
-
-      `;
-
-  }
-
-}
-
-/* =====================================================
-   PRODUCTS
-===================================================== */
-
-async function renderProducts(){
-
-  $('moduleContent').innerHTML = `
-
-    <div class="empty">
-
-      <div class="spinner"
-           style="
-             border-color:#cbd5e1;
-             border-top-color:#2563eb;
-           ">
-      </div>
-
-      <p style="margin-top:10px">
-        Loading products...
-      </p>
-
-    </div>
-
-  `;
-
-  try{
-
-    const result =
-      await apiRequest(
-        'products'
-      );
-
-    if(!result.success){
-
-      $('moduleContent')
-        .innerHTML = `
-
-          <div class="empty">
-            <div class="empty-icon">
-              ⚠️
-            </div>
-
-            <p>
-              ${escapeHTML(
-                result.message ||
-                'Unable to load products'
-              )}
-            </p>
-          </div>
-
-        `;
-
-      return;
-
-    }
-
-    productsData =
-      result.products ||
-      [];
-
-    if(!productsData.length){
-
-      $('moduleContent')
-        .innerHTML = `
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              📦
-            </div>
-
-            <h3>
-              No Products
-            </h3>
-
-            <p style="margin-top:8px">
-              No product records found.
-            </p>
-
-          </div>
-
-        `;
-
-      return;
-
-    }
-
-    let html = '';
-
-    productsData.forEach(
-      function(product){
-
-        const name =
-          product.Name ||
-          product.ProductName ||
-          product.ProductID ||
-          'Product';
-
-        const id =
-          product.ProductID ||
-          '';
-
-        const price =
-          product.Price ||
-          product.Rate ||
-          '';
-
-        html += `
-
-          <div class="list-item">
-
-            <strong>
-              ${escapeHTML(
-                String(name)
-              )}
-            </strong>
-
-            <small>
-              ID:
-              ${escapeHTML(
-                String(id)
-              )}
-
-              ${
-                price
-                ? ' · Price: ' +
-                  escapeHTML(
-                    String(price)
-                  )
-                : ''
-              }
-
-            </small>
-
-          </div>
-
-        `;
-
-      }
-    );
-
-    $('moduleContent')
-      .innerHTML =
-        html;
-
-  }catch(error){
-
-    $('moduleContent')
-      .innerHTML = `
-
-        <div class="empty">
-
-          <div class="empty-icon">
-            ⚠️
-          </div>
-
-          <p>
-            Unable to connect to server.
-          </p>
-
-        </div>
-
-      `;
-
-  }
-
-}
-
-/* =====================================================
-   VISIT HISTORY
-===================================================== */
-
-async function renderVisitHistory(){
-
-  $('moduleContent').innerHTML = `
-
-    <div class="empty">
-
-      <div class="spinner"
-           style="
-             border-color:#cbd5e1;
-             border-top-color:#2563eb;
-           ">
-      </div>
-
-      <p style="margin-top:10px">
-        Loading visit history...
-      </p>
-
-    </div>
-
-  `;
-
-  try{
-
-    const result =
-      await apiRequest(
-        'visit_history',
-        {
-
-          employeeId:
-            currentEmployee.employeeId
-
-        }
-      );
-
-    if(!result.success){
-
-      $('moduleContent')
-        .innerHTML = `
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              ⚠️
-            </div>
-
-            <p>
-              ${escapeHTML(
-                result.message ||
-                'Unable to load visits'
-              )}
-            </p>
-
-          </div>
-
-        `;
-
-      return;
-
-    }
-
-    visitsData =
-      result.visits ||
-      [];
-
-    if(!visitsData.length){
-
-      $('moduleContent')
-        .innerHTML = `
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              📋
-            </div>
-
-            <h3>
-              No Visits
-            </h3>
-
-            <p style="margin-top:8px">
-              No visit records found.
-            </p>
-
-          </div>
-
-        `;
-
-      $('visitCount')
-        .textContent = 0;
-
-      return;
-
-    }
-
-    let html = '';
-
-    visitsData.forEach(
-      function(visit,index){
-
-        const customer =
-          visit.CustomerName ||
-          visit.CustomerID ||
-          'Customer';
-
-        const date =
-          visit.VisitDate ||
-          visit.Date ||
-          visit.Timestamp ||
-          '';
-
-        const status =
-          visit.Status ||
-          'Completed';
-
-        html += `
-
-          <div class="list-item">
-
-            <strong>
-              ${escapeHTML(
-                String(customer)
-              )}
-            </strong>
-
-            <small>
-
-              ${
-                date
-                ? escapeHTML(
-                    String(date)
-                  ) + ' · '
-                : ''
-              }
-
-              ${escapeHTML(
-                String(status)
-              )}
-
-            </small>
-
-          </div>
-
-        `;
-
-      }
-    );
-
-    $('moduleContent')
-      .innerHTML =
-        html;
-
-    $('visitCount')
-      .textContent =
-        visitsData.length;
-
-  }catch(error){
-
-    $('moduleContent')
-      .innerHTML = `
-
-        <div class="empty">
-
-          <div class="empty-icon">
-            ⚠️
-          </div>
-
-          <p>
-            Unable to connect to server.
-          </p>
-
-        </div>
-
-      `;
-
-  }
-
-}
-
-/* =====================================================
-   ORDERS
-===================================================== */
-
-function renderOrdersModule(){
-
-  $('moduleContent').innerHTML = `
-
-    <div class="empty">
-
-      <div class="empty-icon">
-        🛒
-      </div>
-
-      <h3>
-        Orders
-      </h3>
-
-      <p style="margin-top:8px">
-        Order creation and order
-        history will be connected
-        with the Orders API.
-      </p>
-
-    </div>
-
-  `;
-
-}
-
-/* =====================================================
-   PROFILE
-===================================================== */
-
-function renderProfile(){
-
-  const e =
-    currentEmployee || {};
-
-  $('moduleContent').innerHTML = `
-
-    <div class="list-item">
-
-      <strong>
-        Employee ID
-      </strong>
-
-      <small>
-        ${escapeHTML(
-          String(
-            e.employeeId || '-'
-          )
-        )}
-      </small>
-
-    </div>
-
-    <div class="list-item">
-
-      <strong>
-        Name
-      </strong>
-
-      <small>
-        ${escapeHTML(
-          String(
-            e.name || '-'
-          )
-        )}
-      </small>
-
-    </div>
-
-    <div class="list-item">
-
-      <strong>
-        Role
-      </strong>
-
-      <small>
-        ${escapeHTML(
-          String(
-            e.role || '-'
-          )
-        )}
-      </small>
-
-    </div>
-
-    <div class="list-item">
-
-      <strong>
-        Registered Email
-      </strong>
-
-      <small>
-        ${escapeHTML(
-          String(
-            e.email || '-'
-          )
-        )}
-      </small>
-
-    </div>
-
-  `;
 
 }
 
@@ -2861,261 +1289,147 @@ function renderProfile(){
 
 function logout(){
 
-  currentEmployee =
-    null;
-
-  resetEmployeeId =
-    '';
-
-  resetToken =
-    '';
-
-  customersData =
-    [];
-
-  productsData =
-    [];
-
-  visitsData =
-    [];
-
-  sessionStorage.removeItem(
+  localStorage.removeItem(
     'smartplan_employee'
   );
 
-  $('dashboardPage')
-    .classList
-    .add('hidden');
-
-  $('authPage')
-    .classList
-    .remove('hidden');
-
-  $('loginPage')
-    .classList
-    .remove('hidden');
-
-  $('forgotPage')
-    .classList
-    .add('hidden');
-
-  $('loginEmployeeId')
+  document
+    .getElementById(
+      'loginPassword'
+    )
     .value = '';
 
-  $('loginPassword')
-    .value = '';
-
-  resetForgotUI();
+  showLogin();
 
 }
 
 /* =====================================================
-   DARK MODE
+   OTP INPUT ONLY NUMBERS
 ===================================================== */
 
-function toggleDarkMode(){
-
-  document.body
-    .classList
-    .toggle('dark');
-
-  const dark =
-    document.body
-      .classList
-      .contains('dark');
-
-  localStorage.setItem(
-    'smartplan_dark',
-    dark
-      ? '1'
-      : '0'
-  );
-
-}
-
-/* =====================================================
-   LOAD DARK MODE
-===================================================== */
-
-function loadDarkMode(){
-
-  if(
-    localStorage.getItem(
-      'smartplan_dark'
-    ) === '1'
-  ){
-
-    document.body
-      .classList
-      .add('dark');
-
-  }
-
-}
-
-/* =====================================================
-   RESTORE SESSION
-===================================================== */
-
-function restoreSession(){
-
-  try{
-
-    const saved =
-      sessionStorage.getItem(
-        'smartplan_employee'
-      );
-
-    if(!saved)
-      return;
-
-    const employee =
-      JSON.parse(
-        saved
-      );
-
-    if(
-      employee &&
-      employee.employeeId
-    ){
-
-      currentEmployee =
-        employee;
-
-      showDashboard();
-
-    }
-
-  }catch(error){
-
-    console.log(
-      'Session restore error',
-      error
-    );
-
-  }
-
-}
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(
-  value
-){
-
-  return String(value)
-    .replace(
-      /&/g,
-      '&amp;'
-    )
-    .replace(
-      /</g,
-      '&lt;'
-    )
-    .replace(
-      />/g,
-      '&gt;'
-    )
-    .replace(
-      /"/g,
-      '&quot;'
-    )
-    .replace(
-      /'/g,
-      '&#039;'
-    );
-
-}
-
-/* =====================================================
-   OTP INPUT
-===================================================== */
-
-$('otpInput')
+document
+  .getElementById('otp')
   .addEventListener(
     'input',
     function(){
 
       this.value =
         this.value
-          .replace(
-            /\D/g,
-            ''
-          )
-          .slice(
-            0,
-            6
-          );
+          .replace(/\D/g,'')
+          .slice(0,6);
 
     }
   );
 
 /* =====================================================
-   ENTER KEY LOGIN
+   ENTER KEY
 ===================================================== */
 
-$('loginEmployeeId')
-  .addEventListener(
-    'keydown',
-    function(e){
+document.addEventListener(
+  'keydown',
+  function(event){
 
-      if(
-        e.key === 'Enter'
-      ){
+    if(event.key !== 'Enter'){
+      return;
+    }
 
-        $('loginPassword')
-          .focus();
+    const loginPage =
+      document.getElementById(
+        'loginPage'
+      );
 
-      }
+    const forgotPage =
+      document.getElementById(
+        'forgotPage'
+      );
+
+    const otpPage =
+      document.getElementById(
+        'otpPage'
+      );
+
+    const passwordPage =
+      document.getElementById(
+        'newPasswordPage'
+      );
+
+    if(
+      !loginPage.classList.contains(
+        'hidden'
+      )
+    ){
+
+      login();
+
+    }else if(
+      !forgotPage.classList.contains(
+        'hidden'
+      )
+    ){
+
+      sendOTP();
+
+    }else if(
+      !otpPage.classList.contains(
+        'hidden'
+      )
+    ){
+
+      verifyOTP();
+
+    }else if(
+      !passwordPage.classList.contains(
+        'hidden'
+      )
+    ){
+
+      resetPassword();
 
     }
-  );
 
-$('loginPassword')
-  .addEventListener(
-    'keydown',
-    function(e){
-
-      if(
-        e.key === 'Enter'
-      ){
-
-        login();
-
-      }
-
-    }
-  );
+  }
+);
 
 /* =====================================================
-   ENTER KEY OTP
+   AUTO LOGIN DASHBOARD
 ===================================================== */
 
-$('otpInput')
-  .addEventListener(
-    'keydown',
-    function(e){
+(function(){
 
-      if(
-        e.key === 'Enter'
-      ){
+  try{
 
-        verifyOTP();
+    const saved =
+      localStorage.getItem(
+        'smartplan_employee'
+      );
+
+    if(saved){
+
+      const employee =
+        JSON.parse(saved);
+
+      if(employee &&
+         employee.employeeId){
+
+        showDashboard(
+          employee
+        );
 
       }
 
     }
-  );
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
+  }catch(error){
 
-loadDarkMode();
+    console.error(error);
 
-restoreSession();
+    localStorage.removeItem(
+      'smartplan_employee'
+    );
+
+  }
+
+})();
 
 </script>
 
