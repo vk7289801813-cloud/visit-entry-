@@ -1,2938 +1,1327 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="hi">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
       content="width=device-width,initial-scale=1.0">
 
-<title>SmartPlan</title>
+<title>SmartPlan - Market Visit</title>
 
 <style>
-
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial,sans-serif;
+  box-sizing:border-box;
 }
 
 body{
-min-height:100vh;
-background:
-linear-gradient(
-135deg,
-#0f172a,
-#1e293b
-);
-color:#fff;
-padding:18px;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f6f9;
+  color:#17202a;
 }
 
-button,
-input,
-select,
-textarea{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
-
-.hidden{
-display:none!important;
-}
-
-.app{
-width:100%;
-max-width:1100px;
-margin:auto;
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:16px;
 }
 
 .card{
-background:#fff;
-color:#111827;
-border-radius:20px;
-padding:24px;
-box-shadow:
-0 20px 50px
-rgba(0,0,0,.3);
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.login-card{
-max-width:430px;
-margin:
-40px auto;
+h1{
+  margin-top:0;
+  font-size:24px;
 }
 
-.logo{
-text-align:center;
-margin-bottom:25px;
-}
-
-.logo-icon{
-font-size:48px;
-}
-
-.logo h1{
-color:#2563eb;
-font-size:30px;
-margin-top:8px;
-}
-
-.logo p{
-color:#64748b;
-margin-top:5px;
-}
-
-.form-group{
-margin-bottom:16px;
+h2{
+  font-size:19px;
 }
 
 label{
-display:block;
-font-size:14px;
-font-weight:bold;
-margin-bottom:7px;
+  display:block;
+  margin-top:14px;
+  font-weight:bold;
 }
 
 input,
+textarea,
 select,
-textarea{
-width:100%;
-padding:13px;
-border:
-1px solid #cbd5e1;
-border-radius:11px;
-outline:none;
-background:#fff;
+button{
+  width:100%;
+  padding:13px;
+  margin-top:7px;
+  border-radius:10px;
+  border:1px solid #ccd3da;
+  font-size:16px;
 }
 
 textarea{
-min-height:90px;
-resize:vertical;
+  min-height:90px;
+  resize:vertical;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#2563eb;
-box-shadow:
-0 0 0 3px
-rgba(37,99,235,.1);
+button{
+  border:0;
+  background:#1769e0;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.password-box{
-position:relative;
+button:disabled{
+  background:#aeb7c2;
+  cursor:not-allowed;
 }
 
-.password-box input{
-padding-right:65px;
+.secondary{
+  background:#59636e;
 }
 
-.show{
-position:absolute;
-right:12px;
-top:50%;
-transform:translateY(-50%);
-color:#2563eb;
-font-size:13px;
-font-weight:bold;
-cursor:pointer;
+.success{
+  background:#138a4b;
 }
 
-.btn{
-border:0;
-border-radius:11px;
-padding:13px 16px;
-font-weight:bold;
-background:#2563eb;
-color:white;
-width:100%;
-}
-
-.btn:hover{
-background:#1d4ed8;
-}
-
-.btn:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
-
-.btn-secondary{
-background:#e2e8f0;
-color:#1e293b;
-margin-top:10px;
-}
-
-.btn-danger{
-background:#dc2626;
-}
-
-.btn-success{
-background:#16a34a;
-}
-
-.link{
-display:block;
-text-align:center;
-margin-top:15px;
-color:#2563eb;
-font-weight:bold;
-font-size:14px;
-cursor:pointer;
-}
-
-.message{
-display:none;
-padding:12px;
-border-radius:10px;
-margin-bottom:15px;
-font-size:14px;
-}
-
-.message.success{
-display:block;
-background:#dcfce7;
-color:#166534;
-}
-
-.message.error{
-display:block;
-background:#fee2e2;
-color:#991b1b;
-}
-
-.step{
-text-align:center;
-font-size:13px;
-color:#64748b;
-margin-bottom:18px;
-}
-
-.otp{
-text-align:center;
-font-size:24px;
-letter-spacing:7px;
-font-weight:bold;
-}
-
-.topbar{
-background:#fff;
-color:#111827;
-border-radius:18px;
-padding:16px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-margin-bottom:18px;
-}
-
-.brand{
-font-size:22px;
-font-weight:bold;
-color:#2563eb;
-}
-
-.user-area{
-text-align:right;
-}
-
-.user-area small{
-display:block;
-color:#64748b;
-}
-
-.logout{
-background:#dc2626;
-color:white;
-border:0;
-padding:9px 13px;
-border-radius:9px;
-margin-top:5px;
-}
-
-.nav{
-display:flex;
-gap:8px;
-overflow-x:auto;
-margin-bottom:18px;
-}
-
-.nav button{
-white-space:nowrap;
-border:0;
-padding:10px 15px;
-border-radius:10px;
-background:#334155;
-color:#fff;
-font-weight:bold;
-}
-
-.nav button.active{
-background:#2563eb;
-}
-
-.dashboard-grid{
-display:grid;
-grid-template-columns:
-repeat(4,1fr);
-gap:15px;
-margin-bottom:18px;
-}
-
-.stat{
-background:#fff;
-color:#111827;
-border-radius:16px;
-padding:20px;
-}
-
-.stat h3{
-font-size:13px;
-color:#64748b;
-}
-
-.stat strong{
-display:block;
-font-size:28px;
-margin-top:8px;
-}
-
-.content-card{
-background:#fff;
-color:#111827;
-border-radius:18px;
-padding:20px;
-}
-
-.section-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:16px;
-}
-
-.section-title h2{
-font-size:20px;
-}
-
-.search{
-margin-bottom:15px;
-}
-
-.table-wrap{
-overflow:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-min-width:650px;
-}
-
-th,
-td{
-padding:11px;
-border-bottom:
-1px solid #e2e8f0;
-text-align:left;
-font-size:13px;
-}
-
-th{
-background:#f8fafc;
+.warning{
+  background:#d98b00;
 }
 
 .status{
-display:inline-block;
-padding:5px 9px;
-border-radius:15px;
-font-size:11px;
-font-weight:bold;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  background:#eef2f5;
 }
 
-.status.done{
-background:#dcfce7;
-color:#166534;
+.location-box{
+  background:#eef8f1;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
 }
 
-.status.pending{
-background:#fef3c7;
-color:#92400e;
-}
-
-.form-grid{
-display:grid;
-grid-template-columns:
-repeat(2,1fr);
-gap:15px;
-}
-
-.full{
-grid-column:
-1/-1;
-}
-
-.empty{
-text-align:center;
-padding:30px;
-color:#64748b;
-}
-
-.camera-box{
-border:2px dashed #cbd5e1;
-border-radius:14px;
-padding:20px;
-text-align:center;
+video,
+canvas,
+img{
+  width:100%;
+  border-radius:12px;
+  margin-top:10px;
 }
 
 video{
-width:100%;
-max-height:280px;
-background:#000;
-border-radius:12px;
+  background:#000;
 }
 
-.preview{
-max-width:100%;
-border-radius:12px;
-margin-top:10px;
+.hidden{
+  display:none;
 }
 
-@media(max-width:700px){
-
-.dashboard-grid{
-grid-template-columns:
-repeat(2,1fr);
+.declaration{
+  background:#fff8e6;
+  padding:15px;
+  border-radius:12px;
+  line-height:1.6;
+  margin-top:15px;
 }
 
-.form-grid{
-grid-template-columns:1fr;
+.agree{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-top:15px;
 }
 
-.full{
-grid-column:auto;
+.agree input{
+  width:auto;
+  margin-top:4px;
 }
 
-.topbar{
-align-items:flex-start;
+.small{
+  font-size:13px;
+  color:#5d6872;
 }
 
+#message{
+  white-space:pre-wrap;
 }
-
 </style>
-
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<!-- =====================================================
-LOGIN
-===================================================== -->
+  <div class="card">
 
-<section id="loginPage"
-         class="card login-card">
+    <h1>SmartPlan</h1>
 
-<div class="logo">
+    <div class="small">
+      Secure Market Visit
+    </div>
 
-<div class="logo-icon">
-📊
-</div>
+  </div>
 
-<h1>SmartPlan</h1>
+  <!-- LOGIN -->
 
-<p>Employee Login</p>
+  <div class="card" id="loginCard">
 
-</div>
+    <h2>Employee Login</h2>
 
-<div id="loginMessage"
-     class="message"></div>
+    <label>
+      Employee ID
+    </label>
 
-<div class="form-group">
+    <input
+      id="employeeId"
+      placeholder="Employee ID"
+      autocomplete="username"
+    >
 
-<label>Employee ID</label>
+    <label>
+      Password
+    </label>
 
-<input
-id="employeeId"
-type="text"
-placeholder="S001"
-autocomplete="username">
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
 
-</div>
+    <button
+      onclick="login()">
+      Login
+    </button>
 
-<div class="form-group">
+  </div>
 
-<label>Password</label>
+  <!-- VISIT -->
 
-<div class="password-box">
+  <div
+    class="card hidden"
+    id="visitCard">
 
-<input
-id="loginPassword"
-type="password"
-placeholder="Enter password"
-autocomplete="current-password">
+    <h2>New Market Visit</h2>
 
-<span
-class="show"
-onclick="
-togglePassword(
-'loginPassword',
-this
-)">
-Show
-</span>
+    <div
+      id="employeeInfo"
+      class="status">
+    </div>
 
-</div>
+    <label>
+      Customer Name *
+    </label>
 
-</div>
+    <input
+      id="customerName"
+      placeholder="Customer name"
+    >
 
-<button
-id="loginBtn"
-class="btn"
-onclick="login()">
+    <label>
+      Customer ID
+    </label>
 
-Login
+    <input
+      id="customerId"
+      placeholder="Optional"
+    >
 
-</button>
+    <label>
+      Visit Purpose *
+    </label>
 
-<span
-class="link"
-onclick="showPage('forgotPage')">
+    <select id="purpose">
 
-Forgot Password?
+      <option value="">
+        Select purpose
+      </option>
 
-</span>
+      <option>
+        Market Visit
+      </option>
 
-</section>
+      <option>
+        Customer Meeting
+      </option>
 
-<!-- =====================================================
-FORGOT
-===================================================== -->
+      <option>
+        Order Collection
+      </option>
 
-<section id="forgotPage"
-         class="card login-card hidden">
+      <option>
+        Product Demonstration
+      </option>
 
-<div class="logo">
+      <option>
+        Follow-up
+      </option>
 
-<div class="logo-icon">
-🔐
-</div>
+    </select>
 
-<h1>Reset Password</h1>
+    <!-- GPS -->
 
-<p>Send verification code</p>
+    <h2>Location</h2>
 
-</div>
+    <button
+      class="secondary"
+      onclick="getLocation()">
 
-<div class="step">
-Step 1 of 3
-</div>
+      📍 Get Current Location
 
-<div id="forgotMessage"
-     class="message"></div>
+    </button>
 
-<div class="form-group">
+    <div
+      id="locationBox"
+      class="location-box hidden">
 
-<label>Employee ID</label>
+      <div>
+        <b>Latitude:</b>
+        <span id="latitude"></span>
+      </div>
 
-<input
-id="resetEmployeeId"
-type="text"
-placeholder="Enter Employee ID">
+      <div>
+        <b>Longitude:</b>
+        <span id="longitude"></span>
+      </div>
 
-</div>
+      <div>
+        <b>Address:</b>
+        <span id="address"></span>
+      </div>
 
-<button
-id="sendOtpBtn"
-class="btn"
-onclick="sendOTP()">
+    </div>
 
-Send OTP
+    <!-- CAMERA -->
 
-</button>
+    <h2>Live Photo</h2>
 
-<button
-class="btn btn-secondary"
-onclick="showPage('loginPage')">
+    <button
+      class="secondary"
+      onclick="startCamera()">
 
-Back to Login
+      📷 Open Camera
 
-</button>
+    </button>
 
-</section>
+    <video
+      id="video"
+      autoplay
+      playsinline
+      class="hidden">
+    </video>
 
-<!-- =====================================================
-OTP
-===================================================== -->
+    <button
+      id="captureButton"
+      class="success hidden"
+      onclick="capturePhoto()">
 
-<section id="otpPage"
-         class="card login-card hidden">
+      📸 Capture Live Photo
 
-<div class="logo">
+    </button>
 
-<div class="logo-icon">
-📩
-</div>
+    <canvas
+      id="canvas"
+      class="hidden">
+    </canvas>
 
-<h1>Verify OTP</h1>
+    <img
+      id="photoPreview"
+      class="hidden"
+      alt="Photo Preview"
+    >
 
-<p>Enter 6 digit code</p>
+    <!-- DECLARATION -->
 
-</div>
+    <h2>
+      Privacy & Employee Rights
+    </h2>
 
-<div class="step">
-Step 2 of 3
-</div>
+    <div class="declaration">
 
-<div id="otpMessage"
-     class="message"></div>
+      <b>महत्वपूर्ण सूचना</b>
 
-<div class="form-group">
+      <p>
+        यह visit information केवल निर्धारित
+        business purpose के लिए record की जा रही है।
+      </p>
 
-<label>OTP</label>
+      <p>
+        Location और photograph केवल आवश्यक
+        visit verification के लिए capture किए जाएंगे।
+      </p>
 
-<input
-id="otp"
-class="otp"
-maxlength="6"
-inputmode="numeric"
-placeholder="000000">
+      <p>
+        Employee को स्पष्ट जानकारी दिए बिना
+        अनावश्यक background location tracking
+        नहीं की जानी चाहिए।
+      </p>
 
-</div>
+      <p>
+        Submit करने से पहले कृपया ऊपर दी गई
+        जानकारी पढ़ लें।
+      </p>
 
-<button
-id="verifyOtpBtn"
-class="btn"
-onclick="verifyOTP()">
+    </div>
 
-Verify OTP
+    <label class="agree">
 
-</button>
+      <input
+        type="checkbox"
+        id="agree"
+        onchange="updateSubmitButton()"
+      >
 
-<button
-class="btn btn-secondary"
-onclick="showPage('forgotPage')">
+      <span>
+        मैंने ऊपर दी गई जानकारी पढ़ ली है और
+        इस visit के लिए आवश्यक data capture
+        करने के लिए सहमत हूँ।
+      </span>
 
-Back
+    </label>
 
-</button>
+    <button
+      id="submitButton"
+      class="success"
+      disabled
+      onclick="submitVisit()">
 
-</section>
+      Submit Visit
 
-<!-- =====================================================
-NEW PASSWORD
-===================================================== -->
+    </button>
 
-<section id="newPasswordPage"
-         class="card login-card hidden">
+    <button
+      class="secondary"
+      onclick="logout()">
 
-<div class="logo">
+      Logout
 
-<div class="logo-icon">
-🔑
-</div>
+    </button>
 
-<h1>New Password</h1>
+  </div>
 
-<p>Create a new password</p>
-
-</div>
-
-<div class="step">
-Step 3 of 3
-</div>
-
-<div id="passwordMessage"
-     class="message"></div>
-
-<div class="form-group">
-
-<label>New Password</label>
-
-<div class="password-box">
-
-<input
-id="newPassword"
-type="password"
-placeholder="Minimum 8 characters">
-
-<span
-class="show"
-onclick="
-togglePassword(
-'newPassword',
-this
-)">
-Show
-</span>
-
-</div>
-
-</div>
-
-<div class="form-group">
-
-<label>Confirm Password</label>
-
-<div class="password-box">
-
-<input
-id="confirmPassword"
-type="password"
-placeholder="Repeat password">
-
-<span
-class="show"
-onclick="
-togglePassword(
-'confirmPassword',
-this
-)">
-Show
-</span>
-
-</div>
-
-</div>
-
-<button
-id="resetPasswordBtn"
-class="btn"
-onclick="resetPassword()">
-
-Reset Password
-
-</button>
-
-</section>
-
-<!-- =====================================================
-APP
-===================================================== -->
-
-<section id="appPage"
-         class="hidden">
-
-<div class="topbar">
-
-<div>
-
-<div class="brand">
-SmartPlan
-</div>
-
-<div style="color:#64748b;font-size:13px">
-Employee Management System
-</div>
-
-</div>
-
-<div class="user-area">
-
-<strong id="userName"></strong>
-
-<small id="userRole"></small>
-
-<button
-class="logout"
-onclick="logout()">
-
-Logout
-
-</button>
-
-</div>
-
-</div>
-
-<!-- NAV -->
-
-<div class="nav">
-
-<button
-id="navDashboard"
-class="active"
-onclick="showSection('dashboardSection',this)">
-
-📊 Dashboard
-
-</button>
-
-<button
-onclick="showSection('plansSection',this)">
-
-📋 Plans
-
-</button>
-
-<button
-onclick="showSection('customersSection',this)">
-
-👥 Customers
-
-</button>
-
-<button
-onclick="showSection('visitSection',this)">
-
-📍 Visit
-
-</button>
-
-<button
-onclick="showSection('orderSection',this)">
-
-📦 Order
-
-</button>
-
-<button
-onclick="showSection('productsSection',this)">
-
-🛒 Products
-
-</button>
-
-</div>
-
-<!-- =====================================================
-DASHBOARD
-===================================================== -->
-
-<section
-id="dashboardSection">
-
-<div class="dashboard-grid">
-
-<div class="stat">
-
-<h3>TOTAL</h3>
-
-<strong id="totalCount">
-0
-</strong>
-
-</div>
-
-<div class="stat">
-
-<h3>DONE</h3>
-
-<strong id="doneCount">
-0
-</strong>
-
-</div>
-
-<div class="stat">
-
-<h3>PENDING</h3>
-
-<strong id="pendingCount">
-0
-</strong>
-
-</div>
-
-<div class="stat">
-
-<h3>EMPLOYEE</h3>
-
-<strong id="employeeCode">
--
-</strong>
-
-</div>
-
-</div>
-
-<div class="content-card">
-
-<div class="section-title">
-
-<h2>Today's Overview</h2>
-
-<button
-class="btn"
-style="width:auto"
-onclick="loadDashboard()">
-
-Refresh
-
-</button>
-
-</div>
-
-<div id="dashboardInfo"
-class="empty">
-
-Loading...
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-PLANS
-===================================================== -->
-
-<section
-id="plansSection"
-class="content-card hidden">
-
-<div class="section-title">
-
-<h2>My Plans</h2>
-
-</div>
-
-<input
-id="planSearch"
-class="search"
-placeholder="🔎 Search plans..."
-oninput="loadPlans()">
-
-<div
-id="plansResult">
-
-</div>
-
-</section>
-
-<!-- =====================================================
-CUSTOMERS
-===================================================== -->
-
-<section
-id="customersSection"
-class="content-card hidden">
-
-<div class="section-title">
-
-<h2>Customers</h2>
-
-</div>
-
-<div class="form-grid">
-
-<div>
-
-<label>Customer Name</label>
-
-<input id="customerName">
-
-</div>
-
-<div>
-
-<label>Phone</label>
-
-<input id="customerPhone"
-       type="tel">
-
-</div>
-
-<div>
-
-<label>Email</label>
-
-<input id="customerEmail"
-       type="email">
-
-</div>
-
-<div>
-
-<label>Address</label>
-
-<input id="customerAddress">
-
-</div>
-
-</div>
-
-<br>
-
-<button
-class="btn"
-onclick="addCustomer()">
-
-+ Add Customer
-
-</button>
-
-<hr style="margin:20px 0;border:0;border-top:1px solid #e2e8f0">
-
-<div id="customerList">
-
-Loading...
-
-</div>
-
-</section>
-
-<!-- =====================================================
-VISIT
-===================================================== -->
-
-<section
-id="visitSection"
-class="content-card hidden">
-
-<div class="section-title">
-
-<h2>Market Visit</h2>
-
-</div>
-
-<div id="visitMessage"
-     class="message"></div>
-
-<div class="form-grid">
-
-<div>
-
-<label>Customer ID</label>
-
-<input id="visitCustomerId">
-
-</div>
-
-<div>
-
-<label>Customer Name</label>
-
-<input id="visitCustomerName">
-
-</div>
-
-<div>
-
-<label>Visit Date</label>
-
-<input
-id="visitDate"
-type="date">
-
-</div>
-
-<div>
-
-<label>GPS Location</label>
-
-<input
-id="visitGPS"
-readonly
-placeholder="Get location">
-
-</div>
-
-<div class="full">
-
-<button
-class="btn"
-onclick="getGPS()">
-
-📍 Get Current GPS
-
-</button>
-
-</div>
-
-<div class="full">
-
-<label>Declaration</label>
-
-<label style="font-weight:normal">
-
-<input
-id="visitDeclaration"
-type="checkbox"
-style="width:auto">
-
-I confirm that this visit information is correct.
-
-</label>
-
-</div>
-
-</div>
-
-<br>
-
-<button
-class="btn btn-success"
-onclick="saveVisit()">
-
-Save Visit
-
-</button>
-
-</section>
-
-<!-- =====================================================
-ORDER
-===================================================== -->
-
-<section
-id="orderSection"
-class="content-card hidden">
-
-<div class="section-title">
-
-<h2>New Order</h2>
-
-</div>
-
-<div id="orderMessage"
-     class="message"></div>
-
-<div class="form-grid">
-
-<div>
-
-<label>Customer ID</label>
-
-<input id="orderCustomerId">
-
-</div>
-
-<div>
-
-<label>Customer Name</label>
-
-<input id="orderCustomerName">
-
-</div>
-
-<div>
-
-<label>Product ID</label>
-
-<input id="orderProductId">
-
-</div>
-
-<div>
-
-<label>Product Name</label>
-
-<input id="orderProductName">
-
-</div>
-
-<div>
-
-<label>Quantity</label>
-
-<input
-id="orderQuantity"
-type="number"
-min="1">
-
-</div>
-
-<div>
-
-<label>Amount</label>
-
-<input
-id="orderAmount"
-type="number"
-min="0">
-
-</div>
-
-</div>
-
-<br>
-
-<button
-class="btn btn-success"
-onclick="saveOrder()">
-
-Save Order
-
-</button>
-
-</section>
-
-<!-- =====================================================
-PRODUCTS
-===================================================== -->
-
-<section
-id="productsSection"
-class="content-card hidden">
-
-<div class="section-title">
-
-<h2>Products</h2>
-
-<button
-class="btn"
-style="width:auto"
-onclick="loadProducts()">
-
-Refresh
-
-</button>
-
-</div>
-
-<div id="productList">
-
-Loading...
-
-</div>
-
-</section>
-
-</section>
+  <div
+    id="message"
+    class="status">
+  </div>
 
 </div>
 
 <script>
 
 /* =====================================================
-API
-===================================================== */
+   CONFIG
+   ===================================================== */
+
+/*
+ * यहां अपना deployed Google Apps Script
+ * Web App URL डालें.
+ */
 
 const API_URL =
-'https://script.google.com/macros/s/AKfycby3WRF18GNOF-JE0eaeZST0fM-Yd9VwrEN1oKU75CjFvYBxLxNk_KV2lx-MaQd-28Bx/exec';
-
-let currentEmployee = null;
-
-let resetEmployeeId = '';
-
-let resetToken = '';
+  "https://script.google.com/macros/s/AKfycbzA3RlsdBjSv9V4Z9mzUPH_Fsag1gsDzk6nfjobWo-BjCuMssAwfIbcB0cpfZCsVtlr/exec";
 
 /* =====================================================
-API REQUEST
-===================================================== */
+   STATE
+   ===================================================== */
 
-async function apiRequest(data){
+let sessionToken = "";
 
-const response =
-await fetch(
-API_URL,
-{
-method:'POST',
-headers:{
-'Content-Type':
-'text/plain;charset=utf-8'
-},
-body:JSON.stringify(data)
-}
-);
+let employee = null;
 
-if(!response.ok){
+let latitude = null;
 
-throw new Error(
-'HTTP '+response.status
-);
+let longitude = null;
 
-}
+let address = "";
 
-return await response.json();
+let stream = null;
+
+let photoCaptured = false;
+
+let photoTimestamp = null;
+
+/* =====================================================
+   MESSAGE
+   ===================================================== */
+
+function showMessage(message){
+
+  document.getElementById(
+    "message"
+  ).textContent = message;
 
 }
 
 /* =====================================================
-PAGE
-===================================================== */
-
-function hideLoginPages(){
-
-[
-'loginPage',
-'forgotPage',
-'otpPage',
-'newPasswordPage'
-].forEach(function(id){
-
-document
-.getElementById(id)
-.classList.add('hidden');
-
-});
-
-}
-
-function showPage(id){
-
-hideLoginPages();
-
-document
-.getElementById(id)
-.classList.remove('hidden');
-
-}
-
-function showApp(){
-
-hideLoginPages();
-
-document
-.getElementById('appPage')
-.classList.remove('hidden');
-
-}
-
-/* =====================================================
-MESSAGE
-===================================================== */
-
-function message(
-id,
-text,
-type
-){
-
-const el =
-document.getElementById(id);
-
-el.textContent = text;
-
-el.className =
-'message '+type;
-
-}
-
-/* =====================================================
-PASSWORD
-===================================================== */
-
-function togglePassword(
-id,
-el
-){
-
-const input =
-document.getElementById(id);
-
-if(
-input.type === 'password'
-){
-
-input.type='text';
-
-el.textContent='Hide';
-
-}else{
-
-input.type='password';
-
-el.textContent='Show';
-
-}
-
-}
-
-/* =====================================================
-LOGIN
-===================================================== */
+   LOGIN
+   ===================================================== */
 
 async function login(){
 
-const employeeId =
-document
-.getElementById('employeeId')
-.value
-.trim();
+  const employeeId =
+    document.getElementById(
+      "employeeId"
+    ).value.trim();
 
-const password =
-document
-.getElementById('loginPassword')
-.value;
+  const password =
+    document.getElementById(
+      "password"
+    ).value;
 
-if(!employeeId){
+  if(!employeeId || !password){
 
-message(
-'loginMessage',
-'Employee ID is required.',
-'error'
-);
+    showMessage(
+      "Employee ID और password भरें।"
+    );
 
-return;
+    return;
 
-}
+  }
 
-if(!password){
+  try{
 
-message(
-'loginMessage',
-'Password is required.',
-'error'
-);
+    showMessage(
+      "Login हो रहा है..."
+    );
 
-return;
+    const response =
+      await fetch(
+        API_URL,
+        {
 
-}
+          method:"POST",
 
-const btn =
-document.getElementById(
-'loginBtn'
-);
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
 
-btn.disabled=true;
+          body:JSON.stringify({
 
-btn.textContent=
-'Logging in...';
+            action:"login",
 
-try{
+            employeeId:
+              employeeId,
 
-const result =
-await apiRequest({
+            password:
+              password
 
-action:'login',
+          })
 
-employeeId:employeeId,
+        }
+      );
 
-password:password
+    const result =
+      await response.json();
 
-});
+    if(!result.success){
 
-if(result.success){
+      showMessage(
+        result.message ||
+        "Login failed"
+      );
 
-currentEmployee =
-result.employee;
+      return;
 
-localStorage.setItem(
-'smartplan_employee',
-JSON.stringify(
-result.employee
-)
-);
+    }
 
-setupUser();
+    sessionToken =
+      result.session.sessionToken;
 
-showApp();
+    employee =
+      result.employee;
 
-loadDashboard();
+    /*
+     * Session token browser memory में है.
+     * अभी localStorage में नहीं रख रहे.
+     */
 
-}else{
+    document
+      .getElementById(
+        "loginCard"
+      )
+      .classList
+      .add("hidden");
 
-message(
-'loginMessage',
-result.message ||
-'Login failed.',
-'error'
-);
+    document
+      .getElementById(
+        "visitCard"
+      )
+      .classList
+      .remove("hidden");
 
-}
+    document
+      .getElementById(
+        "employeeInfo"
+      )
+      .textContent =
 
-}catch(error){
+      "Employee: " +
+      employee.name +
+      " | ID: " +
+      employee.employeeId;
 
-console.error(error);
+    showMessage(
+      "Login successful."
+    );
 
-message(
-'loginMessage',
-'Server connection failed.',
-'error'
-);
+  }catch(error){
 
-}finally{
+    console.error(error);
 
-btn.disabled=false;
+    showMessage(
+      "Server connection error."
+    );
 
-btn.textContent='Login';
-
-}
-
-}
-
-/* =====================================================
-USER
-===================================================== */
-
-function setupUser(){
-
-if(!currentEmployee)
-return;
-
-document
-.getElementById('userName')
-.textContent =
-currentEmployee.name || '';
-
-document
-.getElementById('userRole')
-.textContent =
-currentEmployee.role || 'Employee';
-
-document
-.getElementById('employeeCode')
-.textContent =
-currentEmployee.employeeId || '-';
+  }
 
 }
 
 /* =====================================================
-FORGOT
-===================================================== */
+   GPS
+   ===================================================== */
 
-async function sendOTP(){
+function getLocation(){
 
-const id =
-document
-.getElementById(
-'resetEmployeeId'
-)
-.value
-.trim();
+  if(
+    !navigator.geolocation
+  ){
 
-if(!id){
+    showMessage(
+      "इस device/browser में GPS उपलब्ध नहीं है।"
+    );
 
-message(
-'forgotMessage',
-'Employee ID is required.',
-'error'
-);
+    return;
 
-return;
+  }
 
-}
+  showMessage(
+    "Location प्राप्त की जा रही है..."
+  );
 
-const btn =
-document.getElementById(
-'sendOtpBtn'
-);
+  navigator.geolocation.getCurrentPosition(
 
-btn.disabled=true;
+    async function(position){
 
-btn.textContent=
-'Sending...';
+      latitude =
+        position.coords.latitude;
 
-try{
+      longitude =
+        position.coords.longitude;
 
-const result =
-await apiRequest({
+      document
+        .getElementById(
+          "latitude"
+        )
+        .textContent =
+        latitude.toFixed(6);
 
-action:
-'send_reset_otp',
+      document
+        .getElementById(
+          "longitude"
+        )
+        .textContent =
+        longitude.toFixed(6);
 
-employeeId:id
+      document
+        .getElementById(
+          "locationBox"
+        )
+        .classList
+        .remove("hidden");
 
-});
+      /*
+       * Reverse geocoding के लिए
+       * OpenStreetMap Nominatim.
+       *
+       * Production में इसे backend
+       * controlled service से करना बेहतर होगा.
+       */
 
-if(result.success){
+      try{
 
-resetEmployeeId=id;
+        const url =
+          "https://nominatim.openstreetmap.org/reverse" +
+          "?format=json" +
+          "&lat=" +
+          encodeURIComponent(latitude) +
+          "&lon=" +
+          encodeURIComponent(longitude) +
+          "&zoom=18" +
+          "&addressdetails=1";
 
-message(
-'forgotMessage',
-result.message,
-'success'
-);
+        const response =
+          await fetch(url);
 
-setTimeout(
-function(){
-showPage('otpPage');
-},
-1000
-);
+        const data =
+          await response.json();
 
-}else{
+        address =
+          data.display_name ||
+          "Address unavailable";
 
-message(
-'forgotMessage',
-result.message,
-'error'
-);
+      }catch(error){
 
-}
+        address =
+          "Address unavailable";
 
-}catch(error){
+      }
 
-message(
-'forgotMessage',
-'Unable to connect to server.',
-'error'
-);
+      document
+        .getElementById(
+          "address"
+        )
+        .textContent =
+        address;
 
-}finally{
+      showMessage(
+        "Location captured."
+      );
 
-btn.disabled=false;
+      updateSubmitButton();
 
-btn.textContent='Send OTP';
+    },
 
-}
+    function(error){
 
-}
+      console.error(error);
 
-/* =====================================================
-VERIFY OTP
-===================================================== */
+      let message =
+        "Location प्राप्त नहीं हो सकी।";
 
-async function verifyOTP(){
+      if(
+        error.code ===
+        1
+      ){
 
-const otp =
-document
-.getElementById('otp')
-.value
-.trim();
+        message =
+          "Location permission allow करें।";
 
-if(!/^\d{6}$/.test(otp)){
+      }
 
-message(
-'otpMessage',
-'Enter a valid 6 digit OTP.',
-'error'
-);
+      if(
+        error.code ===
+        2
+      ){
 
-return;
+        message =
+          "Location उपलब्ध नहीं है।";
 
-}
+      }
 
-const btn =
-document.getElementById(
-'verifyOtpBtn'
-);
+      if(
+        error.code ===
+        3
+      ){
 
-btn.disabled=true;
+        message =
+          "Location request timeout हुआ।";
 
-btn.textContent=
-'Verifying...';
+      }
 
-try{
+      showMessage(
+        message
+      );
 
-const result =
-await apiRequest({
+    },
 
-action:
-'verify_reset_otp',
+    {
 
-employeeId:
-resetEmployeeId,
+      enableHighAccuracy:true,
 
-otp:otp
+      timeout:15000,
 
-});
+      maximumAge:0
 
-if(result.success){
+    }
 
-resetToken =
-result.resetToken;
-
-showPage(
-'newPasswordPage'
-);
-
-}else{
-
-message(
-'otpMessage',
-result.message,
-'error'
-);
-
-}
-
-}catch(error){
-
-message(
-'otpMessage',
-'Unable to verify OTP.',
-'error'
-);
-
-}finally{
-
-btn.disabled=false;
-
-btn.textContent=
-'Verify OTP';
-
-}
+  );
 
 }
 
 /* =====================================================
-RESET PASSWORD
-===================================================== */
+   CAMERA
+   ===================================================== */
 
-async function resetPassword(){
+async function startCamera(){
 
-const p1 =
-document
-.getElementById('newPassword')
-.value;
+  try{
 
-const p2 =
-document
-.getElementById('confirmPassword')
-.value;
+    if(
+      stream
+    ){
 
-if(p1.length < 8){
+      stopCamera();
 
-message(
-'passwordMessage',
-'Password must contain at least 8 characters.',
-'error'
-);
+    }
 
-return;
+    stream =
+      await navigator.mediaDevices
+        .getUserMedia({
 
-}
+          video:{
+            facingMode:{
+              ideal:"environment"
+            }
+          },
 
-if(p1 !== p2){
+          audio:false
 
-message(
-'passwordMessage',
-'Passwords do not match.',
-'error'
-);
+        });
 
-return;
+    const video =
+      document.getElementById(
+        "video"
+      );
 
-}
+    video.srcObject =
+      stream;
 
-const btn =
-document.getElementById(
-'resetPasswordBtn'
-);
+    video.classList
+      .remove("hidden");
 
-btn.disabled=true;
+    document
+      .getElementById(
+        "captureButton"
+      )
+      .classList
+      .remove("hidden");
 
-btn.textContent=
-'Resetting...';
+    showMessage(
+      "Camera ready. Live photo capture करें।"
+    );
 
-try{
+  }catch(error){
 
-const result =
-await apiRequest({
+    console.error(error);
 
-action:
-'reset_password',
+    showMessage(
+      "Camera permission denied या camera उपलब्ध नहीं है।"
+    );
 
-employeeId:
-resetEmployeeId,
-
-resetToken:
-resetToken,
-
-newPassword:
-p1
-
-});
-
-if(result.success){
-
-message(
-'passwordMessage',
-'Password reset successfully. Please login.',
-'success'
-);
-
-setTimeout(
-function(){
-
-document
-.getElementById(
-'employeeId'
-)
-.value =
-resetEmployeeId;
-
-document
-.getElementById(
-'loginPassword'
-)
-.value='';
-
-resetEmployeeId='';
-
-resetToken='';
-
-showPage(
-'loginPage'
-);
-
-message(
-'loginMessage',
-'Password reset successfully. Login with your new password.',
-'success'
-);
-
-},
-1500
-);
-
-}else{
-
-message(
-'passwordMessage',
-result.message,
-'error'
-);
-
-}
-
-}catch(error){
-
-message(
-'passwordMessage',
-'Unable to reset password.',
-'error'
-);
-
-}finally{
-
-btn.disabled=false;
-
-btn.textContent=
-'Reset Password';
-
-}
+  }
 
 }
 
 /* =====================================================
-DASHBOARD
-===================================================== */
+   CAPTURE PHOTO
+   ===================================================== */
 
-async function loadDashboard(){
+function capturePhoto(){
 
-if(!currentEmployee)
-return;
+  const video =
+    document.getElementById(
+      "video"
+    );
 
-document
-.getElementById(
-'dashboardInfo'
-)
-.textContent='Loading...';
+  const canvas =
+    document.getElementById(
+      "canvas"
+    );
 
-try{
+  const preview =
+    document.getElementById(
+      "photoPreview"
+    );
 
-const result =
-await apiRequest({
+  if(
+    !video.videoWidth
+  ){
 
-action:'dashboard',
+    showMessage(
+      "Camera अभी ready नहीं है।"
+    );
 
-employeeId:
-currentEmployee.employeeId
+    return;
 
-});
+  }
 
-if(result.success){
+  canvas.width =
+    video.videoWidth;
 
-document
-.getElementById(
-'totalCount'
-)
-.textContent =
-result.summary.total;
+  canvas.height =
+    video.videoHeight;
 
-document
-.getElementById(
-'doneCount'
-)
-.textContent =
-result.summary.done;
+  const context =
+    canvas.getContext(
+      "2d"
+    );
 
-document
-.getElementById(
-'pendingCount'
-)
-.textContent =
-result.summary.pending;
+  context.drawImage(
 
-document
-.getElementById(
-'dashboardInfo'
-)
-.innerHTML =
-`
-<strong>
-Welcome ${escapeHtml(
-result.employee.name
-)}
-</strong>
-<br><br>
-Your SmartPlan dashboard is ready.
-`;
+    video,
 
-}else{
+    0,
 
-document
-.getElementById(
-'dashboardInfo'
-)
-.textContent =
-result.message;
+    0,
 
-}
+    canvas.width,
 
-}catch(error){
+    canvas.height
 
-document
-.getElementById(
-'dashboardInfo'
-)
-.textContent =
-'Unable to load dashboard.';
+  );
 
-}
+  /*
+   * अभी local preview.
+   * अगला चरण secure Drive upload होगा.
+   */
 
-}
+  preview.src =
+    canvas.toDataURL(
+      "image/jpeg",
+      0.85
+    );
 
-/* =====================================================
-SECTION
-===================================================== */
+  preview.classList
+    .remove("hidden");
 
-function showSection(
-id,
-button
-){
+  photoCaptured =
+    true;
 
-const sections = [
+  photoTimestamp =
+    new Date()
+      .toISOString();
 
-'dashboardSection',
-'plansSection',
-'customersSection',
-'visitSection',
-'orderSection',
-'productsSection'
+  stopCamera();
 
-];
+  showMessage(
+    "Live photo captured."
+  );
 
-sections.forEach(
-function(section){
-
-document
-.getElementById(section)
-.classList.add('hidden');
-
-});
-
-document
-.getElementById(id)
-.classList.remove('hidden');
-
-document
-.querySelectorAll('.nav button')
-.forEach(
-function(btn){
-btn.classList.remove('active');
-}
-);
-
-if(button){
-button.classList.add('active');
-}
-
-if(id==='plansSection')
-loadPlans();
-
-if(id==='customersSection')
-loadCustomers();
-
-if(id==='productsSection')
-loadProducts();
+  updateSubmitButton();
 
 }
 
 /* =====================================================
-PLANS
-===================================================== */
+   STOP CAMERA
+   ===================================================== */
 
-async function loadPlans(){
+function stopCamera(){
 
-if(!currentEmployee)
-return;
+  if(!stream){
 
-const search =
-document
-.getElementById(
-'planSearch'
-)
-.value;
+    return;
 
-const box =
-document
-.getElementById(
-'plansResult'
-);
+  }
 
-box.innerHTML=
-'Loading...';
+  stream
+    .getTracks()
+    .forEach(
+      track =>
+        track.stop()
+    );
 
-try{
-
-const result =
-await apiRequest({
-
-action:'get_plans',
-
-employeeId:
-currentEmployee.employeeId,
-
-search:search
-
-});
-
-if(!result.success){
-
-box.textContent =
-result.message;
-
-return;
-
-}
-
-if(!result.plans.length){
-
-box.innerHTML=
-'<div class="empty">No plans found.</div>';
-
-return;
-
-}
-
-let html=
-`
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Customer</th>
-<th>Date</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-`;
-
-result.plans.forEach(
-function(row){
-
-const id =
-row.VisitID || '';
-
-const customer =
-row.CustomerName || '';
-
-const date =
-row.VisitDate ||
-row.CreatedAt ||
-'';
-
-const status =
-String(
-row.Status || 'PENDING'
-)
-.toUpperCase();
-
-html+=
-`
-<tr>
-
-<td>${escapeHtml(id)}</td>
-
-<td>${escapeHtml(customer)}</td>
-
-<td>${escapeHtml(date)}</td>
-
-<td>
-<span class="status ${
-status==='DONE'
-?'done'
-:'pending'
-}">
-${escapeHtml(status)}
-</span>
-</td>
-
-<td>
-${
-status==='DONE'
-?
-'Locked'
-:
-`
-<button
-class="btn btn-success"
-style="width:auto"
-onclick="markDone('${escapeAttr(id)}')">
-DONE
-</button>
-`
-}
-</td>
-
-</tr>
-`;
-
-});
-
-html+=
-`
-</tbody>
-</table>
-</div>
-`;
-
-box.innerHTML=html;
-
-}catch(error){
-
-box.innerHTML=
-'<div class="empty">Unable to load plans.</div>';
-
-}
+  stream =
+    null;
 
 }
 
 /* =====================================================
-DONE
-===================================================== */
+   SUBMIT BUTTON
+   ===================================================== */
 
-async function markDone(id){
+function updateSubmitButton(){
 
-if(!id)
-return;
+  const agree =
+    document.getElementById(
+      "agree"
+    ).checked;
 
-if(!confirm(
-'Mark this plan as DONE?'
-))
-return;
+  const ready =
 
-try{
+    agree &&
 
-const result =
-await apiRequest({
+    latitude !== null &&
 
-action:'mark_done',
+    longitude !== null &&
 
-employeeId:
-currentEmployee.employeeId,
+    address !== "" &&
 
-planId:id
+    photoCaptured;
 
-});
-
-alert(
-result.message
-);
-
-if(result.success){
-
-loadPlans();
-
-loadDashboard();
-
-}
-
-}catch(error){
-
-alert(
-'Unable to update plan.'
-);
-
-}
+  document
+    .getElementById(
+      "submitButton"
+    )
+    .disabled =
+    !ready;
 
 }
 
 /* =====================================================
-CUSTOMERS
-===================================================== */
+   SUBMIT VISIT
+   ===================================================== */
 
-async function loadCustomers(){
+async function submitVisit(){
 
-const box =
-document.getElementById(
-'customerList'
-);
+  if(!sessionToken){
 
-box.innerHTML='Loading...';
+    showMessage(
+      "Session expired. Please login again."
+    );
 
-try{
+    return;
 
-const result =
-await apiRequest({
+  }
 
-action:
-'get_customers',
+  if(
+    !document
+      .getElementById(
+        "agree"
+      )
+      .checked
+  ){
 
-employeeId:
-currentEmployee.employeeId
+    showMessage(
+      "Declaration accept करें।"
+    );
 
-});
+    return;
 
-if(!result.success){
+  }
 
-box.textContent =
-result.message;
+  if(
+    latitude === null ||
+    longitude === null
+  ){
 
-return;
+    showMessage(
+      "पहले location capture करें।"
+    );
 
-}
+    return;
 
-if(!result.customers.length){
+  }
 
-box.innerHTML=
-'<div class="empty">No customers found.</div>';
+  if(!photoCaptured){
 
-return;
+    showMessage(
+      "पहले live photo capture करें।"
+    );
 
-}
+    return;
 
-let html=
-`
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Phone</th>
-<th>Address</th>
-</tr>
-</thead>
-<tbody>
-`;
+  }
 
-result.customers.forEach(
-function(c){
+  const customerName =
+    document
+      .getElementById(
+        "customerName"
+      )
+      .value
+      .trim();
 
-html+=
-`
-<tr>
+  const customerId =
+    document
+      .getElementById(
+        "customerId"
+      )
+      .value
+      .trim();
 
-<td>
-${escapeHtml(
-c.CustomerID || ''
-)}
-</td>
+  const purpose =
+    document
+      .getElementById(
+        "purpose"
+      )
+      .value
+      .trim();
 
-<td>
-${escapeHtml(
-c.CustomerName || ''
-)}
-</td>
+  if(!customerName){
 
-<td>
-${escapeHtml(
-c.Phone || ''
-)}
-</td>
+    showMessage(
+      "Customer name required."
+    );
 
-<td>
-${escapeHtml(
-c.Address || ''
-)}
-</td>
+    return;
 
-</tr>
-`;
+  }
 
-});
+  if(!purpose){
 
-html+=
-`
-</tbody>
-</table>
-</div>
-`;
+    showMessage(
+      "Visit purpose select करें।"
+    );
 
-box.innerHTML=html;
+    return;
 
-}catch(error){
+  }
 
-box.innerHTML=
-'<div class="empty">Unable to load customers.</div>';
+  const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
 
-}
+  submitButton.disabled =
+    true;
 
-}
+  showMessage(
+    "Visit submit हो रही है..."
+  );
 
-/* =====================================================
-ADD CUSTOMER
-===================================================== */
+  try{
 
-async function addCustomer(){
+    const response =
+      await fetch(
 
-const customer={
+        API_URL,
 
-CustomerName:
-document
-.getElementById(
-'customerName'
-).value.trim(),
+        {
 
-Phone:
-document
-.getElementById(
-'customerPhone'
-).value.trim(),
+          method:"POST",
 
-Email:
-document
-.getElementById(
-'customerEmail'
-).value.trim(),
+          headers:{
 
-Address:
-document
-.getElementById(
-'customerAddress'
-).value.trim()
+            "Content-Type":
+              "application/json"
 
-};
+          },
 
-if(!customer.CustomerName){
+          body:
+            JSON.stringify({
 
-alert(
-'Customer name is required.'
-);
+              action:
+                "create_visit",
 
-return;
+              employeeId:
+                employee.employeeId,
 
-}
+              sessionToken:
+                sessionToken,
 
-try{
+              visit:{
 
-const result =
-await apiRequest({
+                customerId:
+                  customerId,
 
-action:
-'add_customer',
+                customerName:
+                  customerName,
 
-employeeId:
-currentEmployee.employeeId,
+                purpose:
+                  purpose,
 
-customer:customer
+                latitude:
+                  latitude,
 
-});
+                longitude:
+                  longitude,
 
-alert(
-result.message
-);
+                address:
+                  address,
 
-if(result.success){
+                declarationAgreed:
+                  true,
 
-document
-.getElementById(
-'customerName'
-).value='';
+                declarationAt:
+                  new Date()
+                    .toISOString(),
 
-document
-.getElementById(
-'customerPhone'
-).value='';
+                visitDate:
+                  new Date()
+                    .toISOString(),
 
-document
-.getElementById(
-'customerEmail'
-).value='';
+                startTime:
+                  new Date()
+                    .toISOString(),
 
-document
-.getElementById(
-'customerAddress'
-).value='';
+                photoFileId:
+                  "",
 
-loadCustomers();
+                photoTimestamp:
+                  photoTimestamp
 
-}
+              }
 
-}catch(error){
+            })
 
-alert(
-'Unable to save customer.'
-);
+        }
 
-}
+      );
 
-}
+    const result =
+      await response.json();
 
-/* =====================================================
-GPS
-===================================================== */
+    if(!result.success){
 
-function getGPS(){
+      showMessage(
+        result.message ||
+        "Visit submission failed."
+      );
 
-const input =
-document
-.getElementById(
-'visitGPS'
-);
+      submitButton.disabled =
+        false;
 
-if(!navigator.geolocation){
+      return;
 
-message(
-'visitMessage',
-'GPS is not supported on this device.',
-'error'
-);
+    }
 
-return;
+    showMessage(
 
-}
+      "✅ Visit successfully submitted\n" +
 
-input.value=
-'Getting location...';
+      "Visit ID: " +
+      result.visit.visitId
 
-navigator.geolocation.getCurrentPosition(
+    );
 
-function(position){
+    /*
+     * Form reset
+     */
 
-const lat =
-position.coords.latitude;
+    resetVisitForm();
 
-const lng =
-position.coords.longitude;
+  }catch(error){
 
-input.value =
-lat.toFixed(6)+
-', '+
-lng.toFixed(6);
+    console.error(error);
 
-},
+    showMessage(
+      "Network/server error."
+    );
 
-function(error){
+    submitButton.disabled =
+      false;
 
-input.value='';
-
-message(
-'visitMessage',
-'Unable to get GPS location. Please allow location permission.',
-'error'
-);
-
-},
-
-{
-enableHighAccuracy:true,
-timeout:15000,
-maximumAge:0
-}
-
-);
+  }
 
 }
 
 /* =====================================================
-SAVE VISIT
-===================================================== */
+   RESET
+   ===================================================== */
 
-async function saveVisit(){
+function resetVisitForm(){
 
-const declaration =
-document
-.getElementById(
-'visitDeclaration'
-)
-.checked;
+  document
+    .getElementById(
+      "customerName"
+    )
+    .value = "";
 
-if(!declaration){
+  document
+    .getElementById(
+      "customerId"
+    )
+    .value = "";
 
-message(
-'visitMessage',
-'Please accept the declaration.',
-'error'
-);
+  document
+    .getElementById(
+      "purpose"
+    )
+    .value = "";
 
-return;
+  document
+    .getElementById(
+      "agree"
+    )
+    .checked = false;
 
-}
+  document
+    .getElementById(
+      "locationBox"
+    )
+    .classList
+    .add("hidden");
 
-const visit={
+  document
+    .getElementById(
+      "photoPreview"
+    )
+    .classList
+    .add("hidden");
 
-CustomerID:
-document
-.getElementById(
-'visitCustomerId'
-).value.trim(),
+  latitude =
+    null;
 
-CustomerName:
-document
-.getElementById(
-'visitCustomerName'
-).value.trim(),
+  longitude =
+    null;
 
-VisitDate:
-document
-.getElementById(
-'visitDate'
-).value,
+  address =
+    "";
 
-GPS:
-document
-.getElementById(
-'visitGPS'
-).value,
+  photoCaptured =
+    false;
 
-Declaration:
-'YES',
+  photoTimestamp =
+    null;
 
-Status:
-'PENDING'
-
-};
-
-try{
-
-const result =
-await apiRequest({
-
-action:
-'add_visit',
-
-employeeId:
-currentEmployee.employeeId,
-
-visit:visit
-
-});
-
-message(
-'visitMessage',
-result.message,
-result.success
-?'success'
-:'error'
-);
-
-if(result.success){
-
-document
-.getElementById(
-'visitCustomerId'
-).value='';
-
-document
-.getElementById(
-'visitCustomerName'
-).value='';
-
-document
-.getElementById(
-'visitGPS'
-).value='';
-
-document
-.getElementById(
-'visitDeclaration'
-).checked=false;
-
-}
-
-}catch(error){
-
-message(
-'visitMessage',
-'Unable to save visit.',
-'error'
-);
-
-}
+  updateSubmitButton();
 
 }
 
 /* =====================================================
-ORDER
-===================================================== */
-
-async function saveOrder(){
-
-const order={
-
-CustomerID:
-document
-.getElementById(
-'orderCustomerId'
-).value.trim(),
-
-CustomerName:
-document
-.getElementById(
-'orderCustomerName'
-).value.trim(),
-
-ProductID:
-document
-.getElementById(
-'orderProductId'
-).value.trim(),
-
-ProductName:
-document
-.getElementById(
-'orderProductName'
-).value.trim(),
-
-Quantity:
-document
-.getElementById(
-'orderQuantity'
-).value,
-
-Amount:
-document
-.getElementById(
-'orderAmount'
-).value,
-
-OrderDate:
-new Date().toISOString()
-
-};
-
-if(
-!order.CustomerID ||
-!order.ProductID
-){
-
-message(
-'orderMessage',
-'Customer ID and Product ID are required.',
-'error'
-);
-
-return;
-
-}
-
-try{
-
-const result =
-await apiRequest({
-
-action:
-'add_order',
-
-employeeId:
-currentEmployee.employeeId,
-
-order:order
-
-});
-
-message(
-'orderMessage',
-result.message,
-result.success
-?'success'
-:'error'
-);
-
-}catch(error){
-
-message(
-'orderMessage',
-'Unable to save order.',
-'error'
-);
-
-}
-
-}
-
-/* =====================================================
-PRODUCTS
-===================================================== */
-
-async function loadProducts(){
-
-const box =
-document
-.getElementById(
-'productList'
-);
-
-box.innerHTML='Loading...';
-
-try{
-
-const result =
-await apiRequest({
-
-action:
-'get_products'
-
-});
-
-if(!result.success){
-
-box.textContent =
-result.message;
-
-return;
-
-}
-
-if(!result.products.length){
-
-box.innerHTML=
-'<div class="empty">No products found.</div>';
-
-return;
-
-}
-
-let html=
-`
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Product</th>
-<th>Category</th>
-<th>Price</th>
-<th>Stock</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-`;
-
-result.products.forEach(
-function(p){
-
-html+=
-`
-<tr>
-
-<td>
-${escapeHtml(
-p.ProductID || ''
-)}
-</td>
-
-<td>
-${escapeHtml(
-p.ProductName || ''
-)}
-</td>
-
-<td>
-${escapeHtml(
-p.Category || ''
-)}
-</td>
-
-<td>
-${escapeHtml(
-p.Price || ''
-)}
-</td>
-
-<td>
-${escapeHtml(
-p.Stock || ''
-)}
-</td>
-
-<td>
-${escapeHtml(
-p.Status || ''
-)}
-</td>
-
-</tr>
-`;
-
-});
-
-html+=
-`
-</tbody>
-</table>
-</div>
-`;
-
-box.innerHTML=html;
-
-}catch(error){
-
-box.innerHTML=
-'<div class="empty">Unable to load products.</div>';
-
-}
-
-}
-
-/* =====================================================
-LOGOUT
-===================================================== */
+   LOGOUT
+   ===================================================== */
 
 async function logout(){
 
-try{
+  if(
+    !sessionToken
+  ){
 
-if(currentEmployee){
+    location.reload();
 
-await apiRequest({
+    return;
 
-action:'logout',
+  }
 
-employeeId:
-currentEmployee.employeeId
+  try{
 
-});
+    await fetch(
 
-}
+      API_URL,
 
-}catch(error){
+      {
 
-console.error(error);
+        method:"POST",
 
-}
+        headers:{
 
-currentEmployee=null;
+          "Content-Type":
+            "application/json"
 
-localStorage.removeItem(
-'smartplan_employee'
-);
+        },
 
-document
-.getElementById(
-'loginPassword'
-)
-.value='';
+        body:
+          JSON.stringify({
 
-document
-.getElementById(
-'appPage'
-)
-.classList.add('hidden');
+            action:
+              "logout",
 
-showPage(
-'loginPage'
-);
+            employeeId:
+              employee.employeeId,
 
-}
+            sessionToken:
+              sessionToken
 
-/* =====================================================
-ESCAPE HTML
-===================================================== */
+          })
 
-function escapeHtml(value){
+      }
 
-return String(value ?? '')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
+    );
 
-}
+  }catch(error){
 
-function escapeAttr(value){
+    console.error(error);
 
-return String(value ?? '')
-.replace(/\\/g,'\\\\')
-.replace(/'/g,"\\'");
+  }
+
+  stopCamera();
+
+  sessionToken =
+    "";
+
+  employee =
+    null;
+
+  location.reload();
 
 }
-
-/* =====================================================
-OTP NUMBERS ONLY
-===================================================== */
-
-document
-.getElementById('otp')
-.addEventListener(
-'input',
-function(){
-
-this.value =
-this.value
-.replace(/\D/g,'')
-.slice(0,6);
-
-}
-);
-
-/* =====================================================
-ENTER KEY
-===================================================== */
-
-document.addEventListener(
-'keydown',
-function(e){
-
-if(e.key!=='Enter')
-return;
-
-if(
-!document
-.getElementById(
-'loginPage'
-)
-.classList.contains('hidden')
-){
-
-login();
-
-}
-
-}
-);
-
-/* =====================================================
-AUTO LOGIN
-===================================================== */
-
-(function(){
-
-try{
-
-const saved =
-localStorage.getItem(
-'smartplan_employee'
-);
-
-if(saved){
-
-const employee =
-JSON.parse(saved);
-
-if(
-employee &&
-employee.employeeId
-){
-
-currentEmployee =
-employee;
-
-setupUser();
-
-showApp();
-
-loadDashboard();
-
-}
-
-}
-
-}catch(error){
-
-localStorage.removeItem(
-'smartplan_employee'
-);
-
-}
-
-})();
 
 </script>
 
 </body>
-
 </html>
