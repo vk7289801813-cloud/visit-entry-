@@ -1,2112 +1,3123 @@
-/*******************************************************
- * SMARTPLAN BACKEND
- * Google Apps Script
- *******************************************************/
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-const CONFIG = {
+<meta charset="UTF-8">
 
-  SPREADSHEET_ID:
-    '1VgMOYuRhgOdVo4v0f4mlQ-fGnLk_6Er7B_B9K7eOoz4',
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-  SHEETS: {
-    EMPLOYEES: 'Employees',
-    CUSTOMERS: 'Customers',
-    VISITS: 'Visits',
-    ORDERS: 'Orders',
-    PRODUCTS: 'Products',
-    PRIVACY: 'PrivacyAcknowledgement',
-    AUDIT: 'AuditLog',
-    SETTINGS: 'Settings',
-    OTP: 'OTP'
+<meta name="theme-color"
+      content="#2563eb">
+
+<title>SmartPlan</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #1e293b
+    );
+  color:#111827;
+}
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* =====================================================
+   LOGIN AREA
+===================================================== */
+
+.page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.container{
+  width:100%;
+  max-width:430px;
+}
+
+.card{
+  background:#fff;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.35);
+}
+
+.logo{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.logo-icon{
+  width:64px;
+  height:64px;
+  margin:auto;
+  border-radius:18px;
+  background:#2563eb;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:bold;
+  box-shadow:
+    0 10px 25px
+    rgba(37,99,235,.35);
+}
+
+.logo h1{
+  margin-top:14px;
+  font-size:30px;
+  color:#2563eb;
+}
+
+.logo p{
+  margin-top:5px;
+  color:#64748b;
+  font-size:14px;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group{
+  margin-bottom:17px;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  font-size:14px;
+  font-weight:bold;
+  color:#334155;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:
+    1px solid
+    #cbd5e1;
+  border-radius:12px;
+  outline:none;
+  font-size:16px;
+  background:#fff;
+  color:#111827;
+}
+
+input:focus{
+  border-color:#2563eb;
+  box-shadow:
+    0 0 0 3px
+    rgba(37,99,235,.12);
+}
+
+.password-box{
+  position:relative;
+}
+
+.password-box input{
+  padding-right:65px;
+}
+
+.show-password{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:
+    translateY(-50%);
+  color:#64748b;
+  font-size:13px;
+  cursor:pointer;
+  user-select:none;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  font-weight:bold;
+  font-size:16px;
+  transition:.2s;
+}
+
+.btn:active{
+  transform:scale(.98);
+}
+
+.btn-primary{
+  background:#2563eb;
+  color:white;
+}
+
+.btn-primary:hover{
+  background:#1d4ed8;
+}
+
+.btn-secondary{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+.btn-danger{
+  background:#dc2626;
+  color:white;
+}
+
+.btn-success{
+  background:#16a34a;
+  color:white;
+}
+
+.btn-small{
+  width:auto;
+  padding:10px 14px;
+  font-size:14px;
+}
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+.link{
+  color:#2563eb;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.link:hover{
+  text-decoration:underline;
+}
+
+.center{
+  text-align:center;
+}
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.message{
+  margin-bottom:15px;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  display:none;
+}
+
+.message.show{
+  display:block;
+}
+
+.message.success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.message.info{
+  background:#dbeafe;
+  color:#1e40af;
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading{
+  display:none;
+  text-align:center;
+  margin:12px 0;
+  color:#2563eb;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.loading.show{
+  display:block;
+}
+
+/* =====================================================
+   OTP
+===================================================== */
+
+.otp-input{
+  text-align:center;
+  letter-spacing:8px;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.step-title{
+  font-size:21px;
+  font-weight:bold;
+  margin-bottom:8px;
+  color:#0f172a;
+}
+
+.step-subtitle{
+  color:#64748b;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:20px;
+}
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard{
+  min-height:100vh;
+  background:#f1f5f9;
+  color:#0f172a;
+}
+
+.topbar{
+  background:#fff;
+  padding:
+    14px
+    max(16px,calc((100vw - 1100px)/2));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-shadow:
+    0 2px 10px
+    rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.brand-icon{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.brand-text strong{
+  display:block;
+  color:#0f172a;
+}
+
+.brand-text small{
+  color:#64748b;
+}
+
+.top-actions{
+  display:flex;
+  gap:7px;
+}
+
+.content{
+  max-width:1100px;
+  margin:auto;
+  padding:20px 16px 40px;
+}
+
+/* =====================================================
+   WELCOME
+===================================================== */
+
+.welcome{
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+  color:white;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:
+    0 12px 30px
+    rgba(37,99,235,.22);
+}
+
+.welcome h2{
+  margin-bottom:6px;
+}
+
+.welcome p{
+  opacity:.9;
+  font-size:14px;
+}
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.summary-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.summary-card{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  box-shadow:
+    0 3px 12px
+    rgba(0,0,0,.06);
+}
+
+.summary-card .icon{
+  font-size:24px;
+}
+
+.summary-card .number{
+  font-size:28px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.summary-card .label{
+  color:#64748b;
+  font-size:13px;
+  margin-top:3px;
+}
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.section-title{
+  font-size:19px;
+  font-weight:bold;
+  margin:
+    22px 0
+    12px;
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+  gap:12px;
+}
+
+.menu-card{
+  background:white;
+  border:0;
+  border-radius:16px;
+  padding:20px 14px;
+  text-align:left;
+  box-shadow:
+    0 3px 12px
+    rgba(0,0,0,.06);
+  transition:.2s;
+}
+
+.menu-card:hover{
+  transform:translateY(-2px);
+}
+
+.menu-icon{
+  width:46px;
+  height:46px;
+  border-radius:13px;
+  background:#eff6ff;
+  color:#2563eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin-bottom:10px;
+}
+
+.menu-card strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.menu-card small{
+  color:#64748b;
+}
+
+/* =====================================================
+   MODULE PAGE
+===================================================== */
+
+.module-page{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:
+    0 3px 12px
+    rgba(0,0,0,.06);
+}
+
+.module-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.module-header h2{
+  flex:1;
+}
+
+.back-btn{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:10px;
+  background:#e2e8f0;
+  font-size:20px;
+}
+
+/* =====================================================
+   LIST
+===================================================== */
+
+.list-item{
+  border:
+    1px solid
+    #e2e8f0;
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.list-item strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.list-item small{
+  color:#64748b;
+}
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+  text-align:center;
+  padding:35px 15px;
+  color:#64748b;
+}
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+body.dark{
+  background:#020617;
+}
+
+body.dark .dashboard{
+  background:#020617;
+  color:#e2e8f0;
+}
+
+body.dark .topbar,
+body.dark .summary-card,
+body.dark .menu-card,
+body.dark .module-page{
+  background:#0f172a;
+  color:#e2e8f0;
+}
+
+body.dark .brand-text strong,
+body.dark .step-title{
+  color:#e2e8f0;
+}
+
+body.dark .brand-text small,
+body.dark .summary-card .label,
+body.dark .menu-card small,
+body.dark .list-item small{
+  color:#94a3b8;
+}
+
+body.dark .menu-icon{
+  background:#172554;
+}
+
+body.dark .list-item{
+  border-color:#334155;
+}
+
+body.dark .back-btn{
+  background:#1e293b;
+  color:#fff;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:700px){
+
+  .summary-grid{
+    grid-template-columns:
+      repeat(3,1fr);
   }
 
-};
-
-/*******************************************************
- * OTP CONFIG
- *******************************************************/
-
-const OTP_CONFIG = {
-
-  LENGTH: 6,
-
-  EXPIRY_MINUTES: 5,
-
-  MAX_ATTEMPTS: 5,
-
-  RESEND_COOLDOWN_SECONDS: 60,
-
-  RESET_TOKEN_MINUTES: 10
-
-};
-
-/*******************************************************
- * GET
- *******************************************************/
-
-function doGet(e) {
-
-  return jsonResponse_({
-
-    success: true,
-
-    app: 'SmartPlan',
-
-    message: 'SmartPlan Backend is running',
-
-    version: '2.0'
-
-  });
-
-}
-
-/*******************************************************
- * POST
- *******************************************************/
-
-function doPost(e) {
-
-  try {
-
-    if (
-      !e ||
-      !e.postData ||
-      !e.postData.contents
-    ) {
-
-      return jsonResponse_({
-
-        success: false,
-
-        message: 'Invalid request'
-
-      });
-
-    }
-
-    const data =
-      JSON.parse(
-        e.postData.contents
-      );
-
-    if (!data.action) {
-
-      return jsonResponse_({
-
-        success: false,
-
-        message: 'Action is required'
-
-      });
-
-    }
-
-    switch (data.action) {
-
-      case 'health':
-
-        return jsonResponse_({
-
-          success: true,
-
-          message: 'Backend is working',
-
-          version: '2.0'
-
-        });
-
-      /***************************************************
-       * LOGIN
-       ***************************************************/
-
-      case 'login':
-
-        return jsonResponse_(
-          employeeLogin_(
-            data.employeeId,
-            data.password
-          )
-        );
-
-      /***************************************************
-       * SEND OTP
-       ***************************************************/
-
-      case 'send_reset_otp':
-
-        return jsonResponse_(
-          sendPasswordResetOTP_(
-            data.employeeId
-          )
-        );
-
-      /***************************************************
-       * VERIFY OTP
-       ***************************************************/
-
-      case 'verify_reset_otp':
-
-        return jsonResponse_(
-          verifyPasswordResetOTP_(
-            data.employeeId,
-            data.otp
-          )
-        );
-
-      /***************************************************
-       * RESET PASSWORD
-       ***************************************************/
-
-      case 'reset_password':
-
-        return jsonResponse_(
-          resetPasswordWithOTP_(
-            data.employeeId,
-            data.resetToken,
-            data.newPassword
-          )
-        );
-
-      /***************************************************
-       * DASHBOARD
-       ***************************************************/
-
-      case 'dashboard':
-
-        return jsonResponse_(
-          getDashboard_(
-            data.employeeId
-          )
-        );
-
-      /***************************************************
-       * CUSTOMER LIST
-       ***************************************************/
-
-      case 'customers':
-
-        return jsonResponse_(
-          getCustomers_()
-        );
-
-      /***************************************************
-       * PRODUCT LIST
-       ***************************************************/
-
-      case 'products':
-
-        return jsonResponse_(
-          getProducts_()
-        );
-
-      /***************************************************
-       * VISIT HISTORY
-       ***************************************************/
-
-      case 'visit_history':
-
-        return jsonResponse_(
-          getVisitHistory_(
-            data.employeeId
-          )
-        );
-
-      default:
-
-        return jsonResponse_({
-
-          success: false,
-
-          message: 'Unknown action'
-
-        });
-
-    }
-
-  } catch (error) {
-
-    console.error(error);
-
-    return jsonResponse_({
-
-      success: false,
-
-      message: 'Server error'
-
-    });
-
+  .menu-grid{
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
 }
 
-/*******************************************************
- * JSON RESPONSE
- *******************************************************/
+@media(max-width:480px){
 
-function jsonResponse_(data) {
+  .page{
+    padding:12px;
+  }
 
-  return ContentService
+  .card{
+    padding:22px 18px;
+  }
 
-    .createTextOutput(
-      JSON.stringify(data)
-    )
+  .summary-card{
+    padding:14px 10px;
+  }
 
-    .setMimeType(
-      ContentService.MimeType.JSON
-    );
+  .summary-card .number{
+    font-size:23px;
+  }
+
+  .menu-card{
+    padding:16px 12px;
+  }
+
+  .content{
+    padding:
+      14px
+      10px
+      30px;
+  }
+
+  .topbar{
+    padding:10px;
+  }
 
 }
 
-/*******************************************************
- * GET SHEET
- *******************************************************/
+/* =====================================================
+   SPINNER
+===================================================== */
 
-function getSheet_(sheetName) {
+.spinner{
+  width:18px;
+  height:18px;
+  border:
+    2px solid
+    rgba(255,255,255,.4);
+  border-top-color:white;
+  border-radius:50%;
+  animation:
+    spin .7s linear infinite;
+  display:inline-block;
+  vertical-align:middle;
+}
 
-  const ss =
-    SpreadsheetApp.openById(
-      CONFIG.SPREADSHEET_ID
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ===================================================
+     LOGIN / AUTH
+=================================================== -->
+
+<div id="authPage"
+     class="page">
+
+  <div class="container">
+
+    <!-- LOGIN -->
+
+    <div id="loginPage"
+         class="card">
+
+      <div class="logo">
+
+        <div class="logo-icon">
+          SP
+        </div>
+
+        <h1>SmartPlan</h1>
+
+        <p>
+          Employee Management System
+        </p>
+
+      </div>
+
+      <div id="loginMessage"
+           class="message"></div>
+
+      <div class="form-group">
+
+        <label>
+          Employee ID
+        </label>
+
+        <input
+          id="loginEmployeeId"
+          type="text"
+          placeholder="Enter Employee ID"
+          autocomplete="username">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Password
+        </label>
+
+        <div class="password-box">
+
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Enter password"
+            autocomplete="current-password">
+
+          <span
+            class="show-password"
+            onclick="togglePassword('loginPassword',this)">
+            Show
+          </span>
+
+        </div>
+
+      </div>
+
+      <div id="loginLoading"
+           class="loading">
+        <span class="spinner"></span>
+        Signing in...
+      </div>
+
+      <button
+        id="loginButton"
+        class="btn btn-primary"
+        onclick="login()">
+
+        Login
+
+      </button>
+
+      <div class="center"
+           style="margin-top:18px">
+
+        <span
+          class="link"
+          onclick="showForgot()">
+
+          Forgot Password?
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+
+    <div id="forgotPage"
+         class="card hidden">
+
+      <div class="logo">
+
+        <div class="logo-icon">
+          🔐
+        </div>
+
+        <h1>Reset Password</h1>
+
+        <p>
+          Verify your registered email
+        </p>
+
+      </div>
+
+      <div id="forgotMessage"
+           class="message"></div>
+
+      <!-- STEP 1 -->
+
+      <div id="forgotStep1">
+
+        <div class="step-title">
+          Enter Employee ID
+        </div>
+
+        <div class="step-subtitle">
+          We will send a verification
+          code to your registered email.
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Employee ID
+          </label>
+
+          <input
+            id="resetEmployeeId"
+            type="text"
+            placeholder="Example: S001">
+
+        </div>
+
+        <div id="otpSendLoading"
+             class="loading">
+          <span class="spinner"></span>
+          Sending OTP...
+        </div>
+
+        <button
+          class="btn btn-primary"
+          onclick="sendOTP()">
+
+          Send OTP
+
+        </button>
+
+        <div class="center"
+             style="margin-top:18px">
+
+          <span
+            class="link"
+            onclick="showLogin()">
+
+            ← Back to Login
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- STEP 2 -->
+
+      <div id="forgotStep2"
+           class="hidden">
+
+        <div class="step-title">
+          Enter OTP
+        </div>
+
+        <div class="step-subtitle">
+          Enter the 6-digit code sent
+          to your registered email.
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Verification Code
+          </label>
+
+          <input
+            id="otpInput"
+            class="otp-input"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="000000">
+
+        </div>
+
+        <div id="otpVerifyLoading"
+             class="loading">
+          <span class="spinner"></span>
+          Verifying OTP...
+        </div>
+
+        <button
+          class="btn btn-primary"
+          onclick="verifyOTP()">
+
+          Verify OTP
+
+        </button>
+
+        <div class="center"
+             style="margin-top:18px">
+
+          <span
+            class="link"
+            onclick="backToEmployeeId()">
+
+            ← Change Employee ID
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- STEP 3 -->
+
+      <div id="forgotStep3"
+           class="hidden">
+
+        <div class="step-title">
+          Create New Password
+        </div>
+
+        <div class="step-subtitle">
+          Your OTP has been verified.
+          Create a new password.
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            New Password
+          </label>
+
+          <div class="password-box">
+
+            <input
+              id="newPassword"
+              type="password"
+              placeholder="Minimum 8 characters">
+
+            <span
+              class="show-password"
+              onclick="togglePassword('newPassword',this)">
+              Show
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Confirm Password
+          </label>
+
+          <div class="password-box">
+
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="Re-enter password">
+
+            <span
+              class="show-password"
+              onclick="togglePassword('confirmPassword',this)">
+              Show
+            </span>
+
+          </div>
+
+        </div>
+
+        <div id="resetLoading"
+             class="loading">
+          <span class="spinner"></span>
+          Resetting password...
+        </div>
+
+        <button
+          class="btn btn-success"
+          onclick="resetPassword()">
+
+          Reset Password
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ===================================================
+     DASHBOARD
+=================================================== -->
+
+<div id="dashboardPage"
+     class="dashboard hidden">
+
+  <!-- TOPBAR -->
+
+  <div class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        SP
+      </div>
+
+      <div class="brand-text">
+
+        <strong>
+          SmartPlan
+        </strong>
+
+        <small id="topEmployeeName">
+          Employee
+        </small>
+
+      </div>
+
+    </div>
+
+    <div class="top-actions">
+
+      <button
+        class="btn btn-small btn-secondary"
+        onclick="toggleDarkMode()">
+
+        🌙
+
+      </button>
+
+      <button
+        class="btn btn-small btn-danger"
+        onclick="logout()">
+
+        Logout
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- CONTENT -->
+
+  <div class="content">
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+      <h2>
+        Welcome,
+        <span id="employeeName">
+          Employee
+        </span>
+      </h2>
+
+      <p>
+        <span id="employeeIdText">
+          -
+        </span>
+
+        ·
+
+        <span id="employeeRole">
+          Employee
+        </span>
+      </p>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+      <div class="summary-card">
+
+        <div class="icon">
+          📍
+        </div>
+
+        <div
+          id="visitCount"
+          class="number">
+          0
+        </div>
+
+        <div class="label">
+          Visits
+        </div>
+
+      </div>
+
+      <div class="summary-card">
+
+        <div class="icon">
+          🛒
+        </div>
+
+        <div
+          id="orderCount"
+          class="number">
+          0
+        </div>
+
+        <div class="label">
+          Orders
+        </div>
+
+      </div>
+
+      <div class="summary-card">
+
+        <div class="icon">
+          👥
+        </div>
+
+        <div
+          id="customerCount"
+          class="number">
+          0
+        </div>
+
+        <div class="label">
+          Customers
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MAIN MENU -->
+
+    <div id="homeView">
+
+      <div class="section-title">
+        SmartPlan Modules
+      </div>
+
+      <div class="menu-grid">
+
+        <button
+          class="menu-card"
+          onclick="openModule('visit')">
+
+          <div class="menu-icon">
+            📍
+          </div>
+
+          <strong>
+            Market Visit
+          </strong>
+
+          <small>
+            Start and record visit
+          </small>
+
+        </button>
+
+        <button
+          class="menu-card"
+          onclick="openModule('customers')">
+
+          <div class="menu-icon">
+            👥
+          </div>
+
+          <strong>
+            Customers
+          </strong>
+
+          <small>
+            Customer list
+          </small>
+
+        </button>
+
+        <button
+          class="menu-card"
+          onclick="openModule('products')">
+
+          <div class="menu-icon">
+            📦
+          </div>
+
+          <strong>
+            Products
+          </strong>
+
+          <small>
+            Product catalogue
+          </small>
+
+        </button>
+
+        <button
+          class="menu-card"
+          onclick="openModule('visits')">
+
+          <div class="menu-icon">
+            📋
+          </div>
+
+          <strong>
+            Visit History
+          </strong>
+
+          <small>
+            Previous visits
+          </small>
+
+        </button>
+
+        <button
+          class="menu-card"
+          onclick="openModule('orders')">
+
+          <div class="menu-icon">
+            🛒
+          </div>
+
+          <strong>
+            Orders
+          </strong>
+
+          <small>
+            Order management
+          </small>
+
+        </button>
+
+        <button
+          class="menu-card"
+          onclick="openModule('profile')">
+
+          <div class="menu-icon">
+            👤
+          </div>
+
+          <strong>
+            Profile
+          </strong>
+
+          <small>
+            Employee information
+          </small>
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- MODULE VIEW -->
+
+    <div id="moduleView"
+         class="module-page hidden">
+
+      <div class="module-header">
+
+        <button
+          class="back-btn"
+          onclick="closeModule()">
+
+          ←
+
+        </button>
+
+        <h2 id="moduleTitle">
+          Module
+        </h2>
+
+      </div>
+
+      <div id="moduleContent">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   CONFIG
+===================================================== */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycby3WRF18GNOF-JE0eaeZST0fM-Yd9VwrEN1oKU75CjFvYBxLxNk_KV2lx-MaQd-28Bx/exec';
+
+/* =====================================================
+   APP STATE
+===================================================== */
+
+let currentEmployee = null;
+
+let resetEmployeeId = '';
+
+let resetToken = '';
+
+let customersData = [];
+
+let productsData = [];
+
+let visitsData = [];
+
+/* =====================================================
+   DOM
+===================================================== */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+  id,
+  message,
+  type='info'
+){
+
+  const el = $(id);
+
+  if(!el) return;
+
+  el.textContent =
+    message;
+
+  el.className =
+    'message show ' +
+    type;
+
+}
+
+function clearMessage(id){
+
+  const el = $(id);
+
+  if(!el) return;
+
+  el.textContent = '';
+
+  el.className =
+    'message';
+
+}
+
+/* =====================================================
+   API REQUEST
+===================================================== */
+
+async function apiRequest(
+  action,
+  payload={}
+){
+
+  const body = {
+
+    action:
+      action,
+
+    ...payload
+
+  };
+
+  const response =
+    await fetch(
+      API_URL,
+      {
+
+        method:'POST',
+
+        headers:{
+          'Content-Type':
+            'text/plain;charset=utf-8'
+        },
+
+        body:
+          JSON.stringify(body)
+
+      }
     );
 
-  const sheet =
-    ss.getSheetByName(
-      sheetName
-    );
+  const text =
+    await response.text();
 
-  if (!sheet) {
+  let data;
+
+  try{
+
+    data =
+      JSON.parse(text);
+
+  }catch(error){
 
     throw new Error(
-      'Sheet not found: ' +
-      sheetName
+      'Invalid server response'
     );
 
   }
 
-  return sheet;
+  return data;
 
 }
 
-/*******************************************************
- * SHA256
- *******************************************************/
+/* =====================================================
+   LOGIN
+===================================================== */
 
-function sha256_(text) {
+async function login(){
 
-  const bytes =
-    Utilities.computeDigest(
-      Utilities.DigestAlgorithm.SHA_256,
-      String(text),
-      Utilities.Charset.UTF_8
-    );
-
-  return bytes.map(
-    function(byte) {
-
-      const value =
-        byte < 0
-          ? byte + 256
-          : byte;
-
-      return (
-        '0' +
-        value.toString(16)
-      ).slice(-2);
-
-    }
-  ).join('');
-
-}
-
-/*******************************************************
- * SALT
- *******************************************************/
-
-function generateSalt_() {
-
-  return Utilities.getUuid();
-
-}
-
-/*******************************************************
- * PASSWORD HASH
- *******************************************************/
-
-function createPasswordHash_(
-  password,
-  salt
-) {
-
-  return sha256_(
-    salt +
-    ':' +
-    password
+  clearMessage(
+    'loginMessage'
   );
 
-}
+  const employeeId =
+    $('loginEmployeeId')
+      .value
+      .trim();
 
-/*******************************************************
- * FIND EMPLOYEE
- *******************************************************/
+  const password =
+    $('loginPassword')
+      .value;
 
-function findEmployee_(employeeId) {
+  if(!employeeId){
 
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.EMPLOYEES
+    showMessage(
+      'loginMessage',
+      'Employee ID is required',
+      'error'
     );
 
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
-
-  if (data.length < 2) {
-
-    return null;
+    return;
 
   }
 
-  const headers =
-    data[0];
+  if(!password){
 
-  const employeeIdIndex =
-    headers.indexOf(
-      'EmployeeID'
+    showMessage(
+      'loginMessage',
+      'Password is required',
+      'error'
     );
 
-  if (employeeIdIndex === -1) {
-
-    throw new Error(
-      'EmployeeID column not found'
-    );
+    return;
 
   }
 
-  for (
-    let i = 1;
-    i < data.length;
-    i++
-  ) {
+  $('loginLoading')
+    .classList
+    .add('show');
 
-    if (
-      String(
-        data[i][employeeIdIndex]
-      ).trim()
-      ===
-      String(employeeId).trim()
-    ) {
+  $('loginButton')
+    .disabled = true;
 
-      const employee = {};
+  try{
 
-      headers.forEach(
-        function(header,index) {
+    const result =
+      await apiRequest(
+        'login',
+        {
 
-          employee[header] =
-            data[i][index];
+          employeeId:
+            employeeId,
+
+          password:
+            password
 
         }
       );
 
-      employee._row =
-        i + 1;
-
-      return employee;
-
-    }
-
-  }
-
-  return null;
-
-}
-
-/*******************************************************
- * LOGIN
- *******************************************************/
-
-function employeeLogin_(
-  employeeId,
-  password
-) {
-
-  if (
-    !employeeId ||
-    !password
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Employee ID and password are required'
-
-    };
-
-  }
-
-  const employee =
-    findEmployee_(
-      employeeId
-    );
-
-  if (!employee) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Invalid Employee ID or password'
-
-    };
-
-  }
-
-  if (
-    String(
-      employee.Status || ''
-    )
-    .trim()
-    .toLowerCase()
-    !==
-    'active'
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Account is inactive'
-
-    };
-
-  }
-
-  if (!employee.PasswordHash) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Account setup is incomplete'
-
-    };
-
-  }
-
-  const stored =
-    String(
-      employee.PasswordHash
-    );
-
-  const parts =
-    stored.split('$');
-
-  if (parts.length !== 2) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Account security configuration error'
-
-    };
-
-  }
-
-  const salt =
-    parts[0];
-
-  const storedHash =
-    parts[1];
-
-  const incomingHash =
-    createPasswordHash_(
-      password,
-      salt
-    );
-
-  if (
-    incomingHash !==
-    storedHash
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Invalid Employee ID or password'
-
-    };
-
-  }
-
-  updateEmployeeLastLogin_(
-    employee._row
-  );
-
-  writeAuditLog_(
-    employee.EmployeeID,
-    employee.Role,
-    'LOGIN',
-    '',
-    'Successful login'
-  );
-
-  return {
-
-    success: true,
-
-    message:
-      'Login successful',
-
-    employee: {
-
-      employeeId:
-        employee.EmployeeID || '',
-
-      name:
-        employee.Name || '',
-
-      role:
-        employee.Role || '',
-
-      email:
-        employee.Email || ''
-
-    }
-
-  };
-
-}
-
-/*******************************************************
- * LAST LOGIN
- *******************************************************/
-
-function updateEmployeeLastLogin_(
-  rowNumber
-) {
-
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.EMPLOYEES
-    );
-
-  const headers =
-    sheet
-      .getRange(
-        1,
-        1,
-        1,
-        sheet.getLastColumn()
-      )
-      .getValues()[0];
-
-  const index =
-    headers.indexOf(
-      'LastLogin'
-    );
-
-  if (index !== -1) {
-
-    sheet
-      .getRange(
-        rowNumber,
-        index + 1
-      )
-      .setValue(
-        new Date()
+    if(!result.success){
+
+      showMessage(
+        'loginMessage',
+        result.message ||
+        'Login failed',
+        'error'
       );
 
-  }
+      return;
 
-}
+    }
 
-/*******************************************************
- * SET PASSWORD
- *******************************************************/
+    currentEmployee =
+      result.employee;
 
-function setEmployeePassword_(
-  employeeId,
-  newPassword
-) {
-
-  if (
-    !employeeId ||
-    !newPassword
-  ) {
-
-    throw new Error(
-      'Employee ID and password are required'
-    );
-
-  }
-
-  if (
-    String(newPassword).length < 8
-  ) {
-
-    throw new Error(
-      'Password must contain at least 8 characters'
-    );
-
-  }
-
-  const employee =
-    findEmployee_(
-      employeeId
-    );
-
-  if (!employee) {
-
-    throw new Error(
-      'Employee not found'
-    );
-
-  }
-
-  const salt =
-    generateSalt_();
-
-  const hash =
-    createPasswordHash_(
-      newPassword,
-      salt
-    );
-
-  const storedValue =
-    salt +
-    '$' +
-    hash;
-
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.EMPLOYEES
-    );
-
-  const headers =
-    sheet
-      .getRange(
-        1,
-        1,
-        1,
-        sheet.getLastColumn()
+    sessionStorage.setItem(
+      'smartplan_employee',
+      JSON.stringify(
+        currentEmployee
       )
-      .getValues()[0];
-
-  const passwordIndex =
-    headers.indexOf(
-      'PasswordHash'
     );
 
-  if (passwordIndex === -1) {
+    showDashboard();
 
-    throw new Error(
-      'PasswordHash column not found'
+  }catch(error){
+
+    showMessage(
+      'loginMessage',
+      error.message ||
+      'Unable to connect to server',
+      'error'
     );
+
+  }finally{
+
+    $('loginLoading')
+      .classList
+      .remove('show');
+
+    $('loginButton')
+      .disabled = false;
 
   }
-
-  sheet
-    .getRange(
-      employee._row,
-      passwordIndex + 1
-    )
-    .setValue(
-      storedValue
-    );
-
-  writeAuditLog_(
-    employee.EmployeeID,
-    employee.Role,
-    'PASSWORD_SET',
-    '',
-    'Password hash created'
-  );
-
-  return {
-
-    success: true,
-
-    message:
-      'Password set successfully'
-
-  };
 
 }
 
-/*******************************************************
- * OTP GENERATOR
- *******************************************************/
+/* =====================================================
+   SHOW DASHBOARD
+===================================================== */
 
-function generateOTP_() {
+function showDashboard(){
 
-  const min = 100000;
+  $('authPage')
+    .classList
+    .add('hidden');
 
-  const max = 999999;
+  $('dashboardPage')
+    .classList
+    .remove('hidden');
 
-  return String(
-    Math.floor(
-      Math.random() *
-      (max - min + 1)
-    ) + min
-  );
+  if(!currentEmployee)
+    return;
+
+  $('employeeName')
+    .textContent =
+      currentEmployee.name ||
+      'Employee';
+
+  $('topEmployeeName')
+    .textContent =
+      currentEmployee.name ||
+      'Employee';
+
+  $('employeeIdText')
+    .textContent =
+      currentEmployee.employeeId ||
+      '-';
+
+  $('employeeRole')
+    .textContent =
+      currentEmployee.role ||
+      'Employee';
+
+  loadDashboard();
 
 }
 
-/*******************************************************
- * SEND RESET OTP
- *******************************************************/
+/* =====================================================
+   LOAD DASHBOARD
+===================================================== */
 
-function sendPasswordResetOTP_(
-  employeeId
-) {
+async function loadDashboard(){
 
-  if (!employeeId) {
+  if(!currentEmployee)
+    return;
 
-    return {
+  try{
 
-      success: false,
+    const result =
+      await apiRequest(
+        'dashboard',
+        {
 
-      message:
-        'Request could not be processed'
+          employeeId:
+            currentEmployee.employeeId
 
-    };
-
-  }
-
-  const employee =
-    findEmployee_(
-      employeeId
-    );
-
-  /*
-   * Generic response
-   * prevents account enumeration.
-   */
-
-  if (!employee) {
-
-    return {
-
-      success: true,
-
-      message:
-        'If the account exists, a verification code has been sent to the registered email.'
-
-    };
-
-  }
-
-  if (
-    String(
-      employee.Status || ''
-    )
-    .trim()
-    .toLowerCase()
-    !==
-    'active'
-  ) {
-
-    return {
-
-      success: true,
-
-      message:
-        'If the account exists, a verification code has been sent to the registered email.'
-
-    };
-
-  }
-
-  const email =
-    String(
-      employee.Email || ''
-    ).trim();
-
-  if (!email) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Registered email is missing'
-
-    };
-
-  }
-
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.OTP
-    );
-
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
-
-  const headers =
-    data[0] || [];
-
-  const employeeIndex =
-    headers.indexOf(
-      'EmployeeID'
-    );
-
-  const createdIndex =
-    headers.indexOf(
-      'CreatedAt'
-    );
-
-  const usedIndex =
-    headers.indexOf(
-      'Used'
-    );
-
-  if (
-    employeeIndex === -1 ||
-    createdIndex === -1 ||
-    usedIndex === -1
-  ) {
-
-    throw new Error(
-      'OTP sheet columns are incorrect'
-    );
-
-  }
-
-  const now =
-    new Date();
-
-  /*
-   * Cooldown
-   */
-
-  for (
-    let i = data.length - 1;
-    i >= 1;
-    i--
-  ) {
-
-    const row =
-      data[i];
-
-    const rowEmployeeId =
-      String(
-        row[employeeIndex] || ''
+        }
       );
 
-    const createdAt =
-      row[createdIndex];
+    if(
+      result.success &&
+      result.summary
+    ){
 
-    const used =
-      row[usedIndex];
+      $('visitCount')
+        .textContent =
+          result.summary.visits || 0;
 
-    if (
-      rowEmployeeId ===
-      String(employeeId) &&
-      createdAt instanceof Date &&
-      !used
-    ) {
+      $('orderCount')
+        .textContent =
+          result.summary.orders || 0;
 
-      const seconds =
-        (
-          now.getTime() -
-          createdAt.getTime()
-        ) / 1000;
-
-      if (
-        seconds <
-        OTP_CONFIG.RESEND_COOLDOWN_SECONDS
-      ) {
-
-        return {
-
-          success: false,
-
-          message:
-            'Please wait before requesting another OTP.'
-
-        };
-
-      }
+      $('customerCount')
+        .textContent =
+          result.summary.customers || 0;
 
     }
 
+  }catch(error){
+
+    console.log(
+      'Dashboard error:',
+      error
+    );
+
   }
 
-  /*
-   * Invalidate old OTPs
-   */
+}
 
-  for (
-    let i = 1;
-    i < data.length;
-    i++
-  ) {
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
 
-    if (
-      String(
-        data[i][employeeIndex]
-      )
-      ===
-      String(employeeId)
-    ) {
+function showForgot(){
 
-      if (
-        data[i][usedIndex] !== true
-      ) {
+  $('loginPage')
+    .classList
+    .add('hidden');
 
-        sheet
-          .getRange(
-            i + 1,
-            usedIndex + 1
-          )
-          .setValue(true);
+  $('forgotPage')
+    .classList
+    .remove('hidden');
 
-      }
+  resetForgotUI();
+
+}
+
+function showLogin(){
+
+  $('forgotPage')
+    .classList
+    .add('hidden');
+
+  $('loginPage')
+    .classList
+    .remove('hidden');
+
+  clearMessage(
+    'loginMessage'
+  );
+
+}
+
+function resetForgotUI(){
+
+  $('forgotStep1')
+    .classList
+    .remove('hidden');
+
+  $('forgotStep2')
+    .classList
+    .add('hidden');
+
+  $('forgotStep3')
+    .classList
+    .add('hidden');
+
+  clearMessage(
+    'forgotMessage'
+  );
+
+  resetEmployeeId =
+    '';
+
+  resetToken =
+    '';
+
+}
+
+/* =====================================================
+   SEND OTP
+===================================================== */
+
+async function sendOTP(){
+
+  clearMessage(
+    'forgotMessage'
+  );
+
+  const employeeId =
+    $('resetEmployeeId')
+      .value
+      .trim();
+
+  if(!employeeId){
+
+    showMessage(
+      'forgotMessage',
+      'Please enter Employee ID',
+      'error'
+    );
+
+    return;
+
+  }
+
+  $('otpSendLoading')
+    .classList
+    .add('show');
+
+  try{
+
+    const result =
+      await apiRequest(
+        'send_reset_otp',
+        {
+
+          employeeId:
+            employeeId
+
+        }
+      );
+
+    if(!result.success){
+
+      showMessage(
+        'forgotMessage',
+        result.message ||
+        'Unable to send OTP',
+        'error'
+      );
+
+      return;
 
     }
 
+    resetEmployeeId =
+      employeeId;
+
+    showMessage(
+      'forgotMessage',
+      result.message ||
+      'If the account exists, a verification code has been sent.',
+      'success'
+    );
+
+    $('forgotStep1')
+      .classList
+      .add('hidden');
+
+    $('forgotStep2')
+      .classList
+      .remove('hidden');
+
+    $('otpInput')
+      .focus();
+
+  }catch(error){
+
+    showMessage(
+      'forgotMessage',
+      error.message ||
+      'Unable to send OTP',
+      'error'
+    );
+
+  }finally{
+
+    $('otpSendLoading')
+      .classList
+      .remove('show');
+
   }
+
+}
+
+/* =====================================================
+   VERIFY OTP
+===================================================== */
+
+async function verifyOTP(){
+
+  clearMessage(
+    'forgotMessage'
+  );
 
   const otp =
-    generateOTP_();
+    $('otpInput')
+      .value
+      .trim();
 
-  const otpHash =
-    sha256_(
-      String(employeeId) +
-      ':' +
-      otp
+  if(!/^\d{6}$/.test(otp)){
+
+    showMessage(
+      'forgotMessage',
+      'Enter a valid 6-digit OTP',
+      'error'
     );
 
-  const createdAt =
-    new Date();
+    return;
 
-  const expiresAt =
-    new Date(
-      createdAt.getTime() +
-      OTP_CONFIG.EXPIRY_MINUTES *
-      60 *
-      1000
+  }
+
+  $('otpVerifyLoading')
+    .classList
+    .add('show');
+
+  try{
+
+    const result =
+      await apiRequest(
+        'verify_reset_otp',
+        {
+
+          employeeId:
+            resetEmployeeId,
+
+          otp:
+            otp
+
+        }
+      );
+
+    if(!result.success){
+
+      showMessage(
+        'forgotMessage',
+        result.message ||
+        'Invalid OTP',
+        'error'
+      );
+
+      return;
+
+    }
+
+    resetToken =
+      result.resetToken;
+
+    $('forgotStep2')
+      .classList
+      .add('hidden');
+
+    $('forgotStep3')
+      .classList
+      .remove('hidden');
+
+    showMessage(
+      'forgotMessage',
+      'OTP verified successfully',
+      'success'
     );
 
-  const otpRecordId =
-    Utilities.getUuid();
+    $('newPassword')
+      .focus();
 
-  /*
-   * OTP Sheet:
-   *
-   * OTPRecordID
-   * EmployeeID
-   * OTPHash
-   * CreatedAt
-   * ExpiresAt
-   * Attempts
-   * Used
-   * ResetTokenHash
-   * ResetTokenExpiresAt
-   */
+  }catch(error){
 
-  sheet.appendRow([
+    showMessage(
+      'forgotMessage',
+      error.message ||
+      'Unable to verify OTP',
+      'error'
+    );
 
-    otpRecordId,
+  }finally{
 
-    employeeId,
+    $('otpVerifyLoading')
+      .classList
+      .remove('show');
 
-    otpHash,
+  }
 
-    createdAt,
+}
 
-    expiresAt,
+/* =====================================================
+   RESET PASSWORD
+===================================================== */
 
-    0,
+async function resetPassword(){
 
-    false,
-
-    '',
-
-    ''
-
-  ]);
-
-  const subject =
-    'SmartPlan Password Reset OTP';
-
-  const body =
-`SmartPlan Password Reset
-
-Hello ${employee.Name || 'Employee'},
-
-Your SmartPlan password reset verification code is:
-
-${otp}
-
-This OTP is valid for ${OTP_CONFIG.EXPIRY_MINUTES} minutes.
-
-Do not share this OTP with anyone.
-
-If you did not request a password reset,
-please ignore this email.
-
-SmartPlan Security`;
-
-  MailApp.sendEmail({
-
-    to: email,
-
-    subject: subject,
-
-    body: body
-
-  });
-
-  writeAuditLog_(
-    employee.EmployeeID,
-    employee.Role,
-    'OTP_REQUESTED',
-    otpRecordId,
-    'Password reset OTP sent'
+  clearMessage(
+    'forgotMessage'
   );
 
-  return {
+  const newPassword =
+    $('newPassword')
+      .value;
 
-    success: true,
+  const confirmPassword =
+    $('confirmPassword')
+      .value;
 
-    message:
-      'If the account exists, a verification code has been sent to the registered email.'
+  if(newPassword.length < 8){
 
-  };
+    showMessage(
+      'forgotMessage',
+      'Password must contain at least 8 characters',
+      'error'
+    );
+
+    return;
+
+  }
+
+  if(
+    newPassword !==
+    confirmPassword
+  ){
+
+    showMessage(
+      'forgotMessage',
+      'Passwords do not match',
+      'error'
+    );
+
+    return;
+
+  }
+
+  if(!resetToken){
+
+    showMessage(
+      'forgotMessage',
+      'Reset session expired. Start again.',
+      'error'
+    );
+
+    return;
+
+  }
+
+  $('resetLoading')
+    .classList
+    .add('show');
+
+  try{
+
+    const result =
+      await apiRequest(
+        'reset_password',
+        {
+
+          employeeId:
+            resetEmployeeId,
+
+          resetToken:
+            resetToken,
+
+          newPassword:
+            newPassword
+
+        }
+      );
+
+    if(!result.success){
+
+      showMessage(
+        'forgotMessage',
+        result.message ||
+        'Password reset failed',
+        'error'
+      );
+
+      return;
+
+    }
+
+    showMessage(
+      'forgotMessage',
+      'Password reset successfully. You can now login with your new password.',
+      'success'
+    );
+
+    setTimeout(
+      function(){
+
+        $('forgotPage')
+          .classList
+          .add('hidden');
+
+        $('loginPage')
+          .classList
+          .remove('hidden');
+
+        $('loginEmployeeId')
+          .value =
+            resetEmployeeId;
+
+        $('loginPassword')
+          .value =
+            '';
+
+        resetForgotUI();
+
+      },
+      1800
+    );
+
+  }catch(error){
+
+    showMessage(
+      'forgotMessage',
+      error.message ||
+      'Unable to reset password',
+      'error'
+    );
+
+  }finally{
+
+    $('resetLoading')
+      .classList
+      .remove('show');
+
+  }
 
 }
 
-/*******************************************************
- * VERIFY OTP
- *******************************************************/
-
-function verifyPasswordResetOTP_(
-  employeeId,
-  otp
-) {
-
-  if (
-    !employeeId ||
-    !otp
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Invalid verification code'
-
-    };
-
-  }
-
-  otp =
-    String(otp).trim();
-
-  if (
-    !/^\d{6}$/.test(otp)
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Invalid verification code'
-
-    };
-
-  }
-
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.OTP
-    );
-
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
-
-  if (data.length < 2) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Invalid verification code'
-
-    };
-
-  }
-
-  const headers =
-    data[0];
-
-  const employeeIndex =
-    headers.indexOf(
-      'EmployeeID'
-    );
-
-  const otpHashIndex =
-    headers.indexOf(
-      'OTPHash'
-    );
-
-  const expiresIndex =
-    headers.indexOf(
-      'ExpiresAt'
-    );
-
-  const attemptsIndex =
-    headers.indexOf(
-      'Attempts'
-    );
-
-  const usedIndex =
-    headers.indexOf(
-      'Used'
-    );
-
-  const resetHashIndex =
-    headers.indexOf(
-      'ResetTokenHash'
-    );
-
-  const resetExpiresIndex =
-    headers.indexOf(
-      'ResetTokenExpiresAt'
-    );
-
-  if (
-    employeeIndex === -1 ||
-    otpHashIndex === -1 ||
-    expiresIndex === -1 ||
-    attemptsIndex === -1 ||
-    usedIndex === -1 ||
-    resetHashIndex === -1 ||
-    resetExpiresIndex === -1
-  ) {
-
-    throw new Error(
-      'OTP sheet columns are incorrect'
-    );
-
-  }
-
-  for (
-    let i = data.length - 1;
-    i >= 1;
-    i--
-  ) {
-
-    const row =
-      data[i];
-
-    if (
-      String(
-        row[employeeIndex]
-      )
-      !==
-      String(employeeId)
-    ) {
-
-      continue;
-
-    }
-
-    if (
-      row[usedIndex] === true
-    ) {
-
-      continue;
-
-    }
-
-    const attempts =
-      Number(
-        row[attemptsIndex] || 0
-      );
-
-    if (
-      attempts >=
-      OTP_CONFIG.MAX_ATTEMPTS
-    ) {
-
-      return {
-
-        success: false,
-
-        message:
-          'Too many incorrect attempts'
-
-      };
-
-    }
-
-    const expiresAt =
-      new Date(
-        row[expiresIndex]
-      );
-
-    if (
-      isNaN(
-        expiresAt.getTime()
-      ) ||
-      new Date() >
-      expiresAt
-    ) {
-
-      return {
-
-        success: false,
-
-        message:
-          'OTP has expired'
-
-      };
-
-    }
-
-    const incomingHash =
-      sha256_(
-        String(employeeId) +
-        ':' +
-        otp
-      );
-
-    if (
-      incomingHash !==
-      String(
-        row[otpHashIndex]
-      )
-    ) {
-
-      sheet
-        .getRange(
-          i + 1,
-          attemptsIndex + 1
-        )
-        .setValue(
-          attempts + 1
-        );
-
-      return {
-
-        success: false,
-
-        message:
-          'Invalid verification code'
-
-      };
-
-    }
-
-    /*
-     * OTP used
-     */
-
-    sheet
-      .getRange(
-        i + 1,
-        usedIndex + 1
-      )
-      .setValue(true);
-
-    /*
-     * Reset token
-     */
-
-    const resetToken =
-      Utilities.getUuid() +
-      '-' +
-      Utilities.getUuid();
-
-    const resetTokenHash =
-      sha256_(
-        String(employeeId) +
-        ':' +
-        resetToken
-      );
-
-    const resetExpires =
-      new Date(
-        Date.now() +
-        OTP_CONFIG.RESET_TOKEN_MINUTES *
-        60 *
-        1000
-      );
-
-    sheet
-      .getRange(
-        i + 1,
-        resetHashIndex + 1
-      )
-      .setValue(
-        resetTokenHash
-      );
-
-    sheet
-      .getRange(
-        i + 1,
-        resetExpiresIndex + 1
-      )
-      .setValue(
-        resetExpires
-      );
-
-    writeAuditLog_(
-      employeeId,
-      '',
-      'OTP_VERIFIED',
-      String(row[0]),
-      'Password reset OTP verified'
-    );
-
-    return {
-
-      success: true,
-
-      message:
-        'OTP verified successfully',
-
-      resetToken:
-        resetToken
-
-    };
-
-  }
-
-  return {
-
-    success: false,
-
-    message:
-      'Invalid verification code'
-
-  };
+/* =====================================================
+   BACK TO EMPLOYEE ID
+===================================================== */
+
+function backToEmployeeId(){
+
+  $('forgotStep2')
+    .classList
+    .add('hidden');
+
+  $('forgotStep1')
+    .classList
+    .remove('hidden');
+
+  clearMessage(
+    'forgotMessage'
+  );
 
 }
 
-/*******************************************************
- * RESET PASSWORD
- *******************************************************/
+/* =====================================================
+   TOGGLE PASSWORD
+===================================================== */
 
-function resetPasswordWithOTP_(
-  employeeId,
-  resetToken,
-  newPassword
-) {
+function togglePassword(
+  inputId,
+  element
+){
 
-  if (
-    !employeeId ||
-    !resetToken ||
-    !newPassword
-  ) {
+  const input =
+    $(inputId);
 
-    return {
+  if(
+    input.type ===
+    'password'
+  ){
 
-      success: false,
+    input.type =
+      'text';
 
-      message:
-        'Unable to reset password'
+    element.textContent =
+      'Hide';
 
-    };
+  }else{
 
-  }
+    input.type =
+      'password';
 
-  if (
-    String(newPassword).length < 8
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Password must contain at least 8 characters'
-
-    };
+    element.textContent =
+      'Show';
 
   }
 
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.OTP
-    );
+}
 
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
+/* =====================================================
+   MODULE
+===================================================== */
 
-  const headers =
-    data[0];
+async function openModule(
+  module
+){
 
-  const employeeIndex =
-    headers.indexOf(
-      'EmployeeID'
-    );
+  $('homeView')
+    .classList
+    .add('hidden');
 
-  const resetHashIndex =
-    headers.indexOf(
-      'ResetTokenHash'
-    );
+  $('moduleView')
+    .classList
+    .remove('hidden');
 
-  const resetExpiresIndex =
-    headers.indexOf(
-      'ResetTokenExpiresAt'
-    );
+  switch(module){
 
-  const usedIndex =
-    headers.indexOf(
-      'Used'
-    );
+    case 'visit':
 
-  if (
-    employeeIndex === -1 ||
-    resetHashIndex === -1 ||
-    resetExpiresIndex === -1 ||
-    usedIndex === -1
-  ) {
+      $('moduleTitle')
+        .textContent =
+          'Market Visit';
 
-    throw new Error(
-      'OTP sheet columns are missing'
-    );
-
-  }
-
-  let tokenRow =
-    -1;
-
-  for (
-    let i = data.length - 1;
-    i >= 1;
-    i--
-  ) {
-
-    if (
-      String(
-        data[i][employeeIndex]
-      )
-      !==
-      String(employeeId)
-    ) {
-
-      continue;
-
-    }
-
-    const storedHash =
-      String(
-        data[i][resetHashIndex] || ''
-      );
-
-    const expires =
-      new Date(
-        data[i][resetExpiresIndex]
-      );
-
-    if (
-      !storedHash ||
-      isNaN(
-        expires.getTime()
-      )
-    ) {
-
-      continue;
-
-    }
-
-    if (
-      new Date() >
-      expires
-    ) {
-
-      continue;
-
-    }
-
-    const incomingHash =
-      sha256_(
-        String(employeeId) +
-        ':' +
-        resetToken
-      );
-
-    if (
-      incomingHash ===
-      storedHash
-    ) {
-
-      tokenRow =
-        i + 1;
+      renderVisitModule();
 
       break;
 
-    }
+    case 'customers':
+
+      $('moduleTitle')
+        .textContent =
+          'Customers';
+
+      await renderCustomers();
+
+      break;
+
+    case 'products':
+
+      $('moduleTitle')
+        .textContent =
+          'Products';
+
+      await renderProducts();
+
+      break;
+
+    case 'visits':
+
+      $('moduleTitle')
+        .textContent =
+          'Visit History';
+
+      await renderVisitHistory();
+
+      break;
+
+    case 'orders':
+
+      $('moduleTitle')
+        .textContent =
+          'Orders';
+
+      renderOrdersModule();
+
+      break;
+
+    case 'profile':
+
+      $('moduleTitle')
+        .textContent =
+          'Employee Profile';
+
+      renderProfile();
+
+      break;
 
   }
 
-  if (
-    tokenRow === -1
-  ) {
+}
 
-    return {
+/* =====================================================
+   CLOSE MODULE
+===================================================== */
 
-      success: false,
+function closeModule(){
 
-      message:
-        'Reset session expired or invalid'
+  $('moduleView')
+    .classList
+    .add('hidden');
 
-    };
+  $('homeView')
+    .classList
+    .remove('hidden');
 
-  }
+}
 
-  const employee =
-    findEmployee_(
-      employeeId
-    );
+/* =====================================================
+   MARKET VISIT
+===================================================== */
 
-  if (!employee) {
+function renderVisitModule(){
 
-    return {
+  $('moduleContent').innerHTML = `
 
-      success: false,
+    <div class="empty">
 
-      message:
-        'Unable to reset password'
+      <div class="empty-icon">
+        📍
+      </div>
 
-    };
+      <h3>
+        Market Visit
+      </h3>
 
-  }
+      <p style="margin-top:8px">
+        GPS + Camera + Customer Visit
+        module is ready for the next
+        backend API integration.
+      </p>
 
-  const salt =
-    generateSalt_();
+      <button
+        class="btn btn-primary"
+        style="margin-top:18px"
+        onclick="startVisitComingSoon()">
 
-  const hash =
-    createPasswordHash_(
-      newPassword,
-      salt
-    );
+        Start Visit
 
-  const storedValue =
-    salt +
-    '$' +
-    hash;
+      </button>
 
-  const employeeSheet =
-    getSheet_(
-      CONFIG.SHEETS.EMPLOYEES
-    );
+    </div>
 
-  const employeeHeaders =
-    employeeSheet
-      .getRange(
-        1,
-        1,
-        1,
-        employeeSheet.getLastColumn()
-      )
-      .getValues()[0];
+  `;
 
-  const passwordIndex =
-    employeeHeaders.indexOf(
-      'PasswordHash'
-    );
+}
 
-  if (
-    passwordIndex === -1
-  ) {
+function startVisitComingSoon(){
 
-    throw new Error(
-      'PasswordHash column not found'
-    );
-
-  }
-
-  employeeSheet
-    .getRange(
-      employee._row,
-      passwordIndex + 1
-    )
-    .setValue(
-      storedValue
-    );
-
-  /*
-   * Invalidate reset token
-   */
-
-  sheet
-    .getRange(
-      tokenRow,
-      resetHashIndex + 1
-    )
-    .setValue('USED');
-
-  sheet
-    .getRange(
-      tokenRow,
-      resetExpiresIndex + 1
-    )
-    .setValue(
-      new Date()
-    );
-
-  writeAuditLog_(
-    employee.EmployeeID,
-    employee.Role,
-    'PASSWORD_RESET',
-    '',
-    'Password reset completed'
+  alert(
+    'Market Visit API will be connected in the next step.'
   );
 
-  return {
-
-    success: true,
-
-    message:
-      'Password reset successfully'
-
-  };
-
 }
 
-/*******************************************************
- * DASHBOARD
- *******************************************************/
+/* =====================================================
+   CUSTOMERS
+===================================================== */
 
-function getDashboard_(
-  employeeId
-) {
+async function renderCustomers(){
 
-  const employee =
-    findEmployee_(
-      employeeId
+  $('moduleContent').innerHTML = `
+
+    <div class="empty">
+
+      <div class="spinner"
+           style="
+             border-color:#cbd5e1;
+             border-top-color:#2563eb;
+           ">
+      </div>
+
+      <p style="margin-top:10px">
+        Loading customers...
+      </p>
+
+    </div>
+
+  `;
+
+  try{
+
+    const result =
+      await apiRequest(
+        'customers'
+      );
+
+    if(!result.success){
+
+      $('moduleContent')
+        .innerHTML = `
+
+          <div class="empty">
+            <div class="empty-icon">
+              ⚠️
+            </div>
+
+            <p>
+              ${escapeHTML(
+                result.message ||
+                'Unable to load customers'
+              )}
+            </p>
+          </div>
+
+        `;
+
+      return;
+
+    }
+
+    customersData =
+      result.customers ||
+      [];
+
+    if(!customersData.length){
+
+      $('moduleContent')
+        .innerHTML = `
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              👥
+            </div>
+
+            <h3>
+              No Customers
+            </h3>
+
+            <p style="margin-top:8px">
+              No customer records found.
+            </p>
+
+          </div>
+
+        `;
+
+      return;
+
+    }
+
+    let html = '';
+
+    customersData.forEach(
+      function(customer){
+
+        const name =
+          customer.Name ||
+          customer.CustomerName ||
+          customer.CustomerID ||
+          'Customer';
+
+        const id =
+          customer.CustomerID ||
+          '';
+
+        html += `
+
+          <div class="list-item">
+
+            <strong>
+              ${escapeHTML(
+                String(name)
+              )}
+            </strong>
+
+            <small>
+              ID:
+              ${escapeHTML(
+                String(id)
+              )}
+            </small>
+
+          </div>
+
+        `;
+
+      }
     );
 
-  if (!employee) {
+    $('moduleContent')
+      .innerHTML =
+        html;
 
-    return {
+    $('customerCount')
+      .textContent =
+        customersData.length;
 
-      success: false,
+  }catch(error){
 
-      message:
-        'Employee not found'
+    $('moduleContent')
+      .innerHTML = `
 
-    };
+        <div class="empty">
+
+          <div class="empty-icon">
+            ⚠️
+          </div>
+
+          <p>
+            Unable to connect to server.
+          </p>
+
+        </div>
+
+      `;
 
   }
 
-  if (
-    String(
-      employee.Status || ''
+}
+
+/* =====================================================
+   PRODUCTS
+===================================================== */
+
+async function renderProducts(){
+
+  $('moduleContent').innerHTML = `
+
+    <div class="empty">
+
+      <div class="spinner"
+           style="
+             border-color:#cbd5e1;
+             border-top-color:#2563eb;
+           ">
+      </div>
+
+      <p style="margin-top:10px">
+        Loading products...
+      </p>
+
+    </div>
+
+  `;
+
+  try{
+
+    const result =
+      await apiRequest(
+        'products'
+      );
+
+    if(!result.success){
+
+      $('moduleContent')
+        .innerHTML = `
+
+          <div class="empty">
+            <div class="empty-icon">
+              ⚠️
+            </div>
+
+            <p>
+              ${escapeHTML(
+                result.message ||
+                'Unable to load products'
+              )}
+            </p>
+          </div>
+
+        `;
+
+      return;
+
+    }
+
+    productsData =
+      result.products ||
+      [];
+
+    if(!productsData.length){
+
+      $('moduleContent')
+        .innerHTML = `
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              📦
+            </div>
+
+            <h3>
+              No Products
+            </h3>
+
+            <p style="margin-top:8px">
+              No product records found.
+            </p>
+
+          </div>
+
+        `;
+
+      return;
+
+    }
+
+    let html = '';
+
+    productsData.forEach(
+      function(product){
+
+        const name =
+          product.Name ||
+          product.ProductName ||
+          product.ProductID ||
+          'Product';
+
+        const id =
+          product.ProductID ||
+          '';
+
+        const price =
+          product.Price ||
+          product.Rate ||
+          '';
+
+        html += `
+
+          <div class="list-item">
+
+            <strong>
+              ${escapeHTML(
+                String(name)
+              )}
+            </strong>
+
+            <small>
+              ID:
+              ${escapeHTML(
+                String(id)
+              )}
+
+              ${
+                price
+                ? ' · Price: ' +
+                  escapeHTML(
+                    String(price)
+                  )
+                : ''
+              }
+
+            </small>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+    $('moduleContent')
+      .innerHTML =
+        html;
+
+  }catch(error){
+
+    $('moduleContent')
+      .innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ⚠️
+          </div>
+
+          <p>
+            Unable to connect to server.
+          </p>
+
+        </div>
+
+      `;
+
+  }
+
+}
+
+/* =====================================================
+   VISIT HISTORY
+===================================================== */
+
+async function renderVisitHistory(){
+
+  $('moduleContent').innerHTML = `
+
+    <div class="empty">
+
+      <div class="spinner"
+           style="
+             border-color:#cbd5e1;
+             border-top-color:#2563eb;
+           ">
+      </div>
+
+      <p style="margin-top:10px">
+        Loading visit history...
+      </p>
+
+    </div>
+
+  `;
+
+  try{
+
+    const result =
+      await apiRequest(
+        'visit_history',
+        {
+
+          employeeId:
+            currentEmployee.employeeId
+
+        }
+      );
+
+    if(!result.success){
+
+      $('moduleContent')
+        .innerHTML = `
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              ⚠️
+            </div>
+
+            <p>
+              ${escapeHTML(
+                result.message ||
+                'Unable to load visits'
+              )}
+            </p>
+
+          </div>
+
+        `;
+
+      return;
+
+    }
+
+    visitsData =
+      result.visits ||
+      [];
+
+    if(!visitsData.length){
+
+      $('moduleContent')
+        .innerHTML = `
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              📋
+            </div>
+
+            <h3>
+              No Visits
+            </h3>
+
+            <p style="margin-top:8px">
+              No visit records found.
+            </p>
+
+          </div>
+
+        `;
+
+      $('visitCount')
+        .textContent = 0;
+
+      return;
+
+    }
+
+    let html = '';
+
+    visitsData.forEach(
+      function(visit,index){
+
+        const customer =
+          visit.CustomerName ||
+          visit.CustomerID ||
+          'Customer';
+
+        const date =
+          visit.VisitDate ||
+          visit.Date ||
+          visit.Timestamp ||
+          '';
+
+        const status =
+          visit.Status ||
+          'Completed';
+
+        html += `
+
+          <div class="list-item">
+
+            <strong>
+              ${escapeHTML(
+                String(customer)
+              )}
+            </strong>
+
+            <small>
+
+              ${
+                date
+                ? escapeHTML(
+                    String(date)
+                  ) + ' · '
+                : ''
+              }
+
+              ${escapeHTML(
+                String(status)
+              )}
+
+            </small>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+    $('moduleContent')
+      .innerHTML =
+        html;
+
+    $('visitCount')
+      .textContent =
+        visitsData.length;
+
+  }catch(error){
+
+    $('moduleContent')
+      .innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ⚠️
+          </div>
+
+          <p>
+            Unable to connect to server.
+          </p>
+
+        </div>
+
+      `;
+
+  }
+
+}
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+function renderOrdersModule(){
+
+  $('moduleContent').innerHTML = `
+
+    <div class="empty">
+
+      <div class="empty-icon">
+        🛒
+      </div>
+
+      <h3>
+        Orders
+      </h3>
+
+      <p style="margin-top:8px">
+        Order creation and order
+        history will be connected
+        with the Orders API.
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function renderProfile(){
+
+  const e =
+    currentEmployee || {};
+
+  $('moduleContent').innerHTML = `
+
+    <div class="list-item">
+
+      <strong>
+        Employee ID
+      </strong>
+
+      <small>
+        ${escapeHTML(
+          String(
+            e.employeeId || '-'
+          )
+        )}
+      </small>
+
+    </div>
+
+    <div class="list-item">
+
+      <strong>
+        Name
+      </strong>
+
+      <small>
+        ${escapeHTML(
+          String(
+            e.name || '-'
+          )
+        )}
+      </small>
+
+    </div>
+
+    <div class="list-item">
+
+      <strong>
+        Role
+      </strong>
+
+      <small>
+        ${escapeHTML(
+          String(
+            e.role || '-'
+          )
+        )}
+      </small>
+
+    </div>
+
+    <div class="list-item">
+
+      <strong>
+        Registered Email
+      </strong>
+
+      <small>
+        ${escapeHTML(
+          String(
+            e.email || '-'
+          )
+        )}
+      </small>
+
+    </div>
+
+  `;
+
+}
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+  currentEmployee =
+    null;
+
+  resetEmployeeId =
+    '';
+
+  resetToken =
+    '';
+
+  customersData =
+    [];
+
+  productsData =
+    [];
+
+  visitsData =
+    [];
+
+  sessionStorage.removeItem(
+    'smartplan_employee'
+  );
+
+  $('dashboardPage')
+    .classList
+    .add('hidden');
+
+  $('authPage')
+    .classList
+    .remove('hidden');
+
+  $('loginPage')
+    .classList
+    .remove('hidden');
+
+  $('forgotPage')
+    .classList
+    .add('hidden');
+
+  $('loginEmployeeId')
+    .value = '';
+
+  $('loginPassword')
+    .value = '';
+
+  resetForgotUI();
+
+}
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDarkMode(){
+
+  document.body
+    .classList
+    .toggle('dark');
+
+  const dark =
+    document.body
+      .classList
+      .contains('dark');
+
+  localStorage.setItem(
+    'smartplan_dark',
+    dark
+      ? '1'
+      : '0'
+  );
+
+}
+
+/* =====================================================
+   LOAD DARK MODE
+===================================================== */
+
+function loadDarkMode(){
+
+  if(
+    localStorage.getItem(
+      'smartplan_dark'
+    ) === '1'
+  ){
+
+    document.body
+      .classList
+      .add('dark');
+
+  }
+
+}
+
+/* =====================================================
+   RESTORE SESSION
+===================================================== */
+
+function restoreSession(){
+
+  try{
+
+    const saved =
+      sessionStorage.getItem(
+        'smartplan_employee'
+      );
+
+    if(!saved)
+      return;
+
+    const employee =
+      JSON.parse(
+        saved
+      );
+
+    if(
+      employee &&
+      employee.employeeId
+    ){
+
+      currentEmployee =
+        employee;
+
+      showDashboard();
+
+    }
+
+  }catch(error){
+
+    console.log(
+      'Session restore error',
+      error
+    );
+
+  }
+
+}
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+  value
+){
+
+  return String(value)
+    .replace(
+      /&/g,
+      '&amp;'
     )
-    .trim()
-    .toLowerCase()
-    !==
-    'active'
-  ) {
-
-    return {
-
-      success: false,
-
-      message:
-        'Account is inactive'
-
-    };
-
-  }
-
-  return {
-
-    success: true,
-
-    employee: {
-
-      employeeId:
-        employee.EmployeeID || '',
-
-      name:
-        employee.Name || '',
-
-      role:
-        employee.Role || '',
-
-      email:
-        employee.Email || ''
-
-    },
-
-    summary: {
-
-      visits: 0,
-
-      orders: 0,
-
-      customers: 0
-
-    }
-
-  };
+    .replace(
+      /</g,
+      '&lt;'
+    )
+    .replace(
+      />/g,
+      '&gt;'
+    )
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+    .replace(
+      /'/g,
+      '&#039;'
+    );
 
 }
 
-/*******************************************************
- * CUSTOMERS
- *******************************************************/
+/* =====================================================
+   OTP INPUT
+===================================================== */
 
-function getCustomers_() {
+$('otpInput')
+  .addEventListener(
+    'input',
+    function(){
 
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.CUSTOMERS
-    );
-
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
-
-  if (
-    data.length < 2
-  ) {
-
-    return {
-
-      success: true,
-
-      customers: []
-
-    };
-
-  }
-
-  const headers =
-    data[0];
-
-  const customers =
-    data
-      .slice(1)
-      .map(
-        function(row) {
-
-          const item = {};
-
-          headers.forEach(
-            function(header,index) {
-
-              item[header] =
-                row[index];
-
-            }
+      this.value =
+        this.value
+          .replace(
+            /\D/g,
+            ''
+          )
+          .slice(
+            0,
+            6
           );
 
-          return item;
+    }
+  );
 
-        }
-      );
+/* =====================================================
+   ENTER KEY LOGIN
+===================================================== */
 
-  return {
+$('loginEmployeeId')
+  .addEventListener(
+    'keydown',
+    function(e){
 
-    success: true,
+      if(
+        e.key === 'Enter'
+      ){
 
-    customers:
-      customers
+        $('loginPassword')
+          .focus();
 
-  };
-
-}
-
-/*******************************************************
- * PRODUCTS
- *******************************************************/
-
-function getProducts_() {
-
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.PRODUCTS
-    );
-
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
-
-  if (
-    data.length < 2
-  ) {
-
-    return {
-
-      success: true,
-
-      products: []
-
-    };
-
-  }
-
-  const headers =
-    data[0];
-
-  const products =
-    data
-      .slice(1)
-      .map(
-        function(row) {
-
-          const item = {};
-
-          headers.forEach(
-            function(header,index) {
-
-              item[header] =
-                row[index];
-
-            }
-          );
-
-          return item;
-
-        }
-      );
-
-  return {
-
-    success: true,
-
-    products:
-      products
-
-  };
-
-}
-
-/*******************************************************
- * VISIT HISTORY
- *******************************************************/
-
-function getVisitHistory_(
-  employeeId
-) {
-
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.VISITS
-    );
-
-  const data =
-    sheet
-      .getDataRange()
-      .getValues();
-
-  if (
-    data.length < 2
-  ) {
-
-    return {
-
-      success: true,
-
-      visits: []
-
-    };
-
-  }
-
-  const headers =
-    data[0];
-
-  const employeeIndex =
-    headers.indexOf(
-      'EmployeeID'
-    );
-
-  if (
-    employeeIndex === -1
-  ) {
-
-    return {
-
-      success: true,
-
-      visits: []
-
-    };
-
-  }
-
-  const visits = [];
-
-  for (
-    let i = 1;
-    i < data.length;
-    i++
-  ) {
-
-    if (
-      String(
-        data[i][employeeIndex]
-      )
-      ===
-      String(employeeId)
-    ) {
-
-      const visit = {};
-
-      headers.forEach(
-        function(header,index) {
-
-          visit[header] =
-            data[i][index];
-
-        }
-      );
-
-      visits.push(
-        visit
-      );
+      }
 
     }
+  );
 
-  }
+$('loginPassword')
+  .addEventListener(
+    'keydown',
+    function(e){
 
-  return {
+      if(
+        e.key === 'Enter'
+      ){
 
-    success: true,
+        login();
 
-    visits:
-      visits
+      }
 
-  };
+    }
+  );
 
-}
+/* =====================================================
+   ENTER KEY OTP
+===================================================== */
 
-/*******************************************************
- * AUDIT LOG
- *******************************************************/
+$('otpInput')
+  .addEventListener(
+    'keydown',
+    function(e){
 
-function writeAuditLog_(
-  employeeId,
-  role,
-  action,
-  recordId,
-  details
-) {
+      if(
+        e.key === 'Enter'
+      ){
 
-  const sheet =
-    getSheet_(
-      CONFIG.SHEETS.AUDIT
-    );
+        verifyOTP();
 
-  sheet.appendRow([
+      }
 
-    Utilities.getUuid(),
+    }
+  );
 
-    employeeId || '',
+/* =====================================================
+   INITIALIZE
+===================================================== */
 
-    role || '',
+loadDarkMode();
 
-    action || '',
+restoreSession();
 
-    recordId || '',
+</script>
 
-    new Date(),
-
-    details || ''
-
-  ]);
-
-}
-
-/*******************************************************
- * TEST: SET PASSWORD
- *******************************************************/
-
-function TEST_SetPassword() {
-
-  const result =
-    setEmployeePassword_(
-      'S001',
-      'SmartPlan@123'
-    );
-
-  console.log(result);
-
-  return result;
-
-}
-
-/*******************************************************
- * TEST: SEND OTP
- *******************************************************/
-
-function TEST_SendOTP() {
-
-  const result =
-    sendPasswordResetOTP_(
-      'S001'
-    );
-
-  console.log(result);
-
-  return result;
-
-}
-
-/*******************************************************
- * TEST: LOGIN
- *******************************************************/
-
-function TEST_Login() {
-
-  const result =
-    employeeLogin_(
-      'S001',
-      'SmartPlan@123'
-    );
-
-  console.log(result);
-
-  return result;
-
-}
-
-/*******************************************************
- * TEST: VERIFY OTP
- *******************************************************/
-
-function TEST_VerifyOTP() {
-
-  const otp =
-    'ENTER_OTP_HERE';
-
-  const result =
-    verifyPasswordResetOTP_(
-      'S001',
-      otp
-    );
-
-  console.log(result);
-
-  return result;
-
-}
+</body>
+</html>
