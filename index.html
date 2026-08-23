@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>SmartPlan</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.container{
+  width:100%;
+  max-width:430px;
+}
+
+.card{
+  background:#ffffff;
+  color:#111827;
+  border-radius:22px;
+  padding:28px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.logo{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.logo h1{
+  font-size:30px;
+  color:#2563eb;
+}
+
+.logo p{
+  color:#64748b;
+  margin-top:5px;
+}
+
+.form-group{
+  margin-bottom:17px;
+}
+
+label{
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+  font-size:16px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+
+.password-box{
+  position:relative;
+}
+
+.password-box input{
+  padding-right:50px;
+}
+
+.show-password{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#64748b;
+  font-size:13px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#2563eb;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.secondary-btn{
+  background:#e2e8f0;
+  color:#1e293b;
+  margin-top:10px;
+}
+
+.link{
+  text-align:center;
+  margin-top:17px;
+}
+
+.link button{
+  width:auto;
+  padding:0;
+  background:none;
+  color:#2563eb;
+  font-size:14px;
+}
+
+.message{
+  margin-bottom:15px;
+  padding:12px;
+  border-radius:10px;
+  display:none;
+  font-size:14px;
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.info{
+  background:#dbeafe;
+  color:#1e40af;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.dashboard{
+  text-align:center;
+}
+
+.profile{
+  background:#eff6ff;
+  border-radius:15px;
+  padding:20px;
+  margin:20px 0;
+  text-align:left;
+}
+
+.profile-row{
+  padding:10px 0;
+  border-bottom:1px solid #dbeafe;
+}
+
+.profile-row:last-child{
+  border-bottom:0;
+}
+
+.profile-label{
+  font-size:12px;
+  color:#64748b;
+}
+
+.profile-value{
+  font-weight:bold;
+  margin-top:3px;
+}
+
+.logout{
+  background:#dc2626;
+}
+
+.timer{
+  text-align:center;
+  margin:12px 0;
+  color:#64748b;
+  font-size:14px;
+}
+
+.otp-input{
+  text-align:center;
+  letter-spacing:8px;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.header-back{
+  margin-bottom:20px;
+}
+
+.header-back button{
+  background:none;
+  color:#2563eb;
+  width:auto;
+  padding:0;
+  font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="loginPage" class="card">
+
+  <div class="logo">
+
+    <h1>SmartPlan</h1>
+
+    <p>Employee Login</p>
+
+  </div>
+
+  <div id="loginMessage"
+       class="message"></div>
+
+  <div class="form-group">
+
+    <label>Employee ID</label>
+
+    <input
+      type="text"
+      id="loginEmployeeId"
+      placeholder="Enter Employee ID"
+      autocomplete="username">
+
+  </div>
+
+  <div class="form-group">
+
+    <label>Password</label>
+
+    <div class="password-box">
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Enter password"
+        autocomplete="current-password">
+
+      <span
+        class="show-password"
+        onclick="togglePassword('loginPassword',this)">
+        Show
+      </span>
+
+    </div>
+
+  </div>
+
+  <button
+    id="loginBtn"
+    onclick="login()">
+
+    Login
+
+  </button>
+
+  <div class="link">
+
+    <button onclick="showForgotPassword()">
+
+      Forgot Password?
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     FORGOT PASSWORD — EMPLOYEE ID
+===================================================== -->
+
+<div id="forgotPage"
+     class="card hidden">
+
+  <div class="header-back">
+
+    <button onclick="showLogin()">
+
+      ← Back to Login
+
+    </button>
+
+  </div>
+
+  <div class="logo">
+
+    <h1>Reset Password</h1>
+
+    <p>Verify your employee account</p>
+
+  </div>
+
+  <div id="forgotMessage"
+       class="message"></div>
+
+  <div class="form-group">
+
+    <label>Employee ID</label>
+
+    <input
+      type="text"
+      id="forgotEmployeeId"
+      placeholder="Enter Employee ID">
+
+  </div>
+
+  <button
+    id="sendOtpBtn"
+    onclick="sendOTP()">
+
+    Send OTP
+
+  </button>
+
+</div>
+
+
+<!-- =====================================================
+     OTP
+===================================================== -->
+
+<div id="otpPage"
+     class="card hidden">
+
+  <div class="header-back">
+
+    <button onclick="showForgotPassword()">
+
+      ← Back
+
+    </button>
+
+  </div>
+
+  <div class="logo">
+
+    <h1>Verify OTP</h1>
+
+    <p>Enter the code sent to your registered email</p>
+
+  </div>
+
+  <div id="otpMessage"
+       class="message"></div>
+
+  <div class="form-group">
+
+    <label>6-Digit OTP</label>
+
+    <input
+      type="text"
+      id="otp"
+      class="otp-input"
+      maxlength="6"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      placeholder="000000">
+
+  </div>
+
+  <button
+    id="verifyOtpBtn"
+    onclick="verifyOTP()">
+
+    Verify OTP
+
+  </button>
+
+  <div id="otpTimer"
+       class="timer">
+
+    OTP valid for 5 minutes
+
+  </div>
+
+  <button
+    id="resendOtpBtn"
+    class="secondary-btn"
+    onclick="resendOTP()"
+    disabled>
+
+    Resend OTP
+
+  </button>
+
+</div>
+
+
+<!-- =====================================================
+     NEW PASSWORD
+===================================================== -->
+
+<div id="resetPage"
+     class="card hidden">
+
+  <div class="logo">
+
+    <h1>New Password</h1>
+
+    <p>Create your new SmartPlan password</p>
+
+  </div>
+
+  <div id="resetMessage"
+       class="message"></div>
+
+  <div class="form-group">
+
+    <label>New Password</label>
+
+    <div class="password-box">
+
+      <input
+        type="password"
+        id="newPassword"
+        placeholder="Minimum 8 characters">
+
+      <span
+        class="show-password"
+        onclick="togglePassword('newPassword',this)">
+        Show
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="form-group">
+
+    <label>Confirm Password</label>
+
+    <div class="password-box">
+
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm new password">
+
+      <span
+        class="show-password"
+        onclick="togglePassword('confirmPassword',this)">
+        Show
+      </span>
+
+    </div>
+
+  </div>
+
+  <button
+    id="resetBtn"
+    onclick="resetPassword()">
+
+    Reset Password
+
+  </button>
+
+</div>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div id="dashboardPage"
+     class="card hidden">
+
+  <div class="dashboard">
+
+    <div class="logo">
+
+      <h1>SmartPlan</h1>
+
+      <p>Dashboard</p>
+
+    </div>
+
+    <div class="profile">
+
+      <div class="profile-row">
+
+        <div class="profile-label">
+          Employee ID
+        </div>
+
+        <div
+          id="dashEmployeeId"
+          class="profile-value">
+        </div>
+
+      </div>
+
+      <div class="profile-row">
+
+        <div class="profile-label">
+          Name
+        </div>
+
+        <div
+          id="dashName"
+          class="profile-value">
+        </div>
+
+      </div>
+
+      <div class="profile-row">
+
+        <div class="profile-label">
+          Role
+        </div>
+
+        <div
+          id="dashRole"
+          class="profile-value">
+        </div>
+
+      </div>
+
+      <div class="profile-row">
+
+        <div class="profile-label">
+          Email
+        </div>
+
+        <div
+          id="dashEmail"
+          class="profile-value">
+        </div>
+
+      </div>
+
+    </div>
+
+    <button
+      class="logout"
+      onclick="logout()">
+
+      Logout
+
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   SMARTPLAN CONFIG
+===================================================== */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbxn8Cw3Df0h6DZ2_UcJqf-SD-YeVy73T5fdZB_Cg-bEoevarHJS1DqtwLAu8y8MtRQ2/exec';
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let currentEmployeeId = '';
+
+let resetToken = '';
+
+let resendTimer = null;
+
+let otpSeconds = 0;
+
+
+/* =====================================================
+   API REQUEST
+===================================================== */
+
+async function apiRequest(action, data = {}) {
+
+  const payload = {
+
+    action: action,
+
+    ...data
+
+  };
+
+
+  const response =
+    await fetch(API_URL, {
+
+      method: 'POST',
+
+      headers: {
+
+        'Content-Type':
+          'text/plain;charset=utf-8'
+
+      },
+
+      body:
+        JSON.stringify(payload)
+
+    });
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      'Network error: ' +
+      response.status
+    );
+
+  }
+
+
+  const result =
+    await response.json();
+
+
+  return result;
+
+}
+
+
+/* =====================================================
+   SHOW MESSAGE
+===================================================== */
+
+function showMessage(
+  elementId,
+  message,
+  type = 'info'
+) {
+
+  const el =
+    document.getElementById(
+      elementId
+    );
+
+
+  el.textContent =
+    message;
+
+
+  el.className =
+    'message ' +
+    type;
+
+
+  el.style.display =
+    'block';
+
+}
+
+
+/* =====================================================
+   HIDE MESSAGE
+===================================================== */
+
+function hideMessage(elementId) {
+
+  const el =
+    document.getElementById(
+      elementId
+    );
+
+
+  el.style.display =
+    'none';
+
+}
+
+
+/* =====================================================
+   SHOW ONLY PAGE
+===================================================== */
+
+function showPage(pageId) {
+
+  const pages = [
+
+    'loginPage',
+    'forgotPage',
+    'otpPage',
+    'resetPage',
+    'dashboardPage'
+
+  ];
+
+
+  pages.forEach(
+    function(id) {
+
+      document
+        .getElementById(id)
+        .classList
+        .add('hidden');
+
+    }
+  );
+
+
+  document
+    .getElementById(pageId)
+    .classList
+    .remove('hidden');
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function login() {
+
+  const employeeId =
+    document
+      .getElementById(
+        'loginEmployeeId'
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        'loginPassword'
+      )
+      .value;
+
+
+  hideMessage(
+    'loginMessage'
+  );
+
+
+  if (
+    !employeeId ||
+    !password
+  ) {
+
+    showMessage(
+      'loginMessage',
+      'Employee ID and password are required.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      'loginBtn'
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    'Signing in...';
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'login',
+        {
+          employeeId:
+            employeeId,
+
+          password:
+            password
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      showDashboard(
+        result.employee
+      );
+
+    } else {
+
+      showMessage(
+        'loginMessage',
+        result.message ||
+          'Login failed.',
+        'error'
+      );
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    showMessage(
+      'loginMessage',
+      'Unable to connect to SmartPlan server.',
+      'error'
+    );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      'Login';
+
+  }
+
+}
+
+
+/* =====================================================
+   SHOW DASHBOARD
+===================================================== */
+
+function showDashboard(employee) {
+
+  document
+    .getElementById(
+      'dashEmployeeId'
+    )
+    .textContent =
+      employee.employeeId ||
+      '';
+
+
+  document
+    .getElementById(
+      'dashName'
+    )
+    .textContent =
+      employee.name ||
+      '';
+
+
+  document
+    .getElementById(
+      'dashRole'
+    )
+    .textContent =
+      employee.role ||
+      'Employee';
+
+
+  document
+    .getElementById(
+      'dashEmail'
+    )
+    .textContent =
+      employee.email ||
+      '';
+
+
+  /*
+   * Session data
+   */
+
+  sessionStorage.setItem(
+    'smartplan_employee',
+    JSON.stringify(employee)
+  );
+
+
+  showPage(
+    'dashboardPage'
+  );
+
+}
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+function showForgotPassword() {
+
+  document
+    .getElementById(
+      'forgotEmployeeId'
+    )
+    .value =
+      document
+        .getElementById(
+          'loginEmployeeId'
+        )
+        .value
+        .trim();
+
+
+  hideMessage(
+    'forgotMessage'
+  );
+
+
+  showPage(
+    'forgotPage'
+  );
+
+}
+
+
+/* =====================================================
+   SEND OTP
+===================================================== */
+
+async function sendOTP() {
+
+  const employeeId =
+    document
+      .getElementById(
+        'forgotEmployeeId'
+      )
+      .value
+      .trim();
+
+
+  hideMessage(
+    'forgotMessage'
+  );
+
+
+  if (!employeeId) {
+
+    showMessage(
+      'forgotMessage',
+      'Please enter Employee ID.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      'sendOtpBtn'
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    'Sending OTP...';
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'send_reset_otp',
+        {
+          employeeId:
+            employeeId
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      currentEmployeeId =
+        employeeId;
+
+
+      showPage(
+        'otpPage'
+      );
+
+
+      showMessage(
+        'otpMessage',
+        'If the account exists, a verification code has been sent to the registered email.',
+        'success'
+      );
+
+
+      startResendTimer();
+
+
+    } else {
+
+      showMessage(
+        'forgotMessage',
+        result.message ||
+          'Unable to send OTP.',
+        'error'
+      );
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    showMessage(
+      'forgotMessage',
+      'Unable to connect to SmartPlan server.',
+      'error'
+    );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      'Send OTP';
+
+  }
+
+}
+
+
+/* =====================================================
+   VERIFY OTP
+===================================================== */
+
+async function verifyOTP() {
+
+  const otp =
+    document
+      .getElementById(
+        'otp'
+      )
+      .value
+      .trim();
+
+
+  hideMessage(
+    'otpMessage'
+  );
+
+
+  if (
+    !/^\d{6}$/.test(otp)
+  ) {
+
+    showMessage(
+      'otpMessage',
+      'Please enter the 6-digit OTP.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      'verifyOtpBtn'
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    'Verifying...';
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'verify_reset_otp',
+        {
+          employeeId:
+            currentEmployeeId,
+
+          otp:
+            otp
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      resetToken =
+        result.resetToken;
+
+
+      showPage(
+        'resetPage'
+      );
+
+
+      showMessage(
+        'resetMessage',
+        'OTP verified. Please create your new password.',
+        'success'
+      );
+
+
+    } else {
+
+      showMessage(
+        'otpMessage',
+        result.message ||
+          'Invalid OTP.',
+        'error'
+      );
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    showMessage(
+      'otpMessage',
+      'Unable to connect to SmartPlan server.',
+      'error'
+    );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      'Verify OTP';
+
+  }
+
+}
+
+
+/* =====================================================
+   RESET PASSWORD
+===================================================== */
+
+async function resetPassword() {
+
+  const newPassword =
+    document
+      .getElementById(
+        'newPassword'
+      )
+      .value;
+
+
+  const confirmPassword =
+    document
+      .getElementById(
+        'confirmPassword'
+      )
+      .value;
+
+
+  hideMessage(
+    'resetMessage'
+  );
+
+
+  if (
+    newPassword.length < 8
+  ) {
+
+    showMessage(
+      'resetMessage',
+      'Password must contain at least 8 characters.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    newPassword !==
+    confirmPassword
+  ) {
+
+    showMessage(
+      'resetMessage',
+      'Passwords do not match.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  if (!resetToken) {
+
+    showMessage(
+      'resetMessage',
+      'Reset session expired. Please request OTP again.',
+      'error'
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      'resetBtn'
+    );
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    'Resetting...';
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'reset_password',
+        {
+          employeeId:
+            currentEmployeeId,
+
+          resetToken:
+            resetToken,
+
+          newPassword:
+            newPassword
+
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      resetToken =
+        '';
+
+
+      showMessage(
+        'resetMessage',
+        'Password reset successfully. Please login with your new password.',
+        'success'
+      );
+
+
+      setTimeout(
+        function() {
+
+          document
+            .getElementById(
+              'loginEmployeeId'
+            )
+            .value =
+              currentEmployeeId;
+
+
+          document
+            .getElementById(
+              'loginPassword'
+            )
+            .value =
+              '';
+
+
+          document
+            .getElementById(
+              'newPassword'
+            )
+            .value =
+              '';
+
+
+          document
+            .getElementById(
+              'confirmPassword'
+            )
+            .value =
+              '';
+
+
+          showPage(
+            'loginPage'
+          );
+
+        },
+        1500
+      );
+
+
+    } else {
+
+      showMessage(
+        'resetMessage',
+        result.message ||
+          'Password reset failed.',
+        'error'
+      );
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    showMessage(
+      'resetMessage',
+      'Unable to connect to SmartPlan server.',
+      'error'
+    );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      'Reset Password';
+
+  }
+
+}
+
+
+/* =====================================================
+   RESEND OTP TIMER
+===================================================== */
+
+function startResendTimer() {
+
+  clearInterval(
+    resendTimer
+  );
+
+
+  otpSeconds = 60;
+
+
+  const button =
+    document.getElementById(
+      'resendOtpBtn'
+    );
+
+
+  const timer =
+    document.getElementById(
+      'otpTimer'
+    );
+
+
+  button.disabled =
+    true;
+
+
+  function updateTimer() {
+
+    if (
+      otpSeconds <= 0
+    ) {
+
+      clearInterval(
+        resendTimer
+      );
+
+
+      button.disabled =
+        false;
+
+
+      timer.textContent =
+        'You can request a new OTP.';
+
+
+      return;
+
+    }
+
+
+    timer.textContent =
+      'Resend OTP available in ' +
+      otpSeconds +
+      ' seconds';
+
+
+    otpSeconds--;
+
+  }
+
+
+  updateTimer();
+
+
+  resendTimer =
+    setInterval(
+      updateTimer,
+      1000
+    );
+
+}
+
+
+/* =====================================================
+   RESEND OTP
+===================================================== */
+
+async function resendOTP() {
+
+  const button =
+    document.getElementById(
+      'resendOtpBtn'
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    'Sending...';
+
+
+  hideMessage(
+    'otpMessage'
+  );
+
+
+  try {
+
+    const result =
+      await apiRequest(
+        'send_reset_otp',
+        {
+          employeeId:
+            currentEmployeeId
+        }
+      );
+
+
+    if (
+      result.success
+    ) {
+
+      document
+        .getElementById(
+          'otp'
+        )
+        .value =
+          '';
+
+
+      showMessage(
+        'otpMessage',
+        'A new OTP has been sent to your registered email.',
+        'success'
+      );
+
+
+      startResendTimer();
+
+
+    } else {
+
+      showMessage(
+        'otpMessage',
+        result.message ||
+          'Unable to resend OTP.',
+        'error'
+      );
+
+
+      button.disabled =
+        false;
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    showMessage(
+      'otpMessage',
+      'Unable to connect to SmartPlan server.',
+      'error'
+    );
+
+
+    button.disabled =
+      false;
+
+  }
+
+
+  button.textContent =
+    'Resend OTP';
+
+}
+
+
+/* =====================================================
+   PASSWORD SHOW / HIDE
+===================================================== */
+
+function togglePassword(
+  inputId,
+  element
+) {
+
+  const input =
+    document.getElementById(
+      inputId
+    );
+
+
+  if (
+    input.type ===
+    'password'
+  ) {
+
+    input.type =
+      'text';
+
+    element.textContent =
+      'Hide';
+
+  } else {
+
+    input.type =
+      'password';
+
+    element.textContent =
+      'Show';
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+  sessionStorage.removeItem(
+    'smartplan_employee'
+  );
+
+
+  currentEmployeeId =
+    '';
+
+  resetToken =
+    '';
+
+
+  document
+    .getElementById(
+      'loginPassword'
+    )
+    .value =
+      '';
+
+
+  showPage(
+    'loginPage'
+  );
+
+}
+
+
+/* =====================================================
+   AUTO RESTORE SESSION
+===================================================== */
+
+window.addEventListener(
+  'load',
+  function() {
+
+    try {
+
+      const saved =
+        sessionStorage.getItem(
+          'smartplan_employee'
+        );
+
+
+      if (saved) {
+
+        const employee =
+          JSON.parse(saved);
+
+
+        showDashboard(
+          employee
+        );
+
+      } else {
+
+        showPage(
+          'loginPage'
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      showPage(
+        'loginPage'
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document.addEventListener(
+  'keydown',
+  function(event) {
+
+    if (
+      event.key !==
+      'Enter'
+    ) {
+
+      return;
+
+    }
+
+
+    const loginPage =
+      document.getElementById(
+        'loginPage'
+      );
+
+
+    if (
+      !loginPage.classList.contains(
+        'hidden'
+      )
+    ) {
+
+      login();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
